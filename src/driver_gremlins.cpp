@@ -1,10 +1,9 @@
 #include <iostream>
 
+#include "slpool.h"
+#include "mempool_common.h"
+
 using byte = char;
-
-#include "../include/StoragePool.h"
-#include "../include/mempool_common.h"
-
 
 int main( void ){
 
