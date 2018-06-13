@@ -14,8 +14,11 @@ SLPool::~SLPool()
 {
 }
 
-void* SLPool::Allocate(size_t)
+void * SLPool::Allocate(size_t)
 {
+
+	
+
     return nullptr;
 }
 

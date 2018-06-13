@@ -14,7 +14,15 @@ public:
 
     // Métodos que podem ser chamados pelo cliente
 
+    /*!
+     * Requisita uma quantidade de memória expressa em bytes e 
+     * passada como argumento. O retorno é um ponteiro para a região reservada.
+     */
     void * Allocate( size_t );
+    /*!
+     * Recebe um ponteiro para uma região reservada e a libera para uso posterior
+     * pelo GM, no caso o memory pool.
+     */
     void Free( void * );
     void Release(void *);
 
@@ -24,17 +32,21 @@ private:
 
     struct Header
     {
+        /// Quantidade reservada.
         unsigned int m_lenght;
         Header() : m_lenght(0u) {}
     };
 
     struct Block : public Header
     {
+        /// Quantidade padrão utilizado de um bloco, ou seja, cada bloco tem 16 bytes.
         enum { BlockSize = 16 };
 
         union{
+            /// Apontador para o próximo bloco, ou nullptr.
             Block *m_next;
-            char m_raw[ BlockSize - sizeof(Header)];
+            /// Quantidade de espaço de dados cedido ao cliente.
+            byte m_raw[ BlockSize - sizeof(Header)];
         };
 
         Block() : Header(), m_next( nullptr ){ /* Empty */}
@@ -42,8 +54,11 @@ private:
 
     // Membros da classe
 
-//    sc::list<Block> m_free_area;
+    /// Lista de blocos.
+    ls::list<Block> m_Free_Memory;
+    /// Cabeça da lista.
     Block m_sentinel;
+    /// Fim da lista.
     Block* m_pool;
 
 

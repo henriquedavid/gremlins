@@ -180,11 +180,7 @@ bool my_iterator<T>::operator!=(my_iterator<T>& rhs) const{
 template <typename T>
 list<T>::list(){
     m_size = 0;
-    Node<T> * h = new Node<T>();
-    
-    h->next = nullptr;
-    this->m_head = h;
-
+    m_head = nullptr;
 }
 
 template <typename T>
@@ -212,7 +208,7 @@ typename list<T>::size_type list<T>::size() const{
 // remove (either logically or physically) all elements from the container.
 template < typename T >
 void list<T>::clear(){
-    auto current(m_head->next);
+    auto current(m_head);
 
     m_size = 0;
 
@@ -226,8 +222,7 @@ void list<T>::clear(){
 
     }
 
-    m_head->next = nullptr;
-
+    m_head = nullptr;
 
 }
 
@@ -238,13 +233,13 @@ void list<T>::push_back( const T & value )
     new_node->data = value;
     new_node->next = nullptr;
 
-    if( m_head->next == nullptr ){
+    if( m_head == nullptr ){
     
-        m_head->next = new_node;
+        m_head = new_node;
     
     } else{
 
-        auto current(m_head->next);
+        auto current(m_head);
     
         while(current->next != nullptr)
             current = current->next;
@@ -265,15 +260,16 @@ void list<T>::push_front( const T & value )
     new_node->next = nullptr;
 
     // Se ainda não estiver nenhum elemento inserido.
-    if( m_head->next == nullptr ){
+    if( m_head == nullptr ){
         // Link do head e do tail com o elemento.
-        m_head->next = new_node;
+        m_head = new_node;
     }
     else{
         // Link do elemento com o head e o primeiro elemento da lista.
-        new_node->next = m_head->next;
-        m_head->next = new_node;
+        new_node->next = m_head;
+        m_head = new_node;
     }
+
     // Incrementa o tamanho.
     m_size++;
 
@@ -281,7 +277,7 @@ void list<T>::push_front( const T & value )
 
 template < typename T >
 const T & list<T>::back() const{
-    auto current(m_head->next);
+    auto current(m_head);
 
     while(current->next != nullptr )
         current = current->next;
@@ -291,7 +287,7 @@ const T & list<T>::back() const{
 
 template < typename T >
 T & list<T>::back(){
-    auto current(m_head->next);
+    auto current(m_head);
 
     while(current->next != nullptr )
         current = current->next;
@@ -301,24 +297,24 @@ T & list<T>::back(){
 
 template < typename T >
 const T & list<T>::front() const{
-    return m_head->next->data;
+    return m_head->data;
 }
 
 template < typename T > 
 T & list<T>::front(){
-    return m_head->next->data;
+    return m_head->data;
 }
 
 template < typename T >
 void list<T>::pop_front(){
     // obtem o m_head que é o primeiro elemento.
-    auto curr(m_head->next);
+    auto curr(m_head);
 
     // obtem o segundo elemento da lista.
     auto next(curr->next);
 
     // Liga o head com o segundo valor.
-    m_head->next = next;
+    m_head = next;
 
     // deleta o antigo primeiro elemento.
     delete curr;
@@ -331,9 +327,9 @@ void list<T>::pop_front(){
 template < typename T >
 void list<T>::pop_back(){
 
-    auto current(m_head->next);
+    auto current(m_head);
 
-    if(m_head->next != nullptr){
+    if(m_head != nullptr){
 
         while(current->next->next != nullptr){
             current = current->next;
@@ -372,13 +368,13 @@ T& list<T>::at(list<T>::size_type & index)
 template <typename T>
 typename list<T>::iterator list<T>::begin()
 {
-    return list<T>::iterator(m_head->next);
+    return list<T>::iterator(m_head);
 
 }
 
 template < typename T >
 typename list<T>::const_iterator list<T>::cbegin() const{
-    return list<T>::const_iterator(m_head->next);
+    return list<T>::const_iterator(m_head);
 }
 
 
@@ -424,7 +420,7 @@ typename list<T>::const_iterator list<T>::find( const T & target ) const{
 
 template < typename T >
 std::ostream & ls::operator<<(std::ostream & os_, const list<T>& v_ ){
-    auto current( v_.m_head->next );
+    auto current( v_.m_head );
     std::cout << "[ ";
     
     // verify is the list it's empty.
