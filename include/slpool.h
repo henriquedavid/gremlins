@@ -1,7 +1,13 @@
 #ifndef SLPOOL_H
 #define SLPOOL_H
 
+#include <new>      // std::ceil()
+#include <cmath>    // std::bad_alloc()
+
+#include <forward_list>
+
 #include "StoragePool.h"
+#include "list.h"
 
 class SLPool : public StoragePool
 {
@@ -33,16 +39,22 @@ private:
         enum { BlockSize = 16 };
 
         union{
-            Block *m_next;
+            Block* m_next;
             char m_raw[ BlockSize - sizeof(Header)];
         };
 
         Block() : Header(), m_next( nullptr ){ /* Empty */}
     };
 
+    // Apelidos para tipos definidos
+    using list = std::forward_list<Block*>;
+
+    // Métodos utilitários
+    void _insert(Block * block);
+
     // Membros da classe
 
-//    sc::list<Block> m_free_area;
+    list m_free_area;
     Block m_sentinel;
     Block* m_pool;
 

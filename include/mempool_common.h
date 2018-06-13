@@ -9,19 +9,25 @@ struct Tag
 
 void * operator new( size_t bytes, StoragePool & p )
 {
+    // Aloca com um espaço extra para guardar o Gerenciador de mémoria usado pelo ponteiro
 	Tag * const tag = reinterpret_cast<Tag *> (p.Allocate(bytes + sizeof(Tag)) );
+    // Guarda o GM
 	tag->pool = &p;
-	return ( reinterpret_cast<void *> ( tag+1U ) );
+    // Retorna o ponteiro sem o endereço do GM
+    return ( reinterpret_cast<void *> ( tag+1 ) );
 }
-
-
+/*
 void operator delete( void * ptr) noexcept
 {
-	Tag * const tag = reinterpret_cast<Tag *>( ptr ) - 1U;
-	if( nullptr != tag->pool )
-		tag->pool->Release( tag );
-	else
-		std::free( tag );
+    // Obtém o ponteiro para o começo do gerenciador de mémoria
+    Tag * const tag = reinterpret_cast<Tag *>( ptr ) - 1U;
+    // se tiver um gerenciador de mémoria. Libera o ponteiro dele.
+    if( nullptr != tag->pool )
+        tag->pool->Release( tag );
+    // caso o contrário usa o free do STL
+    else
+        std::free( tag );
 }
+*/
 
 #endif
