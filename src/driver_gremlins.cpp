@@ -1,7 +1,8 @@
 #include <iostream>
 
-#include "slpool.h"
-#include "mempool_common.h"
+#include "../include/list/list.h"
+#include "../include/slpool.h"
+#include "../include/mempool_common.h"
 
 using byte = char;
 
