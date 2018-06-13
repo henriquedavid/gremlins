@@ -1,4 +1,4 @@
-#include "slpool.h"
+#include "../include/slpool.h"
 #include <iostream>
 SLPool::SLPool(size_t size)
 {
