@@ -13,5 +13,6 @@ int main( void )
     *b = 4;
 
     std::cout << "Saída: " << *b << std::endl;
+
 	return 0;
 }

@@ -3,11 +3,9 @@
 
 #include <new>      // std::ceil()
 #include <cmath>    // std::bad_alloc()
-
-#include <forward_list>
+#include <set>
 
 #include "StoragePool.h"
-#include "list.h"
 
 class SLPool : public StoragePool
 {
@@ -22,7 +20,6 @@ public:
 
     void * Allocate( size_t );
     void Free( void * );
-    void Release(void *);
 
 private:
 
@@ -47,14 +44,13 @@ private:
     };
 
     // Apelidos para tipos definidos
-    using list = std::forward_list<Block*>;
-//    using list = ls::list<Block*>;
+    using set_ = std::set<Block*>;
+
     // Métodos utilitários
     void _insert(Block * block);
 
     // Membros da classe
-
-    list m_free_area;
+    set_ m_free_area;
     Block m_sentinel;
     Block* m_pool;
 
