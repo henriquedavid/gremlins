@@ -20,39 +20,6 @@ typename my_const_iterator<T>::const_reference & my_const_iterator<T>::operator*
     return this->current->data;
 }
 
-/// Operador de pré-incremento.
-template <typename T>
-my_const_iterator<T> & my_const_iterator<T>::operator++( )
-{
-    this->current = this->current->next;
-    return list<T>::const_iterator(*this->current);
-}
-
-/// Operador de pós-incremento.
-template <typename T>
-my_const_iterator<T> my_const_iterator<T>::operator++( int )
-{
-    this->current = this->current->next;
-    return my_const_iterator(this->current->prev);
-}
-
-/// Operador de pré-decremento.
-/* TODO: olhar se tudo está ok com a definição: http://en.cppreference.com/w/cpp/concept/BidirectionalIterator*/ 
-template <typename T>
-my_const_iterator<T> & my_const_iterator<T>::operator--()
-{
-    this->current = this->current->prev;
-    return list<T>::const_iterator(this->current);
-}
-
-/// Operador de pós-decremento. 
-template <typename T>
-my_const_iterator<T> my_const_iterator<T>::operator--( int )
-{
-    this->current = this->current->prev;
-    return list<T>::const_iterator(this->current->next);
-}
-
 /// Comparar dois iteradores se são iguais.
 template <typename T>
 bool my_const_iterator<T>::operator==( const my_const_iterator<T> & rhs ) const
@@ -84,19 +51,12 @@ my_const_iterator<T> my_const_iterator<T>::operator+( int valor )
 // ####################### ITERATOR #######################
 
 template <typename T>
-inline my_iterator<T>::my_iterator( Node<T> * node ): current(node) 
+my_iterator<T>::my_iterator( Node<T> * node ): my_const_iterator<T>(node)
 {
- 
 }
 
 template <typename T>
-inline typename my_iterator<T>::const_reference my_iterator<T>::operator*() const
-{
-    return this->current->data;
-}
-
-template <typename T>
-inline typename my_iterator<T>::reference my_iterator<T>::operator*()
+typename my_iterator<T>::reference my_iterator<T>::operator*()
 {
     return this->current->data;
 }
@@ -146,31 +106,6 @@ my_iterator<T> my_iterator<T>::operator+( int valor )
 
     return my_iterator<T>(this->current);
 }
-
-template <typename T>
-bool my_iterator<T>::operator<(my_iterator<T>& rhs) const
-{
-    auto curr(this->current);
-    while(curr != nullptr)
-    {
-        curr = curr->next;
-        if(curr == rhs.current)
-            return true;
-    }
-    return false;
-}
-
-template < typename T >
-bool my_iterator<T>::operator==(my_iterator<T>& rhs) const{
-    return this->current == rhs.current;
-}
-
-template < typename T >
-bool my_iterator<T>::operator!=(my_iterator<T>& rhs) const{
-    return this->current != rhs.current;
-}
-
-
 
 // ####################### LIST #######################
 
@@ -280,6 +215,25 @@ void list<T>::push_front( const T & value )
 }
 
 template < typename T >
+typename ls::list<T>::iterator ls::list<T>::insert_after(const_iterator position, const value_type &val)
+{
+    Node<T> * new_node = new Node<T>(val, position.current->next);
+    position.current->next = new_node;
+    return ls::list<T>::iterator(new_node);
+}
+
+template < typename T >
+typename ls::list<T>::iterator ls::list<T>::erase_after(const_iterator position)
+{
+    auto erased = position.current->next;
+    if(erased->next != nullptr)
+        position.current->next = erased->next;
+    else
+        position.current->next = nullptr;
+    return position.current->next;
+}
+
+template < typename T >
 const T & list<T>::back() const{
     auto current(m_head->next);
 
@@ -381,6 +335,15 @@ typename list<T>::const_iterator list<T>::cbegin() const{
     return list<T>::const_iterator(m_head->next);
 }
 
+template < typename T >
+typename ls::list<T>::iterator ls::list<T>::before_begin(){
+    return ls::list<T>::iterator(m_head);
+}
+
+template < typename T >
+typename ls::list<T>::const_iterator ls::list<T>::cbefore_begin() const{
+    return list<T>::const_iterator(m_head);
+}
 
 template < typename T >
 typename list<T>::iterator list<T>::end(){
@@ -402,9 +365,6 @@ typename list<T>::const_iterator list<T>::cend() const{
 
     return list<T>::const_iterator(current);
 }
-
-
-
 
 template < typename T >
 typename list<T>::const_iterator list<T>::find( const T & target ) const{

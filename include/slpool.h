@@ -48,7 +48,7 @@ private:
 
     // Apelidos para tipos definidos
     using list = std::forward_list<Block*>;
-
+//    using list = ls::list<Block*>;
     // Métodos utilitários
     void _insert(Block * block);
 
