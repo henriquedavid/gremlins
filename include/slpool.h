@@ -46,9 +46,6 @@ private:
     // Apelidos para tipos definidos
     using set_ = std::set<Block*>;
 
-    // Métodos utilitários
-    void _insert(Block * block);
-
     // Membros da classe
     set_ m_free_area;
     Block m_sentinel;

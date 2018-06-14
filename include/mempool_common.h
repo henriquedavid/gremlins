@@ -23,8 +23,8 @@ void operator delete( void * ptr) noexcept
     Tag * const tag = reinterpret_cast<Tag *>( ptr ) - 1U;
     // se tiver um gerenciador de mémoria. Libera o ponteiro dele.
     if( tag->pool != nullptr )
-        std::cout << "";
-        //tag->pool->Free( tag );
+        return;
+//        tag->pool->Free( tag );
     // caso o contrário usa o free do STL
     else
         std::free( tag );
