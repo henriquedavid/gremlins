@@ -7,6 +7,8 @@ SLPool::SLPool(size_t size)
     unsigned int blocks_required = std::ceil(size / Block::BlockSize);
     // Aloca espaco para armazenar a lista de blocos
     m_pool = new Block [blocks_required];
+    // Não tem próxima área livre
+    m_pool->m_next = nullptr;
     // Configura o espaço do sentilena
     m_sentinel.m_next = m_pool;
     // Armazena a quantidade de blocos no primeiro bloco, m_pool[0] ou *m_pool
@@ -15,14 +17,14 @@ SLPool::SLPool(size_t size)
     m_sentinel.m_next = m_pool;
     m_sentinel.m_lenght = 0;
     // Coloca o primeiro bloco na lista de áreas livres
-    m_free_area.insert(m_pool);
+//    m_free_area.insert(m_pool);
+    m_free_area.emplace(m_pool);
 }
 
 SLPool::~SLPool()
 {
+    delete [] m_pool;
     m_free_area.clear();
-    if(m_pool != nullptr)
-        delete [] m_pool;
 }
 
 void* SLPool::Allocate(size_t size)
@@ -92,7 +94,7 @@ void* SLPool::Allocate(size_t size)
 
 void SLPool::Free(void * block)
 {
-
+    std::cout << "Executado\n";
     // Iterador para o bloco
     auto ptReserved = m_free_area.find(reinterpret_cast<Block*>(block));
     // Iterador para o elemento após o bloco

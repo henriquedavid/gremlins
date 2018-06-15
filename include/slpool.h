@@ -1,9 +1,9 @@
 #ifndef SLPOOL_H
 #define SLPOOL_H
 
-#include <new>      // std::ceil()
-#include <cmath>    // std::bad_alloc()
-#include <set>
+#include <new>      // std::bad_alloc()
+#include <cmath>    // std::ceil()
+#include <set>      // std::set
 
 #include "StoragePool.h"
 
@@ -50,7 +50,6 @@ private:
     set_ m_free_area;
     Block m_sentinel;
     Block* m_pool;
-
 
 };
 
