@@ -33,7 +33,7 @@ void * operator new( size_t bytes, StoragePool & p )
 void operator delete( void * ptr) noexcept
 {
     // Obtém o ponteiro para o começo do gerenciador de mémoria
-    Tag * const tag = reinterpret_cast<Tag *>( ptr ) - 1;
+    Tag * const tag = reinterpret_cast<Tag *>( ptr ) - 1U;
     // se tiver um gerenciador de mémoria. Libera o ponteiro dele.
     if( tag->pool != nullptr )
         tag->pool->Free( tag );

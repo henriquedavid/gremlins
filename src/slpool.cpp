@@ -82,13 +82,8 @@ void* SLPool::Allocate(size_t size)
                     new_block_after->m_next = nullptr;
                 }
             }
-            // Resetando o m_raw
-            for(uint c = 0; c < size; ++c)
-            {
-                new_block->m_raw[c] = '\0';
-            }
-            return new_block->m_raw;
-
+            std::cout << "Allocate Executado - " << "Bloco:  " << new_block << "\n";
+            return reinterpret_cast<byte*>(new_block) + sizeof(Header);
         }
         ++curr;
     }
@@ -98,9 +93,11 @@ void* SLPool::Allocate(size_t size)
 
 void SLPool::Free(void * pointer)
 {
+    // Recupera o bloco com o tamanho
     auto block = reinterpret_cast<Block*>( reinterpret_cast<byte*>(pointer) - sizeof(Header));
-    std::cout << "Free Executado\n";
-
+//    std::cout << "Free Executado - " << "Bloco com tamanho - " << block->m_lenght << "\n";
+    std::cout << "Free Executado - " << "Bloco:      " << block << "\n";
+    std::cout << "Tamanho - " << block->m_lenght << "\n";
     auto ptPostReserved = m_free_area.upper_bound(block);
 
     // Caso especial da lista de áreas vazia

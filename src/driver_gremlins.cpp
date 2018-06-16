@@ -21,7 +21,7 @@ int main( void )
 //    sl.print_memory_pool();
     int* b = new(sl) int;
 //    sl.print_memory_pool();
-    *b = 4;
+//    *b = 4;
 //    sl.print_memory_pool();
     delete b;
     sl.print_memory_pool();
