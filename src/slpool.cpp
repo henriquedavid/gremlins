@@ -1,4 +1,4 @@
-#include "slpool.h"
+#include "../include/slpool.h"
 #include <iostream>
 
 SLPool::SLPool(size_t size)
@@ -114,7 +114,7 @@ void SLPool::Free(void * block)
             m_free_area.erase(ptPostReserved);
             m_free_area.insert(*ptReserved);
         }
-        // Caso 2: Encadear os blocos
+        // Caso 2: Encadear os blocos, caso em que não há blocos seguidos.
         else
         {
             // Tamanho: Permanece
