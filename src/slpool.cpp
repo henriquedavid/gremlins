@@ -98,7 +98,7 @@ void* SLPool::Allocate(size_t size)
 
 void SLPool::Free(void * pointer)
 {
-    auto block = reinterpret_cast<Block*>(pointer);
+    auto block = reinterpret_cast<Block*>( reinterpret_cast<byte*>(pointer) - sizeof(Header));
     std::cout << "Free Executado\n";
 
     auto ptPostReserved = m_free_area.upper_bound(block);
@@ -235,10 +235,11 @@ void SLPool::print_memory_pool() const
         else
         {
             auto size = Block::BlockSize - sizeof(Header);
-            std::cout << "Bloco " << block_count << ": [ ";
+            std::cout << "Bloco " << block_count << " - tamanho: " << current_ptr_block->m_lenght;
+            std::cout << "\nBloco " << block_count << " - bytes: [ ";
             for(uint c = 0; c < size; c++)
             {
-                std::cout << "0x" << std::hex << std::setw(8) << std::setfill('0') << current_ptr_block->m_raw[c] + 0 << ' ';
+                std::cout << "0x" << std::hex << current_ptr_block->m_raw[c] + 0 << ' ';
             }
             std::cout << std::dec << "]\n";
             block_count++;

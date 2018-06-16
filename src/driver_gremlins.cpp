@@ -18,14 +18,14 @@ int main( void )
     /// --- USO DO GERENCIADOR DE MEMÓRIA PELO CLIENTE --- ////
 
     SLPool sl(128);
-    sl.print_memory_pool();
+//    sl.print_memory_pool();
     int* b = new(sl) int;
-    sl.print_memory_pool();
+//    sl.print_memory_pool();
     *b = 4;
-    sl.print_memory_pool();
+//    sl.print_memory_pool();
     delete b;
     sl.print_memory_pool();
-    std::cout << "Saída: " << *b << std::endl;
+//    std::cout << "Saída: " << *b << std::endl;
 
 
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
