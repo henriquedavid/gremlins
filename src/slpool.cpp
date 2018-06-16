@@ -119,7 +119,7 @@ void SLPool::Free(void * pointer)
             // Next: Muda do novo
             block->m_next = (*ptPostReserved)->m_next;
             // Mudança no endereço da área livre: remove o antigo e insere o novo
-            m_free_area.erase(ptPostReserved);
+            ptPostReserved = m_free_area.erase(ptPostReserved);
         }
         // Caso 2: Encadear os blocos
         else
@@ -135,13 +135,17 @@ void SLPool::Free(void * pointer)
         block->m_next = nullptr;
     }
 
-    //
+    if(m_free_area.empty())
+    {
+        m_sentinel->m_next = block;
+        m_free_area.insert(block);
+        return;
+    }
     auto ptPrevReserved = ptPostReserved;
     --ptPrevReserved;
-
     // Verifica se o endereço anterior ao upper_bound não é maior que o do bloco
     // Caso isso aconteça, não existe bloco anterior
-    if(ptPostReserved != m_free_area.begin() and *ptPrevReserved < block)
+    if(*ptPrevReserved < block)
     {
         std::cout << "entrou\n";
         // Caso 1: Juntar os blocos
