@@ -4,6 +4,7 @@
 #include <new>      // std::bad_alloc()
 #include <cmath>    // std::ceil()
 #include <set>      // std::set
+#include <iomanip>
 
 #include "StoragePool.h"
 
@@ -20,6 +21,12 @@ public:
 
     void * Allocate( size_t );
     void Free( void * );
+
+    // Métodos de depuração
+    ///
+    /// \brief print_memory_pool
+    /// Imprimi todas as aréas e blocos do memory pool
+    void print_memory_pool() const;
 
 private:
 
@@ -48,7 +55,7 @@ private:
 
     // Membros da classe
     set_ m_free_area;
-    Block m_sentinel;
+    Block* m_sentinel;
     Block* m_pool;
 
 };
