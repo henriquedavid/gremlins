@@ -10,20 +10,22 @@ SLPool::SLPool(size_t size)
     // Não tem próxima área livre
     m_pool->m_next = nullptr;
     // Configura o espaço do sentilena
-    m_sentinel.m_next = m_pool;
+    //m_sentinel->m_next = nullptr;
     // Armazena a quantidade de blocos no primeiro bloco, m_pool[0] ou *m_pool
     m_pool->m_lenght = blocks_required;
     // sentinela aponta para o primeiro bloco
-    m_sentinel.m_next = m_pool;
-    m_sentinel.m_lenght = 0;
+    m_sentinel = new Block [sizeof(int)];
+    m_sentinel->m_next = nullptr;
+    m_sentinel->m_lenght = 0;
     // Coloca o primeiro bloco na lista de áreas livres
-//    m_free_area.insert(m_pool);
+    m_free_area.insert(m_pool);
     m_free_area.emplace(m_pool);
 }
 
 SLPool::~SLPool()
 {
     delete [] m_pool;
+    delete [] m_sentinel;
     m_free_area.clear();
 }
 
@@ -72,7 +74,7 @@ void* SLPool::Allocate(size_t size)
                 }
                 else
                 {
-                    m_sentinel.m_next = new_block_after;
+                    m_sentinel->m_next = new_block_after;
                 }
                 if(it_after != m_free_area.end())
                 {
@@ -95,11 +97,58 @@ void* SLPool::Allocate(size_t size)
 void SLPool::Free(void * block)
 {
     std::cout << "Executado\n";
+
     // Iterador para o bloco
-    auto ptReserved = m_free_area.find(reinterpret_cast<Block*>(block));
+    auto ptReserved = reinterpret_cast<Block*>(block);
+    //ptReserved->m_lenght += sizeof(Block);
+
     // Iterador para o elemento após o bloco
-    auto ptPostReserved = ptReserved;
-    ++ptPostReserved;
+    auto ptPrevReserved = m_sentinel;
+    auto ptPostReserved = m_sentinel;
+
+    // Percorre procurando um endereço que seja maior que o ponteiro ptReserved ou seja nulo (fim da lista, não há vazio).
+    while( ptPostReserved != nullptr || ptPostReserved > ptReserved ){
+        ptPrevReserved = ptPostReserved;
+        ptPostReserved = ptPostReserved->m_next;
+    }
+
+    // Inserir depois da busca garante que teremos os ponteiros aoontando para o local correto assim que inserir, semprecisar modificá-los.
+    m_free_area.insert(ptReserved);
+
+    // Trata o caso em que as áreas anteriores e posteriores são livres.
+    if( (ptPrevReserved + (ptPrevReserved->m_lenght + ptReserved->m_lenght) ) == ptPostReserved){   // Soma os dois espaços e tem que chegar na ptPostReserved
+        
+        // Atualiza a quantidade de tamanho de espaço da primeira área livre.
+        ptPrevReserved->m_lenght = ptPostReserved->m_lenght + ptReserved->m_lenght + ptPrevReserved->m_lenght;
+        ptPrevReserved->m_next = ptPostReserved->m_next;
+        m_free_area.erase(ptReserved);
+        m_free_area.erase(ptPostReserved);
+    }
+    // Caso em que a área imediatamente anterior é reservada e a posterior é livre.
+    else if(ptPrevReserved != nullptr && ptPostReserved == nullptr && ptPrevReserved+(ptPrevReserved->m_lenght) == ptReserved)
+    {
+       
+        ptPrevReserved->m_lenght += ptReserved->m_lenght;
+        m_free_area.erase(ptReserved);
+        
+    }
+    // Casp em que a área anterior é livre e a posterior é reservada.
+    else if(ptPrevReserved == nullptr && ptPostReserved != nullptr && ptReserved+(ptReserved->m_lenght) == ptPostReserved)
+    {
+        ptReserved->m_lenght += ptPostReserved->m_lenght;
+        ptReserved->m_next = ptPostReserved->m_next;
+        m_free_area.erase(ptPostReserved);
+
+    }
+    // Caso em que as áreas anteriores e posteriores são reservadas
+    else
+    {
+        //Não há o que fazer, só inserir.
+    }
+
+    delete ptReserved;
+
+    /*
     // Verifica a área precede uma área livre
     if(ptPostReserved != m_free_area.end())
     {
@@ -147,5 +196,5 @@ void SLPool::Free(void * block)
             // Encadeamento insere sempre na lista ordenada
             m_free_area.insert(*ptReserved);
         }
-    }
+    }*/
 }

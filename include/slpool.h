@@ -48,8 +48,8 @@ private:
 
     // Membros da classe
     set_ m_free_area;
-    Block m_sentinel;
     Block* m_pool;
+    Block* m_sentinel;
 
 };
 
