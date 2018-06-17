@@ -8,6 +8,8 @@
 
 #include "StoragePool.h"
 
+#define BLOCKSIZE 16
+
 class SLPool : public StoragePool
 {
 public:
@@ -40,11 +42,9 @@ private:
 
     struct Block : public Header
     {
-        enum { BlockSize = 16 };
-
         union{
             Block* m_next;
-            char m_raw[ BlockSize - sizeof(Header)];
+            char m_raw[ BLOCKSIZE - sizeof(Header)];
         };
 
         Block() : Header(), m_next( nullptr ){ /* Empty */}

@@ -4,7 +4,7 @@
 SLPool::SLPool(size_t size)
 {
     // Determina a quantidade de blocos necessários a partir de size
-    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / Block::BlockSize);
+    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / BLOCKSIZE);
     // Aloca espaco para armazenar a lista de blocos e o sentinela
     m_pool = new Block [blocks_required + 1];
     // Não tem próxima área livre
@@ -33,7 +33,7 @@ void* SLPool::Allocate(size_t size)
     auto curr(m_free_area.begin());
     auto end(m_free_area.cend());
     // Calcula os blocos necessários para guardar o header e o ponteiro do usuário
-    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / Block::BlockSize);
+    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / BLOCKSIZE);
     // Procura a primeira área livre com tamanho suficiente
     while(curr != end)
     {
@@ -82,8 +82,7 @@ void* SLPool::Allocate(size_t size)
                     new_block_after->m_next = nullptr;
                 }
             }
-            std::cout << "Allocate Executado - " << "Bloco:  " << new_block << "\n";
-            return reinterpret_cast<byte*>(new_block) + sizeof(Header);
+            return new_block->m_raw;
         }
         ++curr;
     }
@@ -93,11 +92,11 @@ void* SLPool::Allocate(size_t size)
 
 void SLPool::Free(void * pointer)
 {
+
     // Recupera o bloco com o tamanho
-    auto block = reinterpret_cast<Block*>( reinterpret_cast<byte*>(pointer) - sizeof(Header));
-//    std::cout << "Free Executado - " << "Bloco com tamanho - " << block->m_lenght << "\n";
-    std::cout << "Free Executado - " << "Bloco:      " << block << "\n";
-    std::cout << "Tamanho - " << block->m_lenght << "\n";
+    // 8 é a distância do endereço do bloco ao m_raw
+    auto block = reinterpret_cast<Block*>( reinterpret_cast<byte*>(pointer) - 8);
+
     auto ptPostReserved = m_free_area.upper_bound(block);
 
     // Caso especial da lista de áreas vazia
@@ -210,8 +209,9 @@ void SLPool::print_memory_pool() const
     current_ptr_block = m_sentinel->m_next;
     while(current_ptr_block != nullptr)
     {
-        std::cout   << "Tamanho:     " << (*current_free_area)->m_lenght         \
-                    << " - Next:    " << (*current_free_area)->m_next << '\n'   ;
+        std::cout   << "{\nTamanho: " << (*current_free_area)->m_lenght         \
+                    << "\nEndereço: " << *(current_free_area)                   \
+                    << "\nNext:     " << (*current_free_area)->m_next << "\n}\n";
         current_ptr_block = current_ptr_block->m_next;
     }
 
@@ -235,12 +235,12 @@ void SLPool::print_memory_pool() const
         // Imprimi informação do bloco
         else
         {
-            auto size = Block::BlockSize - sizeof(Header);
+            auto size = BLOCKSIZE - sizeof(Header);
             std::cout << "Bloco " << block_count << " - tamanho: " << current_ptr_block->m_lenght;
             std::cout << "\nBloco " << block_count << " - bytes: [ ";
             for(uint c = 0; c < size; c++)
             {
-                std::cout << "0x" << std::hex << current_ptr_block->m_raw[c] + 0 << ' ';
+                std::cout << "0x" << std::hex << current_ptr_block[c] + 0 << ' ';
             }
             std::cout << std::dec << "]\n";
             block_count++;
