@@ -4,18 +4,18 @@
 SLPool::SLPool(size_t size)
 {
     // Determina a quantidade de blocos necessários a partir de size
-    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / BLOCKSIZE);
+    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / Block::BlockSize);
     // Aloca espaco para armazenar a lista de blocos e o sentinela
     m_pool = new Block [blocks_required + 1];
     // Não tem próxima área livre
     m_pool->m_next = nullptr;
     // Armazena a quantidade de blocos header do primeiro bloco
-    m_pool->m_lenght = blocks_required;
+    m_pool->m_header.m_lenght = blocks_required;
     // Configura o espaço do sentilena
     m_sentinel = m_pool+blocks_required;
     // Sentinela aponta para o primeiro bloco
     m_sentinel->m_next = m_pool;
-    m_sentinel->m_lenght = 0;
+    m_sentinel->m_header.m_lenght = 0;
     // Coloca o primeiro bloco na lista de áreas livres
     m_free_area.insert(m_pool);
 }
@@ -33,26 +33,26 @@ void* SLPool::Allocate(size_t size)
     auto curr(m_free_area.begin());
     auto end(m_free_area.cend());
     // Calcula os blocos necessários para guardar o header e o ponteiro do usuário
-    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / BLOCKSIZE);
+    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / Block::BlockSize);
     // Procura a primeira área livre com tamanho suficiente
     while(curr != end)
     {
         // FIRST-FIT
-        if((*curr)->m_lenght >= blocks_required)
+        if((*curr)->m_header.m_lenght >= blocks_required)
         {
             // Endereço onde será colocado o conteúdo
             Block* new_block = *curr;
             // Tamanho da aréa antes da alocação
-            auto old_lenght = new_block->m_lenght;
+            auto old_lenght = new_block->m_header.m_lenght;
             // Atribui o novo tamanho da área
-            new_block->m_lenght = blocks_required;
+            new_block->m_header.m_lenght = blocks_required;
             // Verifica se o cliente não ocupou o tamanho da área livre
             if(blocks_required != old_lenght)
             {
                 // Nova área livre criada
                 Block* new_block_after = new_block + blocks_required;
                 // Tamanho da área livre criada
-                new_block_after->m_lenght = old_lenght - blocks_required;
+                new_block_after->m_header.m_lenght = old_lenght - blocks_required;
                 // O next do novo bloco é o mesmo do bloco antigo
                 new_block_after->m_next = new_block->m_next;
                 // Reseta endereço do next antigo
@@ -95,7 +95,7 @@ void SLPool::Free(void * pointer)
 
     // Recupera o bloco com o tamanho
     // 8 é a distância do endereço do bloco ao m_raw
-    auto block = reinterpret_cast<Block*>( reinterpret_cast<byte*>(pointer) - 8);
+    auto block = reinterpret_cast<Block*>(pointer);
 
     auto ptPostReserved = m_free_area.upper_bound(block);
 
@@ -109,12 +109,12 @@ void SLPool::Free(void * pointer)
     }
     // Verifica a área precede uma área livre
     if(ptPostReserved != m_free_area.end())
-    {     
+    {
         // Caso 1: Juntar as áreas
-        if(*ptPostReserved == block + block->m_lenght)
+        if(*ptPostReserved == block + block->m_header.m_lenght)
         {
             // Tamanho: Muda novo
-            block->m_lenght += (*ptPostReserved)->m_lenght;
+            block->m_header.m_lenght += (*ptPostReserved)->m_header.m_lenght;
             // Next: Muda do novo
             block->m_next = (*ptPostReserved)->m_next;
             // Mudança no endereço da área livre: remove o antigo e insere o novo
@@ -148,10 +148,10 @@ void SLPool::Free(void * pointer)
     {
         std::cout << "entrou\n";
         // Caso 1: Juntar os blocos
-        if(block == block + block->m_lenght)
+        if(block == block + block->m_header.m_lenght)
         {
             // Tamanho: Muda anterior
-            (*ptPrevReserved)->m_lenght += block->m_lenght;
+            (*ptPrevReserved)->m_header.m_lenght += block->m_header.m_lenght;
             // Next: Muda o next
             (*ptPrevReserved)->m_next = block;
         }
@@ -189,7 +189,7 @@ void SLPool::print_memory_pool() const
     while(false)
     {
         // Quantidades de blocos da área
-        auto lenght = current_ptr_block->m_lenght;
+        auto lenght = current_ptr_block->m_header.m_lenght;
         // O bloco atual compoem uma área livre
         if(current_ptr_block == *current_free_area)
         {
@@ -209,7 +209,7 @@ void SLPool::print_memory_pool() const
     current_ptr_block = m_sentinel->m_next;
     while(current_ptr_block != nullptr)
     {
-        std::cout   << "{\nTamanho: " << (*current_free_area)->m_lenght         \
+        std::cout   << "{\nTamanho: " << (*current_free_area)->m_header.m_lenght         \
                     << "\nEndereço: " << *(current_free_area)                   \
                     << "\nNext:     " << (*current_free_area)->m_next << "\n}\n";
         current_ptr_block = current_ptr_block->m_next;
@@ -225,7 +225,7 @@ void SLPool::print_memory_pool() const
         // Imprimi área livre
         if(current_ptr_block == *current_free_area)
         {
-            auto lenght = current_ptr_block->m_lenght;
+            auto lenght = current_ptr_block->m_header.m_lenght;
             for(uint c = 0; c < lenght; c++, block_count++)
             {
                 std::cout << "Bloco " << block_count << ": Não usado.\n";
@@ -235,12 +235,12 @@ void SLPool::print_memory_pool() const
         // Imprimi informação do bloco
         else
         {
-            auto size = BLOCKSIZE - sizeof(Header);
-            std::cout << "Bloco " << block_count << " - tamanho: " << current_ptr_block->m_lenght;
+            auto size = Block::BlockSize - sizeof(Header);
+            std::cout << "Bloco " << block_count << " - tamanho: " << current_ptr_block->m_header.m_lenght;
             std::cout << "\nBloco " << block_count << " - bytes: [ ";
             for(uint c = 0; c < size; c++)
             {
-                std::cout << "0x" << std::hex << current_ptr_block[c] + 0 << ' ';
+                std::cout << "0x" << std::hex << current_ptr_block->m_raw[c] + 0x0 << ' ';
             }
             std::cout << std::dec << "]\n";
             block_count++;
