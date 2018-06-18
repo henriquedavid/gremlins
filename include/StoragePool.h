@@ -6,7 +6,7 @@ class StoragePool
 {
 public:
 
-        using byte = char;
+        using byte = unsigned char;
 
         virtual ~StoragePool(){}
         virtual void* Allocate( size_t ) = 0;

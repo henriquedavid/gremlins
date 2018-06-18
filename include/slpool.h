@@ -4,7 +4,7 @@
 #include <new>      // std::bad_alloc()
 #include <cmath>    // std::ceil()
 #include <set>      // std::set
-#include <iomanip>
+#include <iomanip>  // std::setw(), std::setfill()
 
 #include "StoragePool.h"
 
@@ -35,20 +35,25 @@ private:
 
     struct Header
     {
-        unsigned int m_lenght;
+        unsigned m_lenght;
         Header() : m_lenght(0u) {}
     };
-
-    struct Block
+    struct Block : Header
     {
-        enum {BlockSize= 16};
+        enum {BlockSize = 16};
         union{
             Block* m_next;
-            char m_raw[ BlockSize - sizeof(Header)];
+            unsigned char m_raw[BlockSize - sizeof(Header)];
+            /* O tamanho é múltiplo do membro com maior tamanho.
+             * O tamanho pode mudar dependendo do ambiente, mas com esse
+             * cálculo poderemos deixar o m_lenght variar 0 a 8 bytes que
+             * o tamanho do bloco continuará sendo BlockSize.
+             * Além disso o endereço x->next será o endereço x, sendo x um
+             * ponteiro de Block qualquer.
+            */
         };
 
-        Header m_header;
-        Block() : m_next( nullptr ), m_header() { /* Empty */}
+        Block() : m_next( nullptr ) { /* Empty */}
     };
 
     // Apelidos para tipos definidos
