@@ -28,6 +28,7 @@ public:
     /// \brief print_memory_pool
     /// Imprimi todas as aréas e blocos do memory pool
     void print_memory_pool() const;
+    void storageView() const;
 
 private:
 
@@ -44,13 +45,6 @@ private:
         union{
             Block* m_next;
             unsigned char m_raw[BlockSize - sizeof(Header)];
-            /* O tamanho é múltiplo do membro com maior tamanho.
-             * O tamanho pode mudar dependendo do ambiente, mas com esse
-             * cálculo poderemos deixar o m_lenght variar 0 a 8 bytes que
-             * o tamanho do bloco continuará sendo BlockSize.
-             * Além disso o endereço x->next será o endereço x, sendo x um
-             * ponteiro de Block qualquer.
-            */
         };
 
         Block() : m_next( nullptr ) { /* Empty */}
@@ -65,5 +59,7 @@ private:
     Block* m_pool;
 
 };
+
+#include "../src/slpool.cpp"
 
 #endif // SLPOOL_H

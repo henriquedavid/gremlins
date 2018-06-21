@@ -1,6 +1,7 @@
 #include "storagepooltest.h"
 #include <random>
 #include <queue>
+#include <ctime>
 
 using bytes = char;
 
@@ -25,6 +26,10 @@ class Event{
 
         void* getMemoryPtr(){
             return address;
+        }
+
+        bool operator<( const Event & ev2 ) const{
+            return time < ev2.time;
         }
 
 };
@@ -90,12 +95,8 @@ void StoragePoolTest( StoragePool& _pool, std::time_t _timeLimit )
         std::time_t releaseTime = t + elapsedTime;
 
         // Creating a new simulation event.
-        pq.push(new Event(add , releaseTime)); 
+        pq.push(Event(add , releaseTime)); 
     }
-
-    // Here you might want to show the memory map on the screen ,
-    // or write it to a log file , for debugging purpose .
 
 
 }
-

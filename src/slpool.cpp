@@ -38,7 +38,18 @@ void* SLPool::Allocate(size_t size)
     while(curr != end)
     {
         // FIRST-FIT
-        if((*curr)->m_lenght >= blocks_required)
+        if((*curr)->m_lenght == blocks_required){
+            Block * new_block = *curr;
+            new_block->m_lenght = blocks_required;
+            new_block->m_next = nullptr;
+            
+            m_free_area.erase(curr);
+
+            m_sentinel->m_next = nullptr;
+
+        }
+
+        if((*curr)->m_lenght > blocks_required)
         {
             // Endereço onde será colocado o conteúdo
             Block* new_block = *curr;
@@ -145,7 +156,7 @@ void SLPool::Free(void * pointer)
     // Caso isso aconteça, não existe bloco anterior
     if(*ptPrevReserved < block)
     {
-        std::cout << "entrou\n";
+        //std::cout << "entrou\n";
         // Caso 1: Juntar os blocos
         if(block == block + block->m_lenght)
         {
@@ -171,7 +182,7 @@ void SLPool::Free(void * pointer)
         m_sentinel->m_next = block;
         m_free_area.insert(block);
     }
-    std::cout << "Free Finalizado\n";
+    //std::cout << "Free Finalizado\n";
 }
 void SLPool::print_memory_pool() const
 {
@@ -181,9 +192,11 @@ void SLPool::print_memory_pool() const
      * []   = Área
      * N    = Indice da área na pool
      */
+
     auto current_ptr_block = m_pool;
     auto current_free_area = m_free_area.begin();
     std::cout << "Estado do memory pool: ";
+
     // Para cada block que compoem o pool, faremos:
     while(false)
     {
@@ -203,27 +216,30 @@ void SLPool::print_memory_pool() const
         current_ptr_block += lenght;
     }
     // Imprime as informações do blocos
-    std::cout << "\nInformação do sentitinela: next = " << m_sentinel->m_next;
+    std::cout << "\nInformação do sentinela: next = " << m_sentinel->m_next;
+
     std::cout << "\nInformações das áreas livres: \n";
     current_ptr_block = m_sentinel->m_next;
     while(current_ptr_block != nullptr)
     {
-        std::cout   << "{\nTamanho: " << (*current_free_area)->m_lenght         \
-                    << "\nEndereço: " << *(current_free_area)                   \
-                    << "\nNext:     " << (*current_free_area)->m_next << "\n}\n";
+        std::cout   << "{\n  Tamanho: " << (*current_free_area)->m_lenght         \
+                    << "\n  Endereço: " << *(current_free_area)                   \
+                    << "\n  Next:     " << (*current_free_area)->m_next << "\n}\n";
         current_ptr_block = current_ptr_block->m_next;
     }
 
-    // Imprimi os bytes armazenados nos blocos ocupada
+    // Imprimi os bytes armazenados nos blocos ocupados
     current_ptr_block = m_pool;
     current_free_area = m_free_area.begin();
     uint block_count = 0;
-    std::cout << "\nMapa de bytes: " << std::hex << std::setfill('0');;
+
+    std::cout << "\nMapa de bytes: \n" << std::hex << std::setfill('0');
     while(current_ptr_block->m_next != nullptr )
     {
         // Imprimi área livre
         if(current_ptr_block == *current_free_area)
         {
+            std::cout << std::endl;
             auto lenght = current_ptr_block->m_lenght;
             for(uint c = 0; c < lenght; c++, block_count++)
             {
@@ -248,4 +264,27 @@ void SLPool::print_memory_pool() const
         }
     }
     std::cout << std::dec;
+}
+
+void SLPool::storageView() const{
+
+    auto curr(m_pool);
+    auto curr_free(m_free_area.begin());
+
+    std::cout << "[";
+    while(curr != m_sentinel){
+
+        if( curr == *curr_free ){
+            std::cout << std::setw(curr->m_lenght) << std::setfill('-') << "";
+            curr += curr->m_lenght;
+            curr_free++;
+        } else{
+            std::cout << "#";
+            curr++;
+        }
+
+    }
+
+    std::cout << "]\n";
+
 }

@@ -16,6 +16,9 @@ void * operator new( size_t bytes )
     Tag * const tag = reinterpret_cast<Tag *> (std::malloc(bytes + sizeof(Tag)));
     // Gm nulo
     tag->pool = nullptr;
+
+    //std::cout << "Alocando " << bytes << " bytes para o cliente. Ocupado: " << bytes+sizeof(Tag) << std::endl;
+
     // Retorna o ponteiro sem o endereço do GM
     return ( reinterpret_cast<void *> ( tag + 1U ) );
 }
@@ -26,6 +29,9 @@ void * operator new( size_t bytes, StoragePool & p )
 	Tag * const tag = reinterpret_cast<Tag *> (p.Allocate(bytes + sizeof(Tag)) );
     // Guarda o GM
 	tag->pool = &p;
+
+    //std::cout << "Alocando " << bytes << " bytes para o cliente. Ocupado: " << bytes+sizeof(Tag) << std::endl;
+
     // Retorna o ponteiro sem o endereço do GM
     return ( reinterpret_cast<void *> ( tag + 1U ) );
 }
@@ -35,8 +41,10 @@ void operator delete( void * ptr) noexcept
     // Obtém o ponteiro para o começo do gerenciador de mémoria
     Tag * const tag = reinterpret_cast<Tag *>( ptr ) - 1U;
     // se tiver um gerenciador de mémoria. Libera o ponteiro dele.
-    if( tag->pool != nullptr )
+    if( tag->pool != nullptr ){
+        //std::cout << "Deletando ponteiro!" << std::endl;
         tag->pool->Free( tag );
+    }
     // caso o contrário usa o free do STL
     else
         std::free( tag );
