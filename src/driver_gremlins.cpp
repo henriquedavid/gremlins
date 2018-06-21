@@ -11,39 +11,54 @@
          * --- Teste do gerenciador SLPool --- *
          * *************************************/
 
-void desempenho_sistemas( SLPool & sl ){
+void ocupacao_memoria(SLPool & sl);
 
-    std::cout << "#################     COMPARAÇÃO DO SLPOOL COM O DO SO    #################\n";
+void desempenho_sistemas(){
+
+    std::cout << "#################     COMPARAÇÃO DO SLPOOL COM O DO SO    #################\n\n";
     
     std::vector<double> sl_;
     std::vector<double> sys;
+    
+    SLPool sl(200);
 
     for( auto i(0) ; i < 1000 ; i++ ){
+
+        std::cout << "Versão " << i << std::endl;
 
         std::chrono::steady_clock::time_point first_sl = std::chrono::steady_clock::now();
         int* a = new(sl) int;
         *a = 1000;
-        //sl.print_memory_pool();
+        //sl.storageView();
+        sl.print_memory_pool();
         int* b = new(sl) int;
         *b = 10;
-        //sl.print_memory_pool();
+        //sl.storageView();
+        sl.print_memory_pool();
         int* c = new(sl) int;
         *c = 2156;
-        //sl.print_memory_pool();
+        //sl.storageView();
+        sl.print_memory_pool();
         int* d = new(sl) int;
         *d = 8552;
-        //sl.print_memory_pool();
+        //sl.storageView();
+        sl.print_memory_pool();
         int* e = new(sl) int;
         *e = 321531;
-        //sl.print_memory_pool();
+        //sl.storageView();
+        sl.print_memory_pool();
         int* f = new(sl) int;
         *f = 1000;
-        //sl.print_memory_pool();
+        //sl.storageView();
+        sl.print_memory_pool();
         int* g = new(sl) int;
         *g = 56461123;
-        //sl.print_memory_pool();
+        //sl.storageView();
+        sl.print_memory_pool();
         int* h = new(sl) int;
         *h = 4162111;
+        //sl.storageView();
+        sl.print_memory_pool();
 
         //sl.print_memory_pool();
 
@@ -55,6 +70,11 @@ void desempenho_sistemas( SLPool & sl ){
         delete f;
         delete g;
         delete h;
+
+        //sl.storageView();
+        sl.print_memory_pool();
+
+        //ocupacao_memoria(sl);
 
         std::chrono::steady_clock::time_point end_sl = std::chrono::steady_clock::now();
         double durat_sl = std::chrono::duration_cast<std::chrono::nanoseconds>( end_sl - first_sl ).count();
@@ -111,12 +131,14 @@ void desempenho_sistemas( SLPool & sl ){
     slpool_system /= sys.size();
 
     std::cout << "Média de Tempo de Criação Usando SLPool: " << slpool_time << " nanosegundos." << std::endl;
-    std::cout << "Média de Tempo de Criação: " << slpool_system << " nanosegundos." << std::endl;
+    std::cout << "Média de Tempo de Criação Usando SO:       " << slpool_system << " nanosegundos.\n\n" << std::endl;
 
 
 }
 
 void ocupacao_memoria(SLPool & sl){
+
+    std::cout << "------------------------------------------\n";
 
     int* a = new(sl) int;
     *a = 1000;
@@ -204,7 +226,8 @@ int main( void )
     ///  ------------------------------------------------  ////
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
 
-    desempenho_sistemas(sl);
+    
+    desempenho_sistemas();
 
     std::cout << "#################     OCUPAÇÃO DA MEMÓRIA    #################\n";
 

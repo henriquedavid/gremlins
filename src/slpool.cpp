@@ -222,9 +222,9 @@ void SLPool::print_memory_pool() const
     current_ptr_block = m_sentinel->m_next;
     while(current_ptr_block != nullptr)
     {
-        std::cout   << "{\n  Tamanho: " << (*current_free_area)->m_lenght         \
-                    << "\n  Endereço: " << *(current_free_area)                   \
-                    << "\n  Next:     " << (*current_free_area)->m_next << "\n}\n";
+        std::cout   << "{\n  Tamanho: " << (current_ptr_block)->m_lenght         \
+                    << "\n  Endereço: " << (current_ptr_block)                   \
+                    << "\n  Next:     " << (current_ptr_block)->m_next << "\n}\n";
         current_ptr_block = current_ptr_block->m_next;
     }
 
