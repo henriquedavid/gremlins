@@ -1,4 +1,5 @@
 #include "storagepooltest.h"
+#include "StoragePool.h"
 #include <random>
 #include <queue>
 #include <ctime>

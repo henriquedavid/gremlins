@@ -60,6 +60,4 @@ private:
 
 };
 
-#include "../src/slpool.cpp"
-
 #endif // SLPOOL_H

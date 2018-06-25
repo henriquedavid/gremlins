@@ -5,7 +5,7 @@
 
 #include "slpool.h"
 #include "mempool_common.h"
-#include "../src/storagepooltest.cpp"
+#include "storagepooltest.h"
 
         /***************************************
          * --- Teste do gerenciador SLPool --- *
