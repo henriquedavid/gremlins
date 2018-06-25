@@ -98,6 +98,4 @@ void StoragePoolTest( StoragePool& _pool, std::time_t _timeLimit )
         // Creating a new simulation event.
         pq.push(Event(add , releaseTime)); 
     }
-
-
 }

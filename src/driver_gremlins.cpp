@@ -133,7 +133,6 @@ void desempenho_sistemas(){
     std::cout << "Média de Tempo de Criação Usando SLPool: " << slpool_time << " nanosegundos." << std::endl;
     std::cout << "Média de Tempo de Criação Usando SO:       " << slpool_system << " nanosegundos.\n\n" << std::endl;
 
-
 }
 
 void ocupacao_memoria(SLPool & sl){
@@ -173,9 +172,11 @@ void ocupacao_memoria(SLPool & sl){
     sl.storageView();
 
     delete a;
+    sl.print_memory_pool();
+    sl.storageView();
     delete b;
     delete c;
-    sl.storageView();
+
 
     delete d;
     delete e;
@@ -205,13 +206,13 @@ int main( void )
 
 
     *b = 54353453;
-    sl.storageView();
+//    sl.storageView();
 
-    sl.print_memory_pool();
+//    sl.print_memory_pool();
 
     delete b;
 
-    sl.print_memory_pool();
+//    sl.print_memory_pool();
 
     std::cout << "Saída: " << *b << std::endl;
 
@@ -227,7 +228,7 @@ int main( void )
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
 
     
-    desempenho_sistemas();
+//    desempenho_sistemas();
 
     std::cout << "#################     OCUPAÇÃO DA MEMÓRIA    #################\n";
 

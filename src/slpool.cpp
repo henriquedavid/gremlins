@@ -234,17 +234,17 @@ void SLPool::print_memory_pool() const
     uint block_count = 0;
 
     std::cout << "\nMapa de bytes: \n" << std::hex << std::setfill('0');
-    while(current_ptr_block->m_next != nullptr )
+    while(current_ptr_block != m_sentinel)
     {
         // Imprimi área livre
         if(current_ptr_block == *current_free_area)
         {
-            std::cout << std::endl;
             auto lenght = current_ptr_block->m_lenght;
             for(uint c = 0; c < lenght; c++, block_count++)
             {
                 std::cout << "Bloco " << block_count << ": Não usado.\n";
             }
+            ++current_free_area;
             current_ptr_block += lenght;
         }
         // Imprimi informação do bloco
