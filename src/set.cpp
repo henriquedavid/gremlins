@@ -16,7 +16,7 @@ set<T>::~set(){
 
 /// Insere elementos no set de forma que eles fiquem ordenados por tamanho.
 template < typename T >
-T * set<T>::insert(  const T & value ){
+std::pair<T*, bool> set<T>::insert(  const T & value ){
 	if(m_size >= m_capacity){
 		// Deve tratar o caso de ser necessário novo espaço?
 		T * new_storage = new T[m_capacity * 2];
@@ -36,6 +36,17 @@ T * set<T>::insert(  const T & value ){
 		m_area = new_storage;
 	}
 
+	// Verifica se o elemento já pertence ao conjunto.
+	auto begin_f(m_area);
+	auto end_f(m_area+m_size);
+
+	while(begin_f != end_f){
+		if(value == *begin_f){
+			return std::make_pair(begin_f, false );
+		}
+		begin_f++;
+	}
+
 	auto begin_(m_area);
 	auto end_(m_area+m_size);
 
@@ -43,7 +54,7 @@ T * set<T>::insert(  const T & value ){
 	if( m_size == 0 ){
 		*begin_ = value;
 		m_size++;
-		return begin_;
+		return std::make_pair(begin_, true);
 	}
 
 	// Procura o local que será inserido (ficar ordenado).
@@ -71,7 +82,7 @@ T * set<T>::insert(  const T & value ){
 	m_size++;
 
 	// Retorna a posição do valor inserido.
-	return aux;
+	return std::make_pair(aux,true);
 }
 
 /// Retorna o primeiro espaço.
@@ -152,7 +163,7 @@ void set<T>::clear(){
 }
 
 template < typename T >
-void set<T>::erase( T * pos ){
+T * set<T>::erase( T * pos ){
 
 	auto b_(pos);
 	auto e_(m_area+m_size);
@@ -163,6 +174,8 @@ void set<T>::erase( T * pos ){
 	}
 
 	m_size--;
+
+	return pos;
 
 }
 
