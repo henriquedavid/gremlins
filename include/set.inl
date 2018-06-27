@@ -1,5 +1,79 @@
 #include "../include/set.h"
-/*
+
+
+// MYITERATOR CLASS METHOD
+
+template < typename T >
+Iterator<T>::Iterator( Iterator<T>::pointer pt ){
+    this->m_value = pt;
+}
+
+template < typename T >
+Iterator<T>::~Iterator() = default;
+
+template < typename T >
+bool Iterator<T>::operator!=( const Iterator<T> & rhs) const{
+	return this->m_value != rhs.m_value;
+}
+
+template < typename T >
+bool Iterator<T>::operator==( const Iterator<T> & rhs) const{
+	return this->m_value == rhs.m_value;
+}
+
+template < typename T >
+Iterator<T> & Iterator<T>::operator=( const Iterator<T> & rhs ){
+    this->m_value = rhs.m_value;
+    return *this;
+}
+
+template < typename T >
+Iterator<T> & Iterator<T>::operator++( void ){
+    ++this->m_value;
+    return *this;
+}
+
+template < typename T >
+Iterator<T> Iterator<T>::operator++( int ){
+    auto temp(*this);
+    ++this->m_value;
+    return temp;
+}
+
+template < typename T >
+bool Iterator<T>::operator<( const Iterator<T> & rhs ) const{
+	return this->m_value < rhs.m_value;
+}
+
+template < typename T >
+Iterator<T> & Iterator<T>::operator--(){
+	--this->m_value;
+	return *this;
+}
+
+template < typename T >
+Iterator<T> Iterator<T>::operator--(int){
+	auto temp(*this);
+	--this->m_value;
+	return temp;
+}
+
+template < typename T >
+Iterator<T> Iterator<T>::operator+( int value ){
+    return Iterator<T>(this->m_value+value); // conversão explicita
+}
+
+template < typename T >
+Iterator<T> * Iterator<T>::operator->( void ) const{
+    return &this->m_value;
+}
+
+template < typename T >
+typename Iterator<T>::reference Iterator<T>::operator*( void ) const{
+    return *this->m_value;
+}
+
+
 /// Construtor padrão.
 template < typename T >
 set<T>::set(int size_)
@@ -16,7 +90,7 @@ set<T>::~set(){
 
 /// Insere elementos no set de forma que eles fiquem ordenados por tamanho.
 template < typename T >
-std::pair<T*, bool> set<T>::insert(  const T & value ){
+std::pair<Iterator<T>, bool> set<T>::insert(  const T & value ){
 	if(m_size >= m_capacity){
 		// Deve tratar o caso de ser necessário novo espaço?
 		T * new_storage = new T[m_capacity * 2];
@@ -81,25 +155,27 @@ std::pair<T*, bool> set<T>::insert(  const T & value ){
 	// Aumenta o tamanho
 	m_size++;
 
+	Iterator<T> iterator(aux);
+
 	// Retorna a posição do valor inserido.
-	return std::make_pair(aux,true);
+	return std::make_pair(iterator,true);
 }
 
 /// Retorna o primeiro espaço.
 template < typename T >
-T * set<T>::begin() const{
+Iterator<T> set<T>::begin() const{
 	return m_area;
 }
 
 /// Retorna o final do set.
 template < typename T >
-T * set<T>::end() const{
+Iterator<T> set<T>::end() const{
 	return m_area + m_size;
 }
 
 /// Retorna o final do set.
 template < typename T >
-const T * set<T>::cend(){
+const Iterator<T> set<T>::cend(){
 	return m_area + m_size;
 }
 
@@ -114,6 +190,8 @@ template < typename T >
 int set<T>::size(){
 	return m_size;
 }
+
+#include <iostream>
 
 template < typename T >
 void set<T>::print(){
@@ -136,7 +214,7 @@ void set<T>::print(){
 }
 
 template < typename T >
-T* set<T>::upper_bound( const T & value ){
+Iterator<T> set<T>::upper_bound( const T & value ){
 	auto b_(m_area);
 	auto e_(m_area+m_size);
 
@@ -163,7 +241,10 @@ void set<T>::clear(){
 }
 
 template < typename T >
-T * set<T>::erase( T * pos ){
+Iterator<T> set<T>::erase( Iterator<T> pos ){
+
+	if(pos == nullptr)
+		return pos;
 
 	auto b_(pos);
 	auto e_(m_area+m_size);
@@ -193,4 +274,4 @@ void set<T>::operator=( const set & value ){
    		beg++;
    	}
 }
-*/
+

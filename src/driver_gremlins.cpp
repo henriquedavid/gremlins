@@ -3,6 +3,7 @@
 #include <chrono>
 #include <vector>
 
+//#include "../include/set.h"
 #include "slpool.h"
 #include "mempool_common.h"
 #include "storagepooltest.h"
@@ -13,14 +14,14 @@
 
 void ocupacao_memoria(SLPool & sl);
 
-void desempenho_sistemas(){
+void desempenho_sistemas(SLPool & sl){
 
     std::cout << "#################     COMPARAÇÃO DO SLPOOL COM O DO SO    #################\n\n";
     
     std::vector<double> sl_;
     std::vector<double> sys;
     
-    SLPool sl(124);
+    //SLPool sl(124);
 
     for( auto i(0) ; i < 1000 ; i++ ){
 
@@ -99,7 +100,6 @@ void desempenho_sistemas(){
 
 void ocupacao_memoria(SLPool & sl){
 
-    std::cout << "------------------------------------------\n";
 
     int* a = new(sl) int;
     *a = 1000;
@@ -134,11 +134,10 @@ void ocupacao_memoria(SLPool & sl){
     sl.storageView();
 
     delete a;
-    sl.print_memory_pool();
-    sl.storageView(); // <-----------------------------------
     delete b;
     delete c;
-
+    sl.print_memory_pool();
+    sl.storageView(); 
 
     delete d;
     delete e;
@@ -147,13 +146,14 @@ void ocupacao_memoria(SLPool & sl){
 
     sl.storageView();
 
-//    delete f;
 
     int* i = new(sl) int;
     *i = 2111;
     sl.print_memory_pool();
 
+    sl.storageView();
 
+    delete f;
     sl.storageView();   
 }
 
@@ -167,24 +167,18 @@ int main( void )
     ///  ------------------------------------------------  ////
     /// --- USO DO GERENCIADOR DE MEMÓRIA PELO CLIENTE --- ////
 
-//    SLPool sl(200);
 
-//    int* b = new(sl) int;
+    std::cout << "------> Código cliente demonstrando que a classe SLPool funciona corretamente. (Critério 6)\n";
 
+    SLPool sl(200);     // Solicita 200 bytes de espaço ao GM.
 
-//    *b = 54353453;
-//    sl.storageView();
+    int* b = new(sl) int;
 
-//    sl.print_memory_pool();
+    *b = 54353453;
 
-//    delete b;
+    std::cout << "Saída: " << *b << std::endl;
 
-//    sl.print_memory_pool();
-
-//    std::cout << "Saída: " << *b << std::endl;
-
-
-
+    //delete b;
 
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
     ///  ------------------------------------------------  ////
@@ -195,13 +189,21 @@ int main( void )
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
 
     
-    desempenho_sistemas();
+    std::cout << "------> Código para testar o desempenho de SLPool, de maneira a comparar com o SO. (Critério 7)\n";
+
+    SLPool sl_2(200);
+    desempenho_sistemas(sl_2);
 
     std::cout << "#################     OCUPAÇÃO DA MEMÓRIA    #################\n";
+    
+    std::cout << "------> Código de visualização do mapa de memória do SLPool para fins de depuração. (Critério 8)\n";
+    /*
+        Os métodos da SLPool:
+                storageView(); e
+                print_memory_pool() servem para visualizar a memória.
+    */
 
-//    SLPool sl_2(200);
-
-//    ocupacao_memoria(sl_2);
+    ocupacao_memoria(sl_2);
 
 	return 0;
 }

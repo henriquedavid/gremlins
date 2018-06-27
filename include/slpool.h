@@ -7,7 +7,7 @@
 #include <iomanip>  // std::setw(), std::setfill()
 
 #include "StoragePool.h"
-
+#include "set.h"
 
 class SLPool : public StoragePool
 {
@@ -51,7 +51,7 @@ private:
     };
 
     // Apelidos para tipos definidos
-    using set_ = std::set<Block*>;
+    using set_ = set<Block*>;
 
     // Membros da classe
     set_ m_free_area;

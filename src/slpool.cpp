@@ -1,6 +1,7 @@
 #include "slpool.h"
 #include <iostream>
 
+/// Construtor da SLPool (Gerenciador de Memória).
 SLPool::SLPool(size_t size)
 {
     // Determina a quantidade de blocos necessários a partir de size
@@ -20,12 +21,14 @@ SLPool::SLPool(size_t size)
     m_free_area.insert(m_pool);
 }
 
+/// Destrutor da SLPool (Gerenciador de Memória).
 SLPool::~SLPool()
 {
     delete [] m_pool;
     m_free_area.clear();
 }
 
+/// Realiza a alocação de memória.
 void* SLPool::Allocate(size_t size)
 {
 
@@ -182,8 +185,10 @@ void SLPool::Free(void * pointer)
     //std::cout << "Free Finalizado\n";
 }*/
 
+/// Realiza a liberação da memória.
 void SLPool::Free(void * pointer)
 {
+
     // Recupera o bloco com o tamanho
     auto block = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
 
@@ -264,7 +269,10 @@ void SLPool::Free(void * pointer)
     {
         block->m_next = nullptr;
     }
+
 }
+
+/// Imprime uma visualização do mapa de memória.
 void SLPool::print_memory_pool() const
 {
     /* Notação:
@@ -344,8 +352,10 @@ void SLPool::print_memory_pool() const
         }
     }
     std::cout << std::dec;
+
 }
 
+/// Imprime visualização de memória de forma a mostrar os blocos ocupados.
 void SLPool::storageView() const{
 
     auto curr(m_pool);

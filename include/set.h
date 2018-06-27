@@ -7,10 +7,7 @@
 // Limitações:
 
 template < typename T >
-class set
-{
-private:
-    class iterator
+class Iterator
     {
     public:
         using value_type = T;
@@ -18,16 +15,31 @@ private:
         using reference = T&;
         using const_reference = const T&;
 
-        iterator operator++();
-        iterator operator--();
-        const_reference operator*();
-        const_reference operator->();
+        Iterator();
+        ~Iterator();
+        Iterator( pointer pont );
+        Iterator & operator++();
+        Iterator operator++(int);
+        Iterator & operator--();
+        Iterator operator--(int);
+        Iterator operator+( int value );
+        reference operator*() const;
+        Iterator<T> * operator->() const;
+        Iterator<T> & operator=( const Iterator<T> & rhs );
+        bool operator!=(const Iterator<T> & rhs) const;
+        bool operator==(const Iterator<T> & rhs) const;
+        bool operator<( const Iterator<T> & rhs ) const;
     private:
         pointer m_value;
     };
+
+
+template < typename T >
+class set
+{
 public:
     // --- ALIAS ---
-    using const_iterator = const iterator;
+    using const_iterator = const Iterator<T>;
     using value_type = T;
     using pointer = T*;
     using reference = T&;
@@ -40,12 +52,12 @@ public:
 
     // Funções que modificam o container
 
-    std::pair<iterator, bool> insert( const_reference value );	//!< Inserir um elemento de forma que fique ordenado.
-    iterator begin() const;                                     //!< Retornar o início do vetor.
-    iterator end() const;                                       //!< Retornar o fim do vetor.
+    std::pair<Iterator<T>, bool> insert( const_reference value );	//!< Inserir um elemento de forma que fique ordenado.
+    Iterator<T> begin() const;                                     //!< Retornar o início do vetor.
+    Iterator<T> end() const;                                       //!< Retornar o fim do vetor.
     const_iterator cend();                                      //!< Retornar o fim do vetor cosntante.
-    iterator erase( iterator * pos );                           //!< Remover um determinado elemento em uma posição.
-    iterator upper_bound( const T & value );                    //!< Retornar o menor valor maior que pos
+    Iterator<T> erase( Iterator<T> pos );                           //!< Remover um determinado elemento em uma posição.
+    Iterator<T> upper_bound( const T & value );                    //!< Retornar o menor valor maior que pos
     void clear();                                               //!< Limpar todo o conjunto.
 
     // Funções de verificação ou depuração
@@ -60,5 +72,6 @@ private:
 	int m_capacity;
 };
 //! \note: não é necessário incluir o .cpp aqui
+#include "set.inl"
 
 #endif // SET_H
