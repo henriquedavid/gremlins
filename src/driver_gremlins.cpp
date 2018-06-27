@@ -175,17 +175,17 @@ void ocupacao_memoria(SLPool & sl){
     sl.print_memory_pool();
     sl.storageView(); // <-----------------------------------
     delete b;
-    delete c;
+//    delete c;
 
 
-    delete d;
-    delete e;
-    delete g;
-    delete h;
+//    delete d;
+//    delete e;
+//    delete g;
+//    delete h;
 
     sl.storageView();
 
-    delete f;
+//    delete f;
 
 //    int* i = new(sl) int;
 //    *i = 2111;
