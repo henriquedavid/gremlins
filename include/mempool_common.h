@@ -50,5 +50,4 @@ void operator delete( void * ptr) noexcept
         std::free( tag );
 }
 
-
 #endif

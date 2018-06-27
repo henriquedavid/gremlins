@@ -7,6 +7,14 @@
 #include "mempool_common.h"
 #include "storagepooltest.h"
 
+class Conta
+{
+    int id;
+    int agencia;
+    unsigned int saldo;
+};
+
+
         /***************************************
          * --- Teste do gerenciador SLPool --- *
          * *************************************/
@@ -20,31 +28,29 @@ void desempenho_sistemas(){
     std::vector<double> sl_;
     std::vector<double> sys;
     
-    SLPool sl(124);
+    SLPool sl(16000);
 
     for( auto i(0) ; i < 1000 ; i++ ){
 
+
+        Conta** contas = new Conta*[10000];
+
         std::chrono::steady_clock::time_point first_sl = std::chrono::steady_clock::now();
 
-        int* a = new(sl) int;
-        int* b = new(sl) int;
-        int* c = new(sl) int;
-        int* d = new(sl) int;
-        int* e = new(sl) int;
-        int* f = new(sl) int;
-        int* g = new(sl) int;
-        int* h = new(sl) int;
+        for(auto j(0) ; j < 100 ; j++ )
+        {
+            contas[j] = new(sl) Conta;
+        }
 
-        delete a;
-        delete b;
-        delete c;
-        delete d;
-        delete e;
-        delete f;
-        delete g;
-        delete h;
-
+        for(auto j(0); j < 100; j++ )
+        {
+            delete contas[j];
+        }
         std::chrono::steady_clock::time_point end_sl = std::chrono::steady_clock::now();
+
+
+        delete contas;
+
         double durat_sl = std::chrono::duration_cast<std::chrono::nanoseconds>( end_sl - first_sl ).count();
 
         sl_.push_back(durat_sl);
@@ -54,27 +60,22 @@ void desempenho_sistemas(){
     for( auto i(0) ; i < 1000 ; i++ ){
 
 
-        std::chrono::steady_clock::time_point first_ = std::chrono::steady_clock::now();
+        Conta** contas = new Conta*[1000];
 
-        int* a_ = new int;
-        int* b_ = new int;
-        int* c_ = new int;
-        int* d_ = new int;
-        int* e_ = new int;
-        int* f_ = new int;
-        int* g_ = new int;
-        int* h_ = new int;
 
-        delete a_;
-        delete b_;
-        delete c_;
-        delete d_;
-        delete e_;
-        delete f_;
-        delete g_;
-        delete h_;
+          std::chrono::steady_clock::time_point first_ = std::chrono::steady_clock::now();
+        for(auto j(0) ; j < 1000 ; j++ )
+        {
+            contas[j] = new Conta();
+        }
+
+        for(auto j(0) ; j < 1000 ; j++ )
+        {
+            delete contas[j];
+        }
 
         std::chrono::steady_clock::time_point end_ = std::chrono::steady_clock::now();
+
         double durat_ = std::chrono::duration_cast<std::chrono::nanoseconds>( end_ - first_ ).count();
 
         sys.push_back(durat_);
