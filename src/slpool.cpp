@@ -40,16 +40,11 @@ void* SLPool::Allocate(size_t size)
         // FIRST-FIT
         if((*curr)->m_lenght == blocks_required){
             Block * new_block = *curr;
-            new_block->m_lenght = blocks_required;
-            new_block->m_next = nullptr;
-            
-            m_free_area.erase(curr);
-
-            m_sentinel->m_next = nullptr;
-
+            m_free_area.erase(curr);   
+            m_sentinel->m_next = *m_free_area.begin();
+            return new_block->m_raw;
         }
-
-        if((*curr)->m_lenght > blocks_required)
+        else if((*curr)->m_lenght > blocks_required)
         {
             // Endereço onde será colocado o conteúdo
             Block* new_block = *curr;
