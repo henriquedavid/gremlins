@@ -129,6 +129,7 @@ void SLPool::Free(void * pointer)
             block->m_next = (*ptPostReserved)->m_next;
             // Mudança no endereço da área livre: remove o antigo e insere o novo
             ptPostReserved = m_free_area.erase(ptPostReserved);
+            m_free_area.insert(block);
         }
         // Caso 2: Encadear os blocos
         else
@@ -137,6 +138,7 @@ void SLPool::Free(void * pointer)
             // Next: Muda
             block->m_next = (*ptPostReserved);
             // Encadeamento insere sempre na lista ordenada
+            m_free_area.insert(block);
         }
     }
     else
@@ -252,11 +254,10 @@ void SLPool::print_memory_pool() const
         {
             auto size = Block::BlockSize - sizeof(Header);
             auto ptr = reinterpret_cast<unsigned char*>(current_ptr_block->m_raw);
-            std::cout << "Bloco " << block_count << " - tamanho: " << current_ptr_block->m_lenght;
-            std::cout << "\nBloco " << block_count << " - bytes: [ ";
+            std::cout << "Bloco " << block_count << " - bytes: [ ";
             for(uint c = 0; c < size; c++, ptr++)
             {
-                std::cout << "0x" << *ptr + 0 << ' ';
+                std::cout << "0x" << std::setw(2) << std::setfill('0') << *ptr + 0 << ' ';
             }
             std::cout << "]\n";
             block_count++;

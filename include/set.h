@@ -45,7 +45,7 @@ public:
     iterator end() const;                                       //!< Retornar o fim do vetor.
     const_iterator cend();                                      //!< Retornar o fim do vetor cosntante.
     iterator erase( iterator * pos );                           //!< Remover um determinado elemento em uma posição.
-    T * upper_bound( const T & value );                         //!< Retornar o menor valor maior que pos
+    iterator upper_bound( const T & value );                    //!< Retornar o menor valor maior que pos
     void clear();                                               //!< Limpar todo o conjunto.
 
     // Funções de verificação ou depuração

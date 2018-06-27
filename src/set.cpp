@@ -1,5 +1,5 @@
 #include "../include/set.h"
-
+/*
 /// Construtor padrão.
 template < typename T >
 set<T>::set(int size_)
@@ -193,3 +193,4 @@ void set<T>::operator=( const set & value ){
    		beg++;
    	}
 }
+*/
