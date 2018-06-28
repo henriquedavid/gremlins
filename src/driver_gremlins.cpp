@@ -39,7 +39,7 @@ void desempenho_sistemas(void){
     for( auto i(0) ; i < 10000 ; i++ ){
 
 
-        Conta** contas = new Conta*[100000];
+        Conta** contas = new Conta*[1000];
 
         std::chrono::steady_clock::time_point first_sl = std::chrono::steady_clock::now();
 
@@ -66,7 +66,7 @@ void desempenho_sistemas(void){
     for( auto i(0) ; i < 10000 ; i++ ){
 
 
-        Conta** contas = new Conta*[100000];
+        Conta** contas = new Conta*[1000];
 
 
           std::chrono::steady_clock::time_point first_ = std::chrono::steady_clock::now();
@@ -245,7 +245,8 @@ int main( void )
 //    delete b;
 
     sl.storageView();
-    ocupacao_memoria();
+    desempenho_sistemas();
+    //ocupacao_memoria();
 
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
     ///  ------------------------------------------------  ////
