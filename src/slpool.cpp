@@ -53,20 +53,15 @@ void* SLPool::Allocate(size_t size)
             last->m_next = next_curr;
 
             // Retorna o bloco liberado da lista.
-            return curr;
+            return curr->m_raw;
         }
 
         else if( curr->m_lenght > blocks_required ){
 
-            // Obtem o resto do bloco que não foi utilizado.
             auto curr_2(curr+blocks_required);
-            curr_2->m_next = curr->m_next;
 
-            // Cria o novo bloco
             Block* new_block = curr_2;
-            // O novo bloco será o tamanho total do bloco menos o quanto foi retirado dele.
             new_block->m_lenght = curr->m_lenght - blocks_required;
-            // O next do bloco será o mesmo next do current.
             new_block->m_next = curr->m_next;
 
             curr->m_lenght = blocks_required;
@@ -74,9 +69,9 @@ void* SLPool::Allocate(size_t size)
             // Desconecta o bloco anterior e conecta com o novo.
             last->m_next = new_block;
 
-            curr->m_next = nullptr;
+            // Desconecta o bloco anterior e conecta com o novo.
 
-            return curr;
+            return curr->m_raw;
 
         } else{
                 last = curr;

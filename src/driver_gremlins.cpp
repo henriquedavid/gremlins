@@ -117,12 +117,12 @@ void ocupacao_memoria()
   std::cout << "- Antes -\n";
   sl.storageView();                     // V
   data_type* a = new(sl) data_type;
-  data_type* b = new(sl) data_type;
-  data_type* c = new(sl) data_type;
+//  data_type* b = new(sl) data_type;
+//  data_type* c = new(sl) data_type;
 //  delete a;
   std::cout << "- Depois -\n";          // A
   sl.storageView();
-
+/*
   // Esperado:
   // [-##-]
 
@@ -218,7 +218,7 @@ void ocupacao_memoria()
   // Esperado:
   // [----]
 
-
+*/
 }
 
 int main( void )
@@ -245,7 +245,7 @@ int main( void )
 //    delete b;
 
     sl.storageView();
-    ocupacao_memoria();
+//    ocupacao_memoria();
 
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
     ///  ------------------------------------------------  ////
