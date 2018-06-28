@@ -22,13 +22,17 @@ SLPool::SLPool(size_t size)
 /// Destrutor da SLPool (Gerenciador de Memória).
 SLPool::~SLPool()
 {
-    delete [] m_pool;
-    //delete [] m_sentinel;
+
+    //delete [] m_pool;
 }
 
 /// Realiza a alocação de memória.
 void* SLPool::Allocate(size_t size)
 {
+
+    // FIRST-FIT
+
+    #ifndef FIRSTFIT
 
     // Quantidade de blocos necessários.
     unsigned int blocks_required = std::ceil((size+sizeof(Header)) / Block::BlockSize);
@@ -65,13 +69,76 @@ void* SLPool::Allocate(size_t size)
             last->m_next = new_block;
 
             return curr;
+
         } else{
                 last = curr;
                 curr = curr->m_next;
         }
-        
-        
     }
+    throw std::bad_alloc();
+
+    #endif
+
+    #ifdef BESTFIT
+
+    // Quantidade de blocos necessários.
+    unsigned int blocks_required = std::ceil((size+sizeof(Header)) / Block::BlockSize);
+
+    // O próximo bloco.
+    auto curr(m_sentinel->m_next);
+    // O bloco atual.
+    auto last(m_sentinel);
+
+    // Enquanto haver espaço procure.
+    while( m_sentinel != nullptr ){
+
+        // Caso em que o bloco é exatamente igual ao necessário.
+        if( curr->m_lenght == blocks_required ){
+
+            // Desconecta o bloco da região.
+            auto next_curr(curr->m_next);
+            last->m_next = next_curr;
+
+            // Retorna o bloco liberado da lista.
+            return curr;
+        }
+
+        else if( curr->m_lenght > blocks_required ){
+
+            auto proc_menor(curr->next);
+            auto proc_atual(curr);
+
+
+            while(proc_atual != nullptr){
+
+                if(curr->m_lenght < proc_atual->m_lenght && proc_menor->m_lenght < proc_atual->m_lenght)
+                    proc_menor = proc_atual;
+
+                proc_atual = proc_atual->m_next;
+            }
+
+            curr = proc_menor;
+
+            auto curr_2(curr+(curr->m_lenght));    // 1U significa para não haver a perda de 1 byte.
+            
+            Block* new_block = curr_2;
+            new_block->m_lenght = curr->m_lenght - blocks_required;
+
+            curr->m_lenght = blocks_required;
+
+            // Desconecta o bloco anterior e conecta com o novo.
+            last->m_next = new_block;
+
+            return curr;
+
+        } else{
+                last = curr;
+                curr = curr->m_next;
+        }
+    }
+    throw std::bad_alloc();
+
+    #endif
     throw std::bad_alloc();
 }
 void SLPool::Free( void * pointer ) 
