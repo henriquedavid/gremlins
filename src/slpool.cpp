@@ -23,7 +23,7 @@ SLPool::SLPool(size_t size)
 SLPool::~SLPool()
 {
 
-    //delete [] m_pool;
+    delete [] m_pool;
 }
 
 /// Realiza a alocação de memória.
@@ -58,10 +58,11 @@ void* SLPool::Allocate(size_t size)
 
         else if( curr->m_lenght > blocks_required ){
 
-            auto curr_2(curr+(curr->m_lenght));    // 1U significa para não haver a perda de 1 byte.
+            auto curr_2(curr+(curr->m_lenght));
             
             Block* new_block = curr_2;
             new_block->m_lenght = curr->m_lenght - blocks_required;
+            new_block->m_next = curr->m_next;
 
             curr->m_lenght = blocks_required;
 
@@ -160,4 +161,47 @@ void SLPool::Free( void * pointer )
     ptPrev->m_next = pt;
     // Se não tiver área livre, o sentinela (ptprev) irá apontar para o bloco liberado
     // e o bloco liberado iá apontar para nullptr
-}
+}/*
+
+void SLPool::Free( void * pointer ){
+
+    auto ptReserved = reinterpret_cast<Block*>(pointer);
+
+    auto ptPrevReserved(m_sentinel);
+    auto ptPosReserved(m_sentinel);
+
+    while(ptPosReserved != nullptr ){ // || ptPosReserved > ptReserved){
+        ptPrevReserved = ptPosReserved;
+        ptPosReserved = ptPosReserved->m_next;
+    }
+
+    std::cout << "TESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE\n";
+
+    ptPrevReserved->m_next = ptReserved;
+    ptReserved->m_next = ptPosReserved;
+
+    // Anterior e Posterior são livres.
+    if(ptReserved-(ptPrevReserved->m_lenght) == ptPrevReserved && ptReserved+(ptReserved->m_lenght) == ptPosReserved){
+
+        ptPrevReserved->m_lenght += ptReserved->m_lenght + ptPosReserved->m_lenght;
+        ptReserved = nullptr;
+        ptPosReserved = nullptr;
+
+    }
+    // Anterior e Posterior são reservadas.
+    else if(ptReserved-(ptPrevReserved->m_lenght) != ptPrevReserved && ptReserved+(ptReserved->m_lenght) != ptPosReserved){
+        // Não faz nada pois já está adicionada.
+    }
+    // Anterior é reservada e posterior é livre.
+    else if(ptReserved-(ptPrevReserved->m_lenght) != ptPrevReserved && ptReserved+(ptReserved->m_lenght) == ptPosReserved){
+        ptReserved->m_lenght += ptPosReserved->m_lenght;
+        ptPosReserved = nullptr;
+    }
+    // Anterior é livre e posterior é reservada.
+    else{
+        ptPrevReserved->m_lenght += ptReserved->m_lenght;
+        ptReserved = nullptr;
+    }
+
+
+}*/
