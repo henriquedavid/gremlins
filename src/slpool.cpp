@@ -17,364 +17,81 @@ SLPool::SLPool(size_t size)
     // Sentinela aponta para o primeiro bloco
     m_sentinel->m_next = m_pool;
     m_sentinel->m_lenght = 0;
-    // Coloca o primeiro bloco na lista de áreas livres
-    m_free_area.insert(m_pool);
 }
 
 /// Destrutor da SLPool (Gerenciador de Memória).
 SLPool::~SLPool()
 {
     delete [] m_pool;
-    m_free_area.clear();
+    //delete [] m_sentinel;
 }
 
 /// Realiza a alocação de memória.
 void* SLPool::Allocate(size_t size)
 {
 
-    // Iteradores
-    auto curr(m_free_area.begin());
-    auto end(m_free_area.cend());
-    // Calcula os blocos necessários para guardar o header e o ponteiro do usuário
-    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / Block::BlockSize);
-    // Procura a primeira área livre com tamanho suficiente
-    while(curr != end)
-    {
-        // FIRST-FIT
-        if((*curr)->m_lenght == blocks_required){
-            Block * new_block = *curr;
-            m_free_area.erase(curr);   
-            m_sentinel->m_next = *m_free_area.begin();
-            return new_block->m_raw;
+    // Quantidade de blocos necessários.
+    unsigned int blocks_required = std::ceil((size+sizeof(Header)) / Block::BlockSize);
+
+    // O próximo bloco.
+    auto curr(m_sentinel->m_next);
+    // O bloco atual.
+    auto last(m_sentinel);
+
+    // Enquanto haver espaço procure.
+    while( m_sentinel != nullptr ){
+
+        // Caso em que o bloco é exatamente igual ao necessário.
+        if( curr->m_lenght == blocks_required ){
+
+            // Desconecta o bloco da região.
+            auto next_curr(curr->m_next);
+            last->m_next = next_curr;
+
+            // Retorna o bloco liberado da lista.
+            return curr;
         }
-        else if((*curr)->m_lenght > blocks_required)
-        {
-            // Endereço onde será colocado o conteúdo
-            Block* new_block = *curr;
-            // Tamanho da aréa antes da alocação
-            auto old_lenght = new_block->m_lenght;
-            // Atribui o novo tamanho da área
-            new_block->m_lenght = blocks_required;
-            // Verifica se o cliente não ocupou o tamanho da área livre
-            if(blocks_required != old_lenght)
-            {
-                // Nova área livre criada
-                Block* new_block_after = new_block + blocks_required;
-                // Tamanho da área livre criada
-                new_block_after->m_lenght = old_lenght - blocks_required;
-                // O next do novo bloco é o mesmo do bloco antigo
-                new_block_after->m_next = new_block->m_next;
-                // Reseta endereço do next antigo
-                new_block->m_next = nullptr;
-                // Remove a área antiga do container ordenado
-                m_free_area.erase(curr);
-                //  Insere no container ordenado
-                auto it = m_free_area.insert(new_block_after).first;
-                auto it_after = it;
-                ++it_after;
-                if(it != m_free_area.begin())
-                {
-                    auto it_before = it;
-                    --it_before;
-                    (*it_before)->m_next = new_block_after;
-                }
-                else
-                {
-                    m_sentinel->m_next = new_block_after;
-                }
-                if(it_after != m_free_area.end())
-                {
-                    new_block_after->m_next = *it_after;
-                }
-                else
-                {
-                    new_block_after->m_next = nullptr;
-                }
-            }
-            return new_block->m_raw;
-        }
-        ++curr;
-    }
-    throw std::bad_alloc();
 
-}
-/*
-void SLPool::Free(void * pointer)
-{
+        else if( curr->m_lenght > blocks_required ){
 
-    // Recupera o bloco com o tamanho
-    auto block = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
+            auto curr_2(curr+(curr->m_lenght) + 1U);    // 1U significa para não haver a perda de 1 byte.
+            
+            Block* new_block = curr_2;
+            new_block->m_lenght = curr->m_lenght - blocks_required - 1U;
 
-    auto ptPostReserved = m_free_area.upper_bound(block);
+            curr->m_lenght = blocks_required;
 
-    // Caso especial da lista de áreas vazia
-    if(m_free_area.empty())
-    {
-        block->m_next = nullptr;
-        m_free_area.insert(block);
-        m_sentinel->m_next = block;
-        return;
-    }
-    // Verifica a área precede uma área livre
-    if(ptPostReserved != m_free_area.end())
-    {
-        // Caso 1: Juntar as áreas
-        if(*ptPostReserved == block + block->m_lenght)
-        {
-            // Tamanho: Muda novo
-            block->m_lenght += (*ptPostReserved)->m_lenght;
-            // Next: Muda do novo
-            block->m_next = (*ptPostReserved)->m_next;
-            // Mudança no endereço da área livre: remove o antigo e insere o novo
-            ptPostReserved = m_free_area.erase(ptPostReserved);
-            m_free_area.insert(block);
-        }
-        // Caso 2: Encadear os blocos
-        else
-        {
-            // Tamanho: Permanece
-            // Next: Muda
-            block->m_next = (*ptPostReserved);
-            // Encadeamento insere sempre na lista ordenada
-            m_free_area.insert(block);
-        }
-    }
-    else
-    {
-        block->m_next = nullptr;
-    }
+            // Desconecta o bloco anterior e conecta com o novo.
+            last->m_next = new_block;
 
-    if(m_free_area.empty())
-    {
-        m_sentinel->m_next = block;
-        m_free_area.insert(block);
-        return;
-    }
-    auto ptPrevReserved = ptPostReserved;
-    --ptPrevReserved;
-    // Verifica se o endereço anterior ao upper_bound não é maior que o do bloco
-    // Caso isso aconteça, não existe bloco anterior
-    if(*ptPrevReserved < block)
-    {
-        std::cout << "\n------------------------- Entrou\n";
-        // Caso 1: Juntar os blocos
-        if(block == block + block->m_lenght)
-        {
-            // Tamanho: Muda anterior
-            (*ptPrevReserved)->m_lenght += block->m_lenght;
-            // Next: Muda o next
-            (*ptPrevReserved)->m_next = block;
-        }
-        // Caso 2: Encadear os blocos
-        else
-        {
-            // Tamanho: Permanece anterior
-            // Next: Muda
-            block->m_next = nullptr;
-            (*ptPrevReserved)->m_next = block;
-            // Encadeamento insere sempre na lista ordenada
-            m_free_area.insert(block);
-        }
-    }
-    // Se não há àrea anterior, inseri o bloco na lista
-    else
-    {
-        m_sentinel->m_next = block;
-        m_free_area.insert(block);
-    }
-    //std::cout << "Free Finalizado\n";
-}*/
-
-/// Realiza a liberação da memória.
-void SLPool::Free(void * pointer)
-{
-
-    // Recupera o bloco com o tamanho
-    auto block = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
-
-    // Caso especial da lista de áreas vazia
-    if(m_free_area.empty())
-    {
-        block->m_next = nullptr;
-        m_free_area.insert(block);
-        m_sentinel->m_next = block;
-        return;
-    }
-
-    // iteradores de áreas
-    auto ptPostReserved = m_free_area.upper_bound(block);
-    auto ptPrevReserved = ptPostReserved;
-
-
-    // --- Área livre predecessora ---
-    // Verifica se existe área livre predecessora
-    if(ptPostReserved != m_free_area.begin())
-    {
-        --ptPrevReserved;
-        // Caso 1: Juntar os blocos
-        if(*ptPrevReserved + (*ptPrevReserved)->m_lenght  == block)
-        {
-            // Tamanho: muda do bloco predecessor
-            (*ptPrevReserved)->m_lenght += block->m_lenght;
-            // Next: permanece do bloco predecessor
-            // Inserir àrea: não
-            // Muda o block para ser o começo da área livre
-            block = *ptPrevReserved;
-        }
-        // Caso 2: Encadear os blocos
-        else
-        {
-            // Tamanho: Permanece o mesmo no dois blocos
-            // Next: muda o do predecessor e do bloco
-            block->m_next = (*ptPrevReserved)->m_next;
-            (*ptPrevReserved)->m_next = block;
-            // Inserir àrea: sim
-            m_free_area.insert(block);
-        }
-    }
-    // Se não existe, muda o sentinela
-    else
-    {
-        block->m_next = m_sentinel->m_next;
-        m_sentinel->m_next = block;
-        m_free_area.insert(block);
-    }
-
-    // --- Área livre sucessora ---
-    // Verifica o bloco precede uma área livre
-    if(ptPostReserved != m_free_area.end())
-    {
-        // Caso 1: Juntar as áreas
-        if(*ptPostReserved == block + block->m_lenght)
-        {
-            // Tamanho: Muda do bloco
-            block->m_lenght += (*ptPostReserved)->m_lenght;
-            // Next: Muda do bloco
-            block->m_next = (*ptPostReserved)->m_next;
-            // Mudança no endereço da área livre: remove o antigo e insere o novo
-            m_free_area.erase(ptPostReserved);
-            m_free_area.insert(block);
-        }
-        // Caso 2: Encadear os blocos
-        else
-        {
-            // Tamanho: Permanece o mesmo na área e no bloco
-            // Next: Muda do bloco
-            block->m_next = (*ptPostReserved);
-            // Inserir na lista: sim
-            m_free_area.insert(block);
-        }
-    }
-    else
-    {
-        block->m_next = nullptr;
-    }
-
-}
-
-/// Imprime uma visualização do mapa de memória.
-void SLPool::print_memory_pool() const
-{
-    /* Notação:
-     * *    = Bloco reservado
-     * -    = Bloco livre;
-     * []   = Área
-     * N    = Indice da área na pool
-     */
-
-    auto current_ptr_block = m_pool;
-    auto current_free_area = m_free_area.begin();
-    std::cout << "Estado do memory pool: ";
-
-    // Para cada block que compoem o pool, faremos:
-    while(false)
-    {
-        // Quantidades de blocos da área
-        auto lenght = current_ptr_block->m_lenght;
-        // O bloco atual compoem uma área livre
-        if(current_ptr_block == *current_free_area)
-        {
-            std::cout << '[' << std::setw(lenght) << std::setfill('-') << ']';
-            ++current_free_area;
-        }
-        // O bloco atual compoem uma área reservada
-        else
-        {
-            std::cout << '[' << std::setw(lenght) << std::setfill('-') << ']';
-        }
-        current_ptr_block += lenght;
-    }
-    // Imprime as informações do blocos
-    std::cout << "\nInformação do sentinela: next = " << m_sentinel->m_next;
-
-    std::cout << "\nInformações das áreas livres: \n";
-    current_ptr_block = m_sentinel->m_next;
-    while(current_ptr_block != nullptr)
-    {
-        std::cout   << "{\n  Tamanho: " << (current_ptr_block)->m_lenght         \
-                    << "\n  Endereço: " << (current_ptr_block)                   \
-                    << "\n  Next:     " << (current_ptr_block)->m_next << "\n}\n";
-        current_ptr_block = current_ptr_block->m_next;
-    }
-
-    // Imprimi os bytes armazenados nos blocos ocupados
-    current_ptr_block = m_pool;
-    current_free_area = m_free_area.begin();
-    uint block_count = 0;
-
-    std::cout << "\nMapa de bytes: \n" << std::hex << std::setfill('0');
-    while(current_ptr_block != m_sentinel)
-    {
-        // Imprimi área livre
-        if(current_ptr_block == *current_free_area)
-        {
-            auto lenght = current_ptr_block->m_lenght;
-            for(uint c = 0; c < lenght; c++, block_count++)
-            {
-                std::cout << "Bloco " << block_count << ": Não usado.\n";
-            }
-            ++current_free_area;
-            current_ptr_block += lenght;
-        }
-        // Imprimi informação do bloco
-        else
-        {
-            auto size = Block::BlockSize - sizeof(Header);
-            auto ptr = reinterpret_cast<unsigned char*>(current_ptr_block->m_raw);
-            std::cout << "Bloco " << block_count << " - bytes: [ ";
-            for(uint c = 0; c < size; c++, ptr++)
-            {
-                std::cout << "0x" << std::setw(2) << std::setfill('0') << *ptr + 0 << ' ';
-            }
-            std::cout << "]\n";
-            block_count++;
-            current_ptr_block++;
-        }
-    }
-    std::cout << std::dec;
-
-}
-
-/// Imprime visualização de memória de forma a mostrar os blocos ocupados.
-void SLPool::storageView() const{
-
-    auto curr(m_pool);
-    auto curr_free(m_free_area.begin());
-
-    std::cout << "[";
-    while(curr != m_sentinel){
-
-        if( curr == *curr_free ){
-            std::cout << std::setw(curr->m_lenght) << std::setfill('-') << "";
-            curr += curr->m_lenght;
-            curr_free++;
+            return curr;
         } else{
-            std::cout << "#";
-            curr++;
+                last = curr;
+                curr = curr->m_next;
         }
-
+        
     }
 
-    std::cout << "]\n";
+    throw std::bad_alloc();
+}
 
+void SLPool::Free( void * pointer )
+{
+    auto pt = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
+    // Iteradores
+    auto ptPrev = m_sentinel;
+    auto ptMiddle = m_sentinel->m_next;
+    // Objetivo procurar a área antes do bloco
+
+    // Enquanto o atual for menor prossiga
+    while(ptMiddle < pt)
+    {
+        ptPrev = ptMiddle;
+        ptMiddle = ptMiddle->m_next;
+    }
+    // Nesse ponto, pt prev aponta para área anterior ou sentinel, entaõ seta o next
+    pt->m_next = ptPrev->m_next;
+    ptPrev->m_next = pt;
+    // Se não tiver área livre, o sentinela (ptprev) irá apontar para o bloco liberado
+    // e o bloco liberado iá apontar para nullptr
 }

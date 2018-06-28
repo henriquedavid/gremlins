@@ -1,4 +1,4 @@
-#include "storagepooltest.h"
+//#include "storagepooltest.h"
 #include "StoragePool.h"
 #include <random>
 #include <queue>
@@ -56,7 +56,7 @@ std::time_t getRandomTimeInterval(){
     return dis(gen);
 }
 
-void StoragePoolTest( StoragePool& _pool, std::time_t _timeLimit )
+void StoragePoolTest( StoragePool & _pool, std::time_t _timeLimit )
 {
 
     // Create the pirority queue std::priority_queue ‘pq’ and insert some events comprising the simulation.
@@ -87,10 +87,14 @@ void StoragePoolTest( StoragePool& _pool, std::time_t _timeLimit )
     
 
         auto memSize = getRandomForSize();
+        
+        std::cout << memSize << std::endl;
+        
 
-        bytes* const add = reinterpret_cast<bytes*>(_pool.Allocate( memSize ));  
+        bytes* const add = reinterpret_cast<bytes*>(_pool.Allocate( memSize ));  /// Está dando erro aqui.
 
         auto elapsedTime = getRandomTimeInterval();
+
 
         // Set time stamp some time from now.
         std::time_t releaseTime = t + elapsedTime;

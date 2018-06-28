@@ -3,11 +3,9 @@
 
 #include <new>      // std::bad_alloc()
 #include <cmath>    // std::ceil()
-#include <set>      // std::set
 #include <iomanip>  // std::setw(), std::setfill()
 
 #include "StoragePool.h"
-#include "set.h"
 
 class SLPool : public StoragePool
 {
@@ -50,11 +48,6 @@ private:
         Block() : m_next( nullptr ) { /* Empty */}
     };
 
-    // Apelidos para tipos definidos
-    using set_ = set<Block*>;
-
-    // Membros da classe
-    set_ m_free_area;
     Block* m_sentinel;
     Block* m_pool;
 

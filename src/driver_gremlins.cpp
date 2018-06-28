@@ -6,76 +6,83 @@
 //#include "../include/set.h"
 #include "slpool.h"
 #include "mempool_common.h"
-#include "storagepooltest.h"
+#include "storagepooltest_exec.h"
+
+/*
+class Conta
+{
+    int id;
+    int agencia;
+    unsigned int saldo;
+};*/
+
 
         /***************************************
          * --- Teste do gerenciador SLPool --- *
          * *************************************/
 
+/*
+/// Teste básico para realizar o teste de forma a verificar como está sendo a ocupação de memória.
 void ocupacao_memoria(SLPool & sl);
 
-void desempenho_sistemas(SLPool & sl){
+
+/// Testar o desempenh de forma a comparar o SLPool com o do Sistema Operacional criando contas de banco.
+void desempenho_sistemas(void){
 
     std::cout << "#################     COMPARAÇÃO DO SLPOOL COM O DO SO    #################\n\n";
     
     std::vector<double> sl_;
     std::vector<double> sys;
-    
-    //SLPool sl(124);
 
-    for( auto i(0) ; i < 1000 ; i++ ){
+
+    SLPool sl(160000);
+
+    for( auto i(0) ; i < 10000 ; i++ ){
+
+
+        Conta** contas = new Conta*[100000];
 
         std::chrono::steady_clock::time_point first_sl = std::chrono::steady_clock::now();
 
-        int* a = new(sl) int;
-        int* b = new(sl) int;
-        int* c = new(sl) int;
-        int* d = new(sl) int;
-        int* e = new(sl) int;
-        int* f = new(sl) int;
-        int* g = new(sl) int;
-        int* h = new(sl) int;
+        for(auto j(0) ; j < 100 ; j++ )
+        {
+            contas[j] = new(sl) Conta;
+        }
 
-        delete a;
-        delete b;
-        delete c;
-        delete d;
-        delete e;
-        delete f;
-        delete g;
-        delete h;
-
+        for(auto j(0); j < 100; j++ )
+        {
+            delete contas[j];
+        }
         std::chrono::steady_clock::time_point end_sl = std::chrono::steady_clock::now();
+
+
+        delete contas;
+
         double durat_sl = std::chrono::duration_cast<std::chrono::nanoseconds>( end_sl - first_sl ).count();
 
         sl_.push_back(durat_sl);
 
     }
 
-    for( auto i(0) ; i < 1000 ; i++ ){
+    for( auto i(0) ; i < 10000 ; i++ ){
 
 
-        std::chrono::steady_clock::time_point first_ = std::chrono::steady_clock::now();
+        Conta** contas = new Conta*[100000];
 
-        int* a_ = new int;
-        int* b_ = new int;
-        int* c_ = new int;
-        int* d_ = new int;
-        int* e_ = new int;
-        int* f_ = new int;
-        int* g_ = new int;
-        int* h_ = new int;
 
-        delete a_;
-        delete b_;
-        delete c_;
-        delete d_;
-        delete e_;
-        delete f_;
-        delete g_;
-        delete h_;
+          std::chrono::steady_clock::time_point first_ = std::chrono::steady_clock::now();
+        for(auto j(0) ; j < 100 ; j++ )
+        {
+            contas[j] = new Conta();
+        }
+
+        for(auto j(0) ; j < 100 ; j++ )
+        {
+            delete contas[j];
+        }
 
         std::chrono::steady_clock::time_point end_ = std::chrono::steady_clock::now();
+
         double durat_ = std::chrono::duration_cast<std::chrono::nanoseconds>( end_ - first_ ).count();
 
         sys.push_back(durat_);
@@ -156,8 +163,7 @@ void ocupacao_memoria(SLPool & sl){
     delete f;
     sl.storageView();   
 }
-
-int main( void )
+*/int main( void )
 {
 
     /// --- USO DO GERENCIADOR DE MEMÓRIA PELO CLIENTE --- ////
@@ -178,7 +184,7 @@ int main( void )
 
     std::cout << "Saída: " << *b << std::endl;
 
-    //delete b;
+    delete b;
 
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
     ///  ------------------------------------------------  ////
@@ -187,23 +193,25 @@ int main( void )
     /// | padrão utilizado pelo sistema operacional.     | ////
     ///  ------------------------------------------------  ////
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
-
+/*
     
     std::cout << "------> Código para testar o desempenho de SLPool, de maneira a comparar com o SO. (Critério 7)\n";
 
-    SLPool sl_2(200);
-    desempenho_sistemas(sl_2);
+    //desempenho_sistemas();
 
     std::cout << "#################     OCUPAÇÃO DA MEMÓRIA    #################\n";
     
-    std::cout << "------> Código de visualização do mapa de memória do SLPool para fins de depuração. (Critério 8)\n";
+    std::cout << "------> Código de visualização do mapa de memória do SLPool para fins de depuração. (Critério 8)\n";*/
     /*
         Os métodos da SLPool:
                 storageView(); e
                 print_memory_pool() servem para visualizar a memória.
     */
 
-    ocupacao_memoria(sl_2);
+    //SLPool sl_2(200);
+    //ocupacao_memoria(sl_2);
+
+    //StoragePoolTest( sl_2, 1);
 
 	return 0;
 }
