@@ -101,60 +101,31 @@ void desempenho_sistemas(SLPool & sl){
 void ocupacao_memoria(SLPool & sl){
 
 
+    // Teste de alocação e liberação
+
+    // Caso 1: Liberar no final
+
+    std::cout << " ------------------ Liberação no final ------------------\n";
+
     int* a = new(sl) int;
-    *a = 1000;
     sl.storageView();
 
     int* b = new(sl) int;
-    *b = 10;
     sl.storageView();
 
     int* c = new(sl) int;
-    *c = 2156;
     sl.storageView();
 
-    int* d = new(sl) int;
-    *d = 8552;
-    sl.storageView();
-
-    int* e = new(sl) int;
-    *e = 321531;
-    sl.storageView();
-
-    int* f = new(sl) int;
-    *f = 1000;
-    sl.storageView();
-
-    int* g = new(sl) int;
-    *g = 56461123;
-    sl.storageView();
-
-    int* h = new(sl) int;
-    *h = 4162111;
-    sl.storageView();
-
-    delete a;
-    delete b;
     delete c;
-    sl.print_memory_pool();
-    sl.storageView(); 
 
-    delete d;
-    delete e;
-    delete g;
-    delete h;
-
-    sl.storageView();
+    std::cout << " ------------------ Liberação no inicio ------------------\n";
 
 
-    int* i = new(sl) int;
-    *i = 2111;
-    sl.print_memory_pool();
 
-    sl.storageView();
+    std::cout << " ------------------ Liberação no meio ------------------\n";
 
-    delete f;
-    sl.storageView();   
+
+
 }
 
 int main( void )
@@ -191,8 +162,8 @@ int main( void )
     
     std::cout << "------> Código para testar o desempenho de SLPool, de maneira a comparar com o SO. (Critério 7)\n";
 
-    SLPool sl_2(200);
-    desempenho_sistemas(sl_2);
+    SLPool sl_2(1080);
+//    desempenho_sistemas(sl_2);
 
     std::cout << "#################     OCUPAÇÃO DA MEMÓRIA    #################\n";
     

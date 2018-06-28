@@ -43,7 +43,7 @@ void* SLPool::Allocate(size_t size)
         // FIRST-FIT
         if((*curr)->m_lenght == blocks_required){
             Block * new_block = *curr;
-            m_free_area.erase(curr);   
+            m_free_area.erase(curr);
             m_sentinel->m_next = *m_free_area.begin();
             return new_block->m_raw;
         }
@@ -98,92 +98,6 @@ void* SLPool::Allocate(size_t size)
     throw std::bad_alloc();
 
 }
-/*
-void SLPool::Free(void * pointer)
-{
-
-    // Recupera o bloco com o tamanho
-    auto block = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
-
-    auto ptPostReserved = m_free_area.upper_bound(block);
-
-    // Caso especial da lista de áreas vazia
-    if(m_free_area.empty())
-    {
-        block->m_next = nullptr;
-        m_free_area.insert(block);
-        m_sentinel->m_next = block;
-        return;
-    }
-    // Verifica a área precede uma área livre
-    if(ptPostReserved != m_free_area.end())
-    {
-        // Caso 1: Juntar as áreas
-        if(*ptPostReserved == block + block->m_lenght)
-        {
-            // Tamanho: Muda novo
-            block->m_lenght += (*ptPostReserved)->m_lenght;
-            // Next: Muda do novo
-            block->m_next = (*ptPostReserved)->m_next;
-            // Mudança no endereço da área livre: remove o antigo e insere o novo
-            ptPostReserved = m_free_area.erase(ptPostReserved);
-            m_free_area.insert(block);
-        }
-        // Caso 2: Encadear os blocos
-        else
-        {
-            // Tamanho: Permanece
-            // Next: Muda
-            block->m_next = (*ptPostReserved);
-            // Encadeamento insere sempre na lista ordenada
-            m_free_area.insert(block);
-        }
-    }
-    else
-    {
-        block->m_next = nullptr;
-    }
-
-    if(m_free_area.empty())
-    {
-        m_sentinel->m_next = block;
-        m_free_area.insert(block);
-        return;
-    }
-    auto ptPrevReserved = ptPostReserved;
-    --ptPrevReserved;
-    // Verifica se o endereço anterior ao upper_bound não é maior que o do bloco
-    // Caso isso aconteça, não existe bloco anterior
-    if(*ptPrevReserved < block)
-    {
-        std::cout << "\n------------------------- Entrou\n";
-        // Caso 1: Juntar os blocos
-        if(block == block + block->m_lenght)
-        {
-            // Tamanho: Muda anterior
-            (*ptPrevReserved)->m_lenght += block->m_lenght;
-            // Next: Muda o next
-            (*ptPrevReserved)->m_next = block;
-        }
-        // Caso 2: Encadear os blocos
-        else
-        {
-            // Tamanho: Permanece anterior
-            // Next: Muda
-            block->m_next = nullptr;
-            (*ptPrevReserved)->m_next = block;
-            // Encadeamento insere sempre na lista ordenada
-            m_free_area.insert(block);
-        }
-    }
-    // Se não há àrea anterior, inseri o bloco na lista
-    else
-    {
-        m_sentinel->m_next = block;
-        m_free_area.insert(block);
-    }
-    //std::cout << "Free Finalizado\n";
-}*/
 
 /// Realiza a liberação da memória.
 void SLPool::Free(void * pointer)
@@ -356,7 +270,8 @@ void SLPool::print_memory_pool() const
 }
 
 /// Imprime visualização de memória de forma a mostrar os blocos ocupados.
-void SLPool::storageView() const{
+void SLPool::storageView() const
+{
 
     auto curr(m_pool);
     auto curr_free(m_free_area.begin());
