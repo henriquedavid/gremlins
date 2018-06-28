@@ -236,6 +236,7 @@ void SLPool::storageView(){
 
     while( current != nullptr ){
         std::cout << "Tamanho: " << current->m_lenght << " | Endereço: "<< current << " | Next: " << (current->m_next) << std::endl;
+        curr = curr->next;
     }
 
     std::cout << "Visualização gráfica:\n";
@@ -272,6 +273,7 @@ bool SLPool::verificaLivre( Block * block_ ){
     while(curr != nullptr){
         if(curr == block_)
             return true;
+        curr = curr->next;
     }
 
     return false;
