@@ -103,11 +103,11 @@ void desempenho_sistemas(void){
     std::cout << "Média de Tempo de Criação Usando SO:       " << slpool_system << " nanosegundos.\n\n" << std::endl;
 
 }
-
+*/
 void ocupacao_memoria()
 {
 
-  SLPool sl = new SLPool(60); // ( 60 + 4 ) / 16 =  4 blocos (+ sentinela)
+  SLPool sl(60); // ( 60 + 4 ) / 16 =  4 blocos (+ sentinela)
   using data_type = int*;
 
   // Esperado:
@@ -219,7 +219,7 @@ void ocupacao_memoria()
   // [----]
 
 }
-*/int main( void )
+int main( void )
 {
 
     /// --- USO DO GERENCIADOR DE MEMÓRIA PELO CLIENTE --- ////

@@ -147,21 +147,44 @@ void SLPool::Free( void * pointer )
     auto pt = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
     // Iteradores
     auto ptPrev = m_sentinel;
-    auto ptMiddle = m_sentinel->m_next;
+    auto ptPost = m_sentinel->m_next;
     // Objetivo procurar a área antes do bloco
 
     // Enquanto o atual for menor prossiga
-    while(ptMiddle < pt)
+    while(ptPost < pt)
     {
-        ptPrev = ptMiddle;
-        ptMiddle = ptMiddle->m_next;
+        ptPrev = ptPost;
+        ptPost = ptPost->m_next;
     }
-    // Nesse ponto, pt prev aponta para área anterior ou sentinel, entaõ seta o next
-    pt->m_next = ptPrev->m_next;
-    ptPrev->m_next = pt;
-    // Se não tiver área livre, o sentinela (ptprev) irá apontar para o bloco liberado
-    // e o bloco liberado iá apontar para nullptr
-}/*
+    // Caso 1: Área livre predessessora
+    // Imediatamente antes
+    if(ptPrev + ptPrev->m_lenght == pt)
+    {
+            ptPrev->m_lenght += pt->m_lenght;
+            // O next que fica é do de prev
+            pt = ptPrev;
+    }
+    // Encadeia com prev
+    else
+    {
+        pt->m_next = ptPost;
+        ptPrev->m_next = pt;
+    }
+    // Caso 2: Área livre sucessora
+    // Imediatamente depois
+    if(pt + pt->m_lenght == ptPost)
+    {
+        // next quer permance eh o do pt
+        pt->m_next = ptPost->m_next;
+    }
+    // Encadeado
+    else
+    {
+        pt->m_next = ptPost;
+    }
+
+}
+/*
 
 void SLPool::Free( void * pointer ){
 
