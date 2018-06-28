@@ -105,63 +105,120 @@ void desempenho_sistemas(void){
 
 }
 
-void ocupacao_memoria(SLPool & sl){
+void ocupacao_memoria()
+{
+
+  SLPool sl = new SLPool(60); // ( 60 + 4 ) / 16 =  4 blocos (+ sentinela)
+  using data_type = int*;
+
+  // Esperado:
+  // [---- ---- ---- ----]
+
+  std::cout << " --- Caso 1: Free no inicio ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  data_type* a = new(sl) data_type;
+  data_type* b = new(sl) data_type;
+  data_type* c = new(sl) data_type;
+  delete a;
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
+
+  // Esperado:
+  // [-##-]
+
+  std::cout << " --- Caso 2: Free com área livre anterior adjante e área livre posterior ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  delete b;
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
+
+  // Esperado:
+  // [--#-]
+
+  std::cout << " --- Caso 3: Free sem área livre anterior e sem área livre posterior ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  a = new(sl) data_type;
+  b = new(sl) data_type;
+  delete b;
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
 
 
-    int* a = new(sl) int;
-    *a = 1000;
-    sl.storageView();
+  // Esperado:
+  // [#-#-]
 
-    int* b = new(sl) int;
-    *b = 10;
-    sl.storageView();
+  std::cout << " --- Caso 4: Free com área livre anterior adjante e área livre posterior adjacente ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  delete c;
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
 
-    int* c = new(sl) int;
-    *c = 2156;
-    sl.storageView();
+  // Esperado:
+  // [#---]
 
-    int* d = new(sl) int;
-    *d = 8552;
-    sl.storageView();
+  std::cout << " --- Caso 5: Free com área livre posterior e anterior:  ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  b = new(sl) data_type;
+  c = new(sl) data_type;
+  data_type* d = new(sl) data_type;
+  delete a;
+  delete c;
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
 
-    int* e = new(sl) int;
-    *e = 321531;
-    sl.storageView();
+  // Esperado:
+  // [-#-#]
 
-    int* f = new(sl) int;
-    *f = 1000;
-    sl.storageView();
+  std::cout << " --- Caso 6: Free n primeira posição com mémoria cheia ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  a = new(sl) data_type;
+  c = new(sl) data_type;
+  delete a;
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
 
-    int* g = new(sl) int;
-    *g = 56461123;
-    sl.storageView();
+  // Esperado:
+  // [-###]
 
-    int* h = new(sl) int;
-    *h = 4162111;
-    sl.storageView();
+  std::cout << " --- Caso 7: Bad Alloc - lista cheia ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();
+  a = new(sl) data_type;
+  try
+  {
+      data_type* e = new(sl) data_type;
+      std::cout << "- Depois -\n";
+      std::cout << "Erro\n";
+  }
+  catch(std::bad_alloc&)
+  {
+      std::cout << "- Depois -\n";
+      sl.storageView();
+  }
 
-    delete a;
-    delete b;
-    delete c;
-    sl.print_memory_pool();
-    sl.storageView(); 
-
-    delete d;
-    delete e;
-    delete g;
-    delete h;
-
-    sl.storageView();
+  delete a;
+  delete b;
+  delete c;
+  delete d;
 
 
-    int* i = new(sl) int;
-    *i = 2111;
-    sl.print_memory_pool();
 
-    sl.storageView();
+  // Template
+  std::cout << " --- Caso :  ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
 
-    delete f;
-    sl.storageView();   
+  // Esperado:
+  // [----]
+
 }
 */int main( void )
 {
