@@ -1,0 +1,70 @@
+\hypertarget{classStoragePool}{}\section{Referência à classe Storage\+Pool}
+\label{classStoragePool}\index{Storage\+Pool@{Storage\+Pool}}
+
+
+{\ttfamily \#include $<$Storage\+Pool.\+h$>$}
+
+
+
+Diagrama de heranças da classe Storage\+Pool
+% FIG 0
+\subsection*{Tipos Públicos}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classStoragePool_a42aaba0b4f07cf26a94dbfabe853e3bd}{byte} = unsigned char
+\end{DoxyCompactItemize}
+\subsection*{Membros públicos}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{classStoragePool_af762401e53c754fccb49703579bd3b31}{$\sim$\+Storage\+Pool} ()
+\item 
+virtual void $\ast$ \hyperlink{classStoragePool_a123a07b2fff40000102b401d7d1b5d5a}{Allocate} (size\+\_\+t)=0
+\item 
+virtual void \hyperlink{classStoragePool_a2120a75c4562735372d089685828b8df}{Free} (void $\ast$)=0
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentação das definições de tipo}
+\mbox{\Hypertarget{classStoragePool_a42aaba0b4f07cf26a94dbfabe853e3bd}\label{classStoragePool_a42aaba0b4f07cf26a94dbfabe853e3bd}} 
+\index{Storage\+Pool@{Storage\+Pool}!byte@{byte}}
+\index{byte@{byte}!Storage\+Pool@{Storage\+Pool}}
+\subsubsection{\texorpdfstring{byte}{byte}}
+{\footnotesize\ttfamily using \hyperlink{classStoragePool_a42aaba0b4f07cf26a94dbfabe853e3bd}{Storage\+Pool\+::byte} =  unsigned char}
+
+
+
+\subsection{Documentação dos Construtores \& Destrutor}
+\mbox{\Hypertarget{classStoragePool_af762401e53c754fccb49703579bd3b31}\label{classStoragePool_af762401e53c754fccb49703579bd3b31}} 
+\index{Storage\+Pool@{Storage\+Pool}!````~Storage\+Pool@{$\sim$\+Storage\+Pool}}
+\index{````~Storage\+Pool@{$\sim$\+Storage\+Pool}!Storage\+Pool@{Storage\+Pool}}
+\subsubsection{\texorpdfstring{$\sim$\+Storage\+Pool()}{~StoragePool()}}
+{\footnotesize\ttfamily virtual Storage\+Pool\+::$\sim$\+Storage\+Pool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\subsection{Documentação dos métodos}
+\mbox{\Hypertarget{classStoragePool_a123a07b2fff40000102b401d7d1b5d5a}\label{classStoragePool_a123a07b2fff40000102b401d7d1b5d5a}} 
+\index{Storage\+Pool@{Storage\+Pool}!Allocate@{Allocate}}
+\index{Allocate@{Allocate}!Storage\+Pool@{Storage\+Pool}}
+\subsubsection{\texorpdfstring{Allocate()}{Allocate()}}
+{\footnotesize\ttfamily virtual void$\ast$ Storage\+Pool\+::\+Allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implementado em \hyperlink{classSLPool_aaf054ceb8fa1b8e659f656f04a07dc84}{S\+L\+Pool}.
+
+\mbox{\Hypertarget{classStoragePool_a2120a75c4562735372d089685828b8df}\label{classStoragePool_a2120a75c4562735372d089685828b8df}} 
+\index{Storage\+Pool@{Storage\+Pool}!Free@{Free}}
+\index{Free@{Free}!Storage\+Pool@{Storage\+Pool}}
+\subsubsection{\texorpdfstring{Free()}{Free()}}
+{\footnotesize\ttfamily virtual void Storage\+Pool\+::\+Free (\begin{DoxyParamCaption}\item[{void $\ast$}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implementado em \hyperlink{classSLPool_aed31c75c4a2d56acd2f845dda2c5b1ad}{S\+L\+Pool}.
+
+
+
+A documentação para esta classe foi gerada a partir do seguinte ficheiro\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{StoragePool_8h}{Storage\+Pool.\+h}\end{DoxyCompactItemize}

@@ -70,7 +70,6 @@ void* SLPool::Allocate(size_t size)
                 curr = curr->m_next;
         }
         
-    }
 
     throw std::bad_alloc();
 }

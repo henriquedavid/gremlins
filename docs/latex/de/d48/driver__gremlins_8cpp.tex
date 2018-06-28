@@ -1,0 +1,56 @@
+\hypertarget{driver__gremlins_8cpp}{}\section{Referência ao ficheiro src/driver\+\_\+gremlins.cpp}
+\label{driver__gremlins_8cpp}\index{src/driver\+\_\+gremlins.\+cpp@{src/driver\+\_\+gremlins.\+cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$random$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}slpool.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mempool\+\_\+common.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}storagepooltest.\+cpp\char`\"{}}\newline
+Diagrama de dependências de inclusão para driver\+\_\+gremlins.\+cpp\+:
+% FIG 0
+\subsection*{Componentes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classConta}{Conta}
+\end{DoxyCompactItemize}
+\subsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{driver__gremlins_8cpp_a4c721b5895fcbfc2271a752ee2415d23}{ocupacao\+\_\+memoria} (\hyperlink{classSLPool}{S\+L\+Pool} \&sl)
+\begin{DoxyCompactList}\small\item\em Teste básico para realizar o teste de forma a verificar como está sendo a ocupação de memória. \end{DoxyCompactList}\item 
+void \hyperlink{driver__gremlins_8cpp_ab6ddae499a0e1b204fc07efab3c5208f}{desempenho\+\_\+sistemas} (void)
+\begin{DoxyCompactList}\small\item\em Testar o desempenh de forma a comparar o \hyperlink{classSLPool}{S\+L\+Pool} com o do Sistema Operacional criando contas de banco. \end{DoxyCompactList}\item 
+int \hyperlink{driver__gremlins_8cpp_a840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentação das funções}
+\mbox{\Hypertarget{driver__gremlins_8cpp_ab6ddae499a0e1b204fc07efab3c5208f}\label{driver__gremlins_8cpp_ab6ddae499a0e1b204fc07efab3c5208f}} 
+\index{driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}!desempenho\+\_\+sistemas@{desempenho\+\_\+sistemas}}
+\index{desempenho\+\_\+sistemas@{desempenho\+\_\+sistemas}!driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}}
+\subsubsection{\texorpdfstring{desempenho\+\_\+sistemas()}{desempenho\_sistemas()}}
+{\footnotesize\ttfamily void desempenho\+\_\+sistemas (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Testar o desempenh de forma a comparar o \hyperlink{classSLPool}{S\+L\+Pool} com o do Sistema Operacional criando contas de banco. 
+
+\mbox{\Hypertarget{driver__gremlins_8cpp_a840291bc02cba5474a4cb46a9b9566fe}\label{driver__gremlins_8cpp_a840291bc02cba5474a4cb46a9b9566fe}} 
+\index{driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}!main@{main}}
+\index{main@{main}!driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+--- U\+SO DO G\+E\+R\+E\+N\+C\+I\+A\+D\+OR DE M\+E\+MÓ\+R\+IA P\+E\+LO C\+L\+I\+E\+N\+TE --- //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------ //// $\vert$ Aqui será colocado todo o código que usa o $\vert$ //// $\vert$ gerenciador de mémoria. $\vert$ //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------ //// --- U\+SO DO G\+E\+R\+E\+N\+C\+I\+A\+D\+OR DE M\+E\+MÓ\+R\+IA P\+E\+LO C\+L\+I\+E\+N\+TE --- ////
+
+--- xx\+X\+Xxx\+X\+Xxx T\+E\+S\+TE DE D\+E\+S\+E\+M\+P\+E\+N\+HO xx\+X\+Xxx\+X\+Xxx --- //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- //// $\vert$ Aqui serão colocadore os teste de comparação $\vert$ //// $\vert$ do uso gerenciador de mémoria e da alocação $\vert$ //// $\vert$ padrão utilizado pelo sistema operacional. $\vert$ //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- //// --- xx\+X\+Xxx\+X\+Xxx T\+E\+S\+TE DE D\+E\+S\+E\+M\+P\+E\+N\+HO xx\+X\+Xxx\+X\+Xxx --- //// \mbox{\Hypertarget{driver__gremlins_8cpp_a4c721b5895fcbfc2271a752ee2415d23}\label{driver__gremlins_8cpp_a4c721b5895fcbfc2271a752ee2415d23}} 
+\index{driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}!ocupacao\+\_\+memoria@{ocupacao\+\_\+memoria}}
+\index{ocupacao\+\_\+memoria@{ocupacao\+\_\+memoria}!driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}}
+\subsubsection{\texorpdfstring{ocupacao\+\_\+memoria()}{ocupacao\_memoria()}}
+{\footnotesize\ttfamily void ocupacao\+\_\+memoria (\begin{DoxyParamCaption}\item[{\hyperlink{classSLPool}{S\+L\+Pool} \&}]{sl }\end{DoxyParamCaption})}
+
+
+
+Teste básico para realizar o teste de forma a verificar como está sendo a ocupação de memória. 
+

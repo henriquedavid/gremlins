@@ -1,0 +1,78 @@
+\hypertarget{structSLPool_1_1Block}{}\section{Referência à estrutura S\+L\+Pool\+:\+:Block}
+\label{structSLPool_1_1Block}\index{S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}}
+
+
+Diagrama de heranças da classe S\+L\+Pool\+:\+:Block
+% FIG 0
+
+
+Diagrama de colaboração para S\+L\+Pool\+:\+:Block\+:
+% FIG 1
+\subsection*{Tipos Públicos}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{structSLPool_1_1Block_adbb416e65dd0d7aa2121e30b34424db8a32fd11caed7c39eb5ab3949a612a14b9}{Block\+Size} = 16
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Membros públicos}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structSLPool_1_1Block_a2657816d1a41e84aa7ad25cdcf83ac60}{Block} ()
+\end{DoxyCompactItemize}
+\subsection*{Atributos Públicos}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\hyperlink{structSLPool_1_1Block}{Block} $\ast$ \hyperlink{structSLPool_1_1Block_a4b7b155392ff1a250c936997e6fcd8a8}{m\_next}\\
+\>unsigned char \hyperlink{structSLPool_1_1Block_a4dd3aef4630ff625cd9bc36c10bf7896}{m\_raw} \mbox{[}\hyperlink{structSLPool_1_1Block_adbb416e65dd0d7aa2121e30b34424db8a32fd11caed7c39eb5ab3949a612a14b9}{BlockSize} -\/ sizeof(\hyperlink{structSLPool_1_1Header}{Header})\mbox{]}\\
+\}; \\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Documentação das enumerações}
+\mbox{\Hypertarget{structSLPool_1_1Block_adbb416e65dd0d7aa2121e30b34424db8}\label{structSLPool_1_1Block_adbb416e65dd0d7aa2121e30b34424db8}} 
+\subsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Valores de enumerações}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Block\+Size@{Block\+Size}!S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}}\index{S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}!Block\+Size@{Block\+Size}}}\mbox{\Hypertarget{structSLPool_1_1Block_adbb416e65dd0d7aa2121e30b34424db8a32fd11caed7c39eb5ab3949a612a14b9}\label{structSLPool_1_1Block_adbb416e65dd0d7aa2121e30b34424db8a32fd11caed7c39eb5ab3949a612a14b9}} 
+Block\+Size&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Documentação dos Construtores \& Destrutor}
+\mbox{\Hypertarget{structSLPool_1_1Block_a2657816d1a41e84aa7ad25cdcf83ac60}\label{structSLPool_1_1Block_a2657816d1a41e84aa7ad25cdcf83ac60}} 
+\index{S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}!Block@{Block}}
+\index{Block@{Block}!S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}}
+\subsubsection{\texorpdfstring{Block()}{Block()}}
+{\footnotesize\ttfamily S\+L\+Pool\+::\+Block\+::\+Block (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Documentação dos dados membro}
+\mbox{\Hypertarget{structSLPool_1_1Block_a77176c27d7b62721129f2d2539ec72b5}\label{structSLPool_1_1Block_a77176c27d7b62721129f2d2539ec72b5}} 
+\subsubsection{\texorpdfstring{"@2}{@2}}
+{\footnotesize\ttfamily union \{ ... \} }
+
+\mbox{\Hypertarget{structSLPool_1_1Block_a4b7b155392ff1a250c936997e6fcd8a8}\label{structSLPool_1_1Block_a4b7b155392ff1a250c936997e6fcd8a8}} 
+\index{S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}!m\+\_\+next@{m\+\_\+next}}
+\index{m\+\_\+next@{m\+\_\+next}!S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}}
+\subsubsection{\texorpdfstring{m\+\_\+next}{m\_next}}
+{\footnotesize\ttfamily \hyperlink{structSLPool_1_1Block}{Block}$\ast$ S\+L\+Pool\+::\+Block\+::m\+\_\+next}
+
+\mbox{\Hypertarget{structSLPool_1_1Block_a4dd3aef4630ff625cd9bc36c10bf7896}\label{structSLPool_1_1Block_a4dd3aef4630ff625cd9bc36c10bf7896}} 
+\index{S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}!m\+\_\+raw@{m\+\_\+raw}}
+\index{m\+\_\+raw@{m\+\_\+raw}!S\+L\+Pool\+::\+Block@{S\+L\+Pool\+::\+Block}}
+\subsubsection{\texorpdfstring{m\+\_\+raw}{m\_raw}}
+{\footnotesize\ttfamily unsigned char S\+L\+Pool\+::\+Block\+::m\+\_\+raw\mbox{[}\hyperlink{structSLPool_1_1Block_adbb416e65dd0d7aa2121e30b34424db8a32fd11caed7c39eb5ab3949a612a14b9}{Block\+Size} -\/ sizeof(\hyperlink{structSLPool_1_1Header}{Header})\mbox{]}}
+
+
+
+A documentação para esta estrutura foi gerada a partir do seguinte ficheiro\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{slpool_8h}{slpool.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,278 @@
+\hypertarget{classset}{}\section{Referência à classe Template set$<$ T $>$}
+\label{classset}\index{set$<$ T $>$@{set$<$ T $>$}}
+
+
+{\ttfamily \#include $<$set.\+h$>$}
+
+
+
+Diagrama de colaboração para set$<$ T $>$\+:
+% FIG 0
+\subsection*{Tipos Públicos}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classset_a1a9f610c8f0dd1d2ca1af0f435e45067}{const\+\_\+iterator} = const \hyperlink{classIterator}{Iterator}$<$ T $>$
+\item 
+using \hyperlink{classset_a9401e4f521bf0b6833a37ee4ab9fa67c}{value\+\_\+type} = T
+\item 
+using \hyperlink{classset_ad32f9470f9e3b712862cef35b28ac0a3}{pointer} = T $\ast$
+\item 
+using \hyperlink{classset_a67b599d0cfab79343858fd88906b7f27}{reference} = T \&
+\item 
+using \hyperlink{classset_aaafc18d8ba5261e496a013e32b9dbe28}{const\+\_\+reference} = const T \&
+\end{DoxyCompactItemize}
+\subsection*{Membros públicos}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classset_ad6a5925a93ad1edd160fe52976d9b516}{set} (int size\+\_\+=1)
+\begin{DoxyCompactList}\small\item\em Construtor. \end{DoxyCompactList}\item 
+\hyperlink{classset_ac47084748dafcedb0535fe6509d8e4cd}{$\sim$set} ()
+\begin{DoxyCompactList}\small\item\em Destrutor. \end{DoxyCompactList}\item 
+std\+::pair$<$ \hyperlink{classIterator}{Iterator}$<$ T $>$, bool $>$ \hyperlink{classset_a1e5e9e97d5223668325edfb1e6c22546}{insert} (\hyperlink{classset_aaafc18d8ba5261e496a013e32b9dbe28}{const\+\_\+reference} value)
+\begin{DoxyCompactList}\small\item\em Inserir um elemento de forma que fique ordenado. \end{DoxyCompactList}\item 
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset_a67103bfe5a350e3523f50021b2786c09}{begin} () const
+\begin{DoxyCompactList}\small\item\em Retornar o início do vetor. \end{DoxyCompactList}\item 
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset_a9925f338794495438768190b906e4022}{end} () const
+\begin{DoxyCompactList}\small\item\em Retornar o fim do vetor. \end{DoxyCompactList}\item 
+\hyperlink{classset_a1a9f610c8f0dd1d2ca1af0f435e45067}{const\+\_\+iterator} \hyperlink{classset_a3c0619e697c559705bf589f70d70b807}{cend} ()
+\begin{DoxyCompactList}\small\item\em Retornar o fim do vetor cosntante. \end{DoxyCompactList}\item 
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset_ad7fd389661e732276df21ecec7300c60}{erase} (\hyperlink{classIterator}{Iterator}$<$ T $>$ pos)
+\begin{DoxyCompactList}\small\item\em Remover um determinado elemento em uma posição. \end{DoxyCompactList}\item 
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset_af214bb499a1adca6a48fe8591377ea78}{upper\+\_\+bound} (const T \&value)
+\begin{DoxyCompactList}\small\item\em Retornar o menor valor maior que pos. \end{DoxyCompactList}\item 
+void \hyperlink{classset_af787aa896950934584af154fc92e4e5a}{clear} ()
+\begin{DoxyCompactList}\small\item\em Limpar todo o conjunto. \end{DoxyCompactList}\item 
+bool \hyperlink{classset_ac86aef3344daceab852a6740656a41aa}{empty} ()
+\begin{DoxyCompactList}\small\item\em Verificar se o vetor está vazio. \end{DoxyCompactList}\item 
+int \hyperlink{classset_ac9b2b107eb53dabc41c9c551979b681a}{size} ()
+\begin{DoxyCompactList}\small\item\em Retornar o tamanho do vetor. \end{DoxyCompactList}\item 
+void \hyperlink{classset_a25a1b1defd5c15a1afe0661b6ac53949}{print} ()
+\begin{DoxyCompactList}\small\item\em Imprimir os elementos para fins de depuração. \end{DoxyCompactList}\item 
+void \hyperlink{classset_a1a80773dd573dd616df89696adb5e60e}{operator=} (const \hyperlink{classset}{set} \&value)
+\begin{DoxyCompactList}\small\item\em Operador de atribuição. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Atributos Privados}
+\begin{DoxyCompactItemize}
+\item 
+T $\ast$ \hyperlink{classset_a68aeeb12ca554936bb77a50df1471ab7}{m\+\_\+area}
+\item 
+int \hyperlink{classset_a812642c970155b2365cee6997e3f7126}{m\+\_\+size}
+\item 
+int \hyperlink{classset_a2ae225941f817ad23f0e4871c618ce99}{m\+\_\+capacity}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentação das definições de tipo}
+\mbox{\Hypertarget{classset_a1a9f610c8f0dd1d2ca1af0f435e45067}\label{classset_a1a9f610c8f0dd1d2ca1af0f435e45067}} 
+\index{set@{set}!const\+\_\+iterator@{const\+\_\+iterator}}
+\index{const\+\_\+iterator@{const\+\_\+iterator}!set@{set}}
+\subsubsection{\texorpdfstring{const\+\_\+iterator}{const\_iterator}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+using \hyperlink{classset}{set}$<$ T $>$\+::\hyperlink{classset_a1a9f610c8f0dd1d2ca1af0f435e45067}{const\+\_\+iterator} =  const \hyperlink{classIterator}{Iterator}$<$T$>$}
+
+\mbox{\Hypertarget{classset_aaafc18d8ba5261e496a013e32b9dbe28}\label{classset_aaafc18d8ba5261e496a013e32b9dbe28}} 
+\index{set@{set}!const\+\_\+reference@{const\+\_\+reference}}
+\index{const\+\_\+reference@{const\+\_\+reference}!set@{set}}
+\subsubsection{\texorpdfstring{const\+\_\+reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+using \hyperlink{classset}{set}$<$ T $>$\+::\hyperlink{classset_aaafc18d8ba5261e496a013e32b9dbe28}{const\+\_\+reference} =  const T\&}
+
+\mbox{\Hypertarget{classset_ad32f9470f9e3b712862cef35b28ac0a3}\label{classset_ad32f9470f9e3b712862cef35b28ac0a3}} 
+\index{set@{set}!pointer@{pointer}}
+\index{pointer@{pointer}!set@{set}}
+\subsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+using \hyperlink{classset}{set}$<$ T $>$\+::\hyperlink{classset_ad32f9470f9e3b712862cef35b28ac0a3}{pointer} =  T$\ast$}
+
+\mbox{\Hypertarget{classset_a67b599d0cfab79343858fd88906b7f27}\label{classset_a67b599d0cfab79343858fd88906b7f27}} 
+\index{set@{set}!reference@{reference}}
+\index{reference@{reference}!set@{set}}
+\subsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+using \hyperlink{classset}{set}$<$ T $>$\+::\hyperlink{classset_a67b599d0cfab79343858fd88906b7f27}{reference} =  T\&}
+
+\mbox{\Hypertarget{classset_a9401e4f521bf0b6833a37ee4ab9fa67c}\label{classset_a9401e4f521bf0b6833a37ee4ab9fa67c}} 
+\index{set@{set}!value\+\_\+type@{value\+\_\+type}}
+\index{value\+\_\+type@{value\+\_\+type}!set@{set}}
+\subsubsection{\texorpdfstring{value\+\_\+type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+using \hyperlink{classset}{set}$<$ T $>$\+::\hyperlink{classset_a9401e4f521bf0b6833a37ee4ab9fa67c}{value\+\_\+type} =  T}
+
+
+
+\subsection{Documentação dos Construtores \& Destrutor}
+\mbox{\Hypertarget{classset_ad6a5925a93ad1edd160fe52976d9b516}\label{classset_ad6a5925a93ad1edd160fe52976d9b516}} 
+\index{set@{set}!set@{set}}
+\index{set@{set}!set@{set}}
+\subsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classset}{set}$<$ T $>$\+::\hyperlink{classset}{set} (\begin{DoxyParamCaption}\item[{int}]{size\+\_\+ = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Construtor. 
+
+Construtor padrão. \mbox{\Hypertarget{classset_ac47084748dafcedb0535fe6509d8e4cd}\label{classset_ac47084748dafcedb0535fe6509d8e4cd}} 
+\index{set@{set}!````~set@{$\sim$set}}
+\index{````~set@{$\sim$set}!set@{set}}
+\subsubsection{\texorpdfstring{$\sim$set()}{~set()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classset}{set}$<$ T $>$\+::$\sim$\hyperlink{classset}{set} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destrutor. 
+
+
+
+\subsection{Documentação dos métodos}
+\mbox{\Hypertarget{classset_a67103bfe5a350e3523f50021b2786c09}\label{classset_a67103bfe5a350e3523f50021b2786c09}} 
+\index{set@{set}!begin@{begin}}
+\index{begin@{begin}!set@{set}}
+\subsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset}{set}$<$ T $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retornar o início do vetor. 
+
+Retorna o primeiro espaço. \mbox{\Hypertarget{classset_a3c0619e697c559705bf589f70d70b807}\label{classset_a3c0619e697c559705bf589f70d70b807}} 
+\index{set@{set}!cend@{cend}}
+\index{cend@{cend}!set@{set}}
+\subsubsection{\texorpdfstring{cend()}{cend()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+const \hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset}{set}$<$ T $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Retornar o fim do vetor cosntante. 
+
+Retorna o final do set. \mbox{\Hypertarget{classset_af787aa896950934584af154fc92e4e5a}\label{classset_af787aa896950934584af154fc92e4e5a}} 
+\index{set@{set}!clear@{clear}}
+\index{clear@{clear}!set@{set}}
+\subsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classset}{set}$<$ T $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Limpar todo o conjunto. 
+
+\mbox{\Hypertarget{classset_ac86aef3344daceab852a6740656a41aa}\label{classset_ac86aef3344daceab852a6740656a41aa}} 
+\index{set@{set}!empty@{empty}}
+\index{empty@{empty}!set@{set}}
+\subsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classset}{set}$<$ T $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Verificar se o vetor está vazio. 
+
+Verificar se está vazio. \mbox{\Hypertarget{classset_a9925f338794495438768190b906e4022}\label{classset_a9925f338794495438768190b906e4022}} 
+\index{set@{set}!end@{end}}
+\index{end@{end}!set@{set}}
+\subsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset}{set}$<$ T $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retornar o fim do vetor. 
+
+Retorna o final do set. \mbox{\Hypertarget{classset_ad7fd389661e732276df21ecec7300c60}\label{classset_ad7fd389661e732276df21ecec7300c60}} 
+\index{set@{set}!erase@{erase}}
+\index{erase@{erase}!set@{set}}
+\subsubsection{\texorpdfstring{erase()}{erase()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset}{set}$<$ T $>$\+::erase (\begin{DoxyParamCaption}\item[{\hyperlink{classIterator}{Iterator}$<$ T $>$}]{pos }\end{DoxyParamCaption})}
+
+
+
+Remover um determinado elemento em uma posição. 
+
+\mbox{\Hypertarget{classset_a1e5e9e97d5223668325edfb1e6c22546}\label{classset_a1e5e9e97d5223668325edfb1e6c22546}} 
+\index{set@{set}!insert@{insert}}
+\index{insert@{insert}!set@{set}}
+\subsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::pair$<$ \hyperlink{classIterator}{Iterator}$<$ T $>$, bool $>$ \hyperlink{classset}{set}$<$ T $>$\+::insert (\begin{DoxyParamCaption}\item[{\hyperlink{classset_aaafc18d8ba5261e496a013e32b9dbe28}{const\+\_\+reference}}]{value }\end{DoxyParamCaption})}
+
+
+
+Inserir um elemento de forma que fique ordenado. 
+
+Insere elementos no set de forma que eles fiquem ordenados por tamanho. \mbox{\Hypertarget{classset_a1a80773dd573dd616df89696adb5e60e}\label{classset_a1a80773dd573dd616df89696adb5e60e}} 
+\index{set@{set}!operator=@{operator=}}
+\index{operator=@{operator=}!set@{set}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classset}{set}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classset}{set}$<$ T $>$ \&}]{value }\end{DoxyParamCaption})}
+
+
+
+Operador de atribuição. 
+
+\mbox{\Hypertarget{classset_a25a1b1defd5c15a1afe0661b6ac53949}\label{classset_a25a1b1defd5c15a1afe0661b6ac53949}} 
+\index{set@{set}!print@{print}}
+\index{print@{print}!set@{set}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classset}{set}$<$ T $>$\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Imprimir os elementos para fins de depuração. 
+
+\mbox{\Hypertarget{classset_ac9b2b107eb53dabc41c9c551979b681a}\label{classset_ac9b2b107eb53dabc41c9c551979b681a}} 
+\index{set@{set}!size@{size}}
+\index{size@{size}!set@{set}}
+\subsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classset}{set}$<$ T $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Retornar o tamanho do vetor. 
+
+Retornar o espaço de armazenamento. \mbox{\Hypertarget{classset_af214bb499a1adca6a48fe8591377ea78}\label{classset_af214bb499a1adca6a48fe8591377ea78}} 
+\index{set@{set}!upper\+\_\+bound@{upper\+\_\+bound}}
+\index{upper\+\_\+bound@{upper\+\_\+bound}!set@{set}}
+\subsubsection{\texorpdfstring{upper\+\_\+bound()}{upper\_bound()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{classIterator}{Iterator}$<$ T $>$ \hyperlink{classset}{set}$<$ T $>$\+::upper\+\_\+bound (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})}
+
+
+
+Retornar o menor valor maior que pos. 
+
+
+
+\subsection{Documentação dos dados membro}
+\mbox{\Hypertarget{classset_a68aeeb12ca554936bb77a50df1471ab7}\label{classset_a68aeeb12ca554936bb77a50df1471ab7}} 
+\index{set@{set}!m\+\_\+area@{m\+\_\+area}}
+\index{m\+\_\+area@{m\+\_\+area}!set@{set}}
+\subsubsection{\texorpdfstring{m\+\_\+area}{m\_area}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T$\ast$ \hyperlink{classset}{set}$<$ T $>$\+::m\+\_\+area\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classset_a2ae225941f817ad23f0e4871c618ce99}\label{classset_a2ae225941f817ad23f0e4871c618ce99}} 
+\index{set@{set}!m\+\_\+capacity@{m\+\_\+capacity}}
+\index{m\+\_\+capacity@{m\+\_\+capacity}!set@{set}}
+\subsubsection{\texorpdfstring{m\+\_\+capacity}{m\_capacity}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classset}{set}$<$ T $>$\+::m\+\_\+capacity\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classset_a812642c970155b2365cee6997e3f7126}\label{classset_a812642c970155b2365cee6997e3f7126}} 
+\index{set@{set}!m\+\_\+size@{m\+\_\+size}}
+\index{m\+\_\+size@{m\+\_\+size}!set@{set}}
+\subsubsection{\texorpdfstring{m\+\_\+size}{m\_size}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classset}{set}$<$ T $>$\+::m\+\_\+size\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A documentação para esta classe foi gerada a partir dos seguintes ficheiros\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{set_8h}{set.\+h}\item 
+include/\hyperlink{set_8inl}{set.\+inl}\end{DoxyCompactItemize}

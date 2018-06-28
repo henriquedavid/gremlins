@@ -1,0 +1,161 @@
+\hypertarget{classSLPool}{}\section{Referência à classe S\+L\+Pool}
+\label{classSLPool}\index{S\+L\+Pool@{S\+L\+Pool}}
+
+
+{\ttfamily \#include $<$slpool.\+h$>$}
+
+
+
+Diagrama de heranças da classe S\+L\+Pool
+% FIG 0
+
+
+Diagrama de colaboração para S\+L\+Pool\+:
+% FIG 1
+\subsection*{Componentes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structSLPool_1_1Block}{Block}
+\item 
+struct \hyperlink{structSLPool_1_1Header}{Header}
+\end{DoxyCompactItemize}
+\subsection*{Membros públicos}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSLPool_a9e445324d44fff6652cbb70fbd03a5f8}{S\+L\+Pool} (size\+\_\+t)
+\begin{DoxyCompactList}\small\item\em Construtor da \hyperlink{classSLPool}{S\+L\+Pool} (Gerenciador de Memória). \end{DoxyCompactList}\item 
+\hyperlink{classSLPool_aec8dd0c2fe10addb1786447f8ed62c20}{$\sim$\+S\+L\+Pool} ()
+\begin{DoxyCompactList}\small\item\em Destrutor da \hyperlink{classSLPool}{S\+L\+Pool} (Gerenciador de Memória). \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{classSLPool_aaf054ceb8fa1b8e659f656f04a07dc84}{Allocate} (size\+\_\+t)
+\begin{DoxyCompactList}\small\item\em Realiza a alocação de memória. \end{DoxyCompactList}\item 
+void \hyperlink{classSLPool_aed31c75c4a2d56acd2f845dda2c5b1ad}{Free} (void $\ast$)
+\begin{DoxyCompactList}\small\item\em Realiza a liberação da memória. \end{DoxyCompactList}\item 
+void \hyperlink{classSLPool_a74c29c43b2e158ce4b50bd908e8b5fed}{print\+\_\+memory\+\_\+pool} () const
+\begin{DoxyCompactList}\small\item\em print\+\_\+memory\+\_\+pool Imprimi todas as aréas e blocos do memory pool \end{DoxyCompactList}\item 
+void \hyperlink{classSLPool_a568540fc5f7e849c94ae430106d9d285}{storage\+View} () const
+\begin{DoxyCompactList}\small\item\em Imprime visualização de memória de forma a mostrar os blocos ocupados. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Tipos Privados}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{set\+\_\+} = \hyperlink{classset}{set}$<$ \hyperlink{structSLPool_1_1Block}{Block} $\ast$ $>$
+\end{DoxyCompactItemize}
+\subsection*{Atributos Privados}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{set\+\_\+} \hyperlink{classSLPool_a581aba69cb859a6a59a1d87cf14cbf85}{m\+\_\+free\+\_\+area}
+\item 
+\hyperlink{structSLPool_1_1Block}{Block} $\ast$ \hyperlink{classSLPool_a2c72962a10ee6bc7699602b5b79e775e}{m\+\_\+sentinel}
+\item 
+\hyperlink{structSLPool_1_1Block}{Block} $\ast$ \hyperlink{classSLPool_a7612411c05e5dd1fa06e612e7ffddca3}{m\+\_\+pool}
+\end{DoxyCompactItemize}
+\subsection*{Outros membros herdados}
+
+
+\subsection{Documentação das definições de tipo}
+\mbox{\Hypertarget{classSLPool_a56a9012819984d5c7dcdd768482a5d37}\label{classSLPool_a56a9012819984d5c7dcdd768482a5d37}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!set\+\_\+@{set\+\_\+}}
+\index{set\+\_\+@{set\+\_\+}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{set\+\_\+}{set\_}}
+{\footnotesize\ttfamily using \hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{S\+L\+Pool\+::set\+\_\+} =  \hyperlink{classset}{set}$<$\hyperlink{structSLPool_1_1Block}{Block}$\ast$$>$\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+\subsection{Documentação dos Construtores \& Destrutor}
+\mbox{\Hypertarget{classSLPool_a9e445324d44fff6652cbb70fbd03a5f8}\label{classSLPool_a9e445324d44fff6652cbb70fbd03a5f8}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!S\+L\+Pool@{S\+L\+Pool}}
+\index{S\+L\+Pool@{S\+L\+Pool}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{S\+L\+Pool()}{SLPool()}}
+{\footnotesize\ttfamily S\+L\+Pool\+::\+S\+L\+Pool (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Construtor da \hyperlink{classSLPool}{S\+L\+Pool} (Gerenciador de Memória). 
+
+\mbox{\Hypertarget{classSLPool_aec8dd0c2fe10addb1786447f8ed62c20}\label{classSLPool_aec8dd0c2fe10addb1786447f8ed62c20}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!````~S\+L\+Pool@{$\sim$\+S\+L\+Pool}}
+\index{````~S\+L\+Pool@{$\sim$\+S\+L\+Pool}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{$\sim$\+S\+L\+Pool()}{~SLPool()}}
+{\footnotesize\ttfamily S\+L\+Pool\+::$\sim$\+S\+L\+Pool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destrutor da \hyperlink{classSLPool}{S\+L\+Pool} (Gerenciador de Memória). 
+
+
+
+\subsection{Documentação dos métodos}
+\mbox{\Hypertarget{classSLPool_aaf054ceb8fa1b8e659f656f04a07dc84}\label{classSLPool_aaf054ceb8fa1b8e659f656f04a07dc84}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!Allocate@{Allocate}}
+\index{Allocate@{Allocate}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{Allocate()}{Allocate()}}
+{\footnotesize\ttfamily void $\ast$ S\+L\+Pool\+::\+Allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Realiza a alocação de memória. 
+
+
+
+Implementa \hyperlink{classStoragePool_a123a07b2fff40000102b401d7d1b5d5a}{Storage\+Pool}.
+
+\mbox{\Hypertarget{classSLPool_aed31c75c4a2d56acd2f845dda2c5b1ad}\label{classSLPool_aed31c75c4a2d56acd2f845dda2c5b1ad}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!Free@{Free}}
+\index{Free@{Free}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{Free()}{Free()}}
+{\footnotesize\ttfamily void S\+L\+Pool\+::\+Free (\begin{DoxyParamCaption}\item[{void $\ast$}]{pointer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Realiza a liberação da memória. 
+
+
+
+Implementa \hyperlink{classStoragePool_a2120a75c4562735372d089685828b8df}{Storage\+Pool}.
+
+\mbox{\Hypertarget{classSLPool_a74c29c43b2e158ce4b50bd908e8b5fed}\label{classSLPool_a74c29c43b2e158ce4b50bd908e8b5fed}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!print\+\_\+memory\+\_\+pool@{print\+\_\+memory\+\_\+pool}}
+\index{print\+\_\+memory\+\_\+pool@{print\+\_\+memory\+\_\+pool}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{print\+\_\+memory\+\_\+pool()}{print\_memory\_pool()}}
+{\footnotesize\ttfamily void S\+L\+Pool\+::print\+\_\+memory\+\_\+pool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+print\+\_\+memory\+\_\+pool Imprimi todas as aréas e blocos do memory pool 
+
+Imprime uma visualização do mapa de memória. \mbox{\Hypertarget{classSLPool_a568540fc5f7e849c94ae430106d9d285}\label{classSLPool_a568540fc5f7e849c94ae430106d9d285}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!storage\+View@{storage\+View}}
+\index{storage\+View@{storage\+View}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{storage\+View()}{storageView()}}
+{\footnotesize\ttfamily void S\+L\+Pool\+::storage\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Imprime visualização de memória de forma a mostrar os blocos ocupados. 
+
+
+
+\subsection{Documentação dos dados membro}
+\mbox{\Hypertarget{classSLPool_a581aba69cb859a6a59a1d87cf14cbf85}\label{classSLPool_a581aba69cb859a6a59a1d87cf14cbf85}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!m\+\_\+free\+\_\+area@{m\+\_\+free\+\_\+area}}
+\index{m\+\_\+free\+\_\+area@{m\+\_\+free\+\_\+area}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{m\+\_\+free\+\_\+area}{m\_free\_area}}
+{\footnotesize\ttfamily \hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{set\+\_\+} S\+L\+Pool\+::m\+\_\+free\+\_\+area\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classSLPool_a7612411c05e5dd1fa06e612e7ffddca3}\label{classSLPool_a7612411c05e5dd1fa06e612e7ffddca3}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!m\+\_\+pool@{m\+\_\+pool}}
+\index{m\+\_\+pool@{m\+\_\+pool}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{m\+\_\+pool}{m\_pool}}
+{\footnotesize\ttfamily \hyperlink{structSLPool_1_1Block}{Block}$\ast$ S\+L\+Pool\+::m\+\_\+pool\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classSLPool_a2c72962a10ee6bc7699602b5b79e775e}\label{classSLPool_a2c72962a10ee6bc7699602b5b79e775e}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!m\+\_\+sentinel@{m\+\_\+sentinel}}
+\index{m\+\_\+sentinel@{m\+\_\+sentinel}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{m\+\_\+sentinel}{m\_sentinel}}
+{\footnotesize\ttfamily \hyperlink{structSLPool_1_1Block}{Block}$\ast$ S\+L\+Pool\+::m\+\_\+sentinel\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A documentação para esta classe foi gerada a partir dos seguintes ficheiros\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{slpool_8h}{slpool.\+h}\item 
+src/\hyperlink{slpool_8cpp}{slpool.\+cpp}\end{DoxyCompactItemize}
