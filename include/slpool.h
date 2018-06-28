@@ -26,7 +26,7 @@ public:
     /// \brief print_memory_pool
     /// Imprimi todas as aréas e blocos do memory pool
     void print_memory_pool() const;
-    void storageView() const;
+    void storageView();
 
 private:
 
@@ -50,6 +50,8 @@ private:
 
     Block* m_sentinel;
     Block* m_pool;
+
+    bool verificaLivre(Block * block_);
 
 };
 

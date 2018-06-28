@@ -7,20 +7,20 @@
 #include "mempool_common.h"
 #include "storagepooltest_exec.h"
 
-/*
+
 class Conta
 {
     int id;
     int agencia;
     unsigned int saldo;
-};*/
+};
 
 
         /***************************************
          * --- Teste do gerenciador SLPool --- *
          * *************************************/
 
-/*
+
 /// Teste básico para realizar o teste de forma a verificar como está sendo a ocupação de memória.
 void ocupacao_memoria(SLPool & sl);
 
@@ -107,7 +107,7 @@ void desempenho_sistemas(void){
 void ocupacao_memoria()
 {
 
-  SLPool sl = new SLPool(60); // ( 60 + 4 ) / 16 =  4 blocos (+ sentinela)
+  SLPool sl(60); // ( 60 + 4 ) / 16 =  4 blocos (+ sentinela)
   using data_type = int*;
 
   // Esperado:
@@ -219,7 +219,8 @@ void ocupacao_memoria()
   // [----]
 
 }
-*/int main( void )
+
+int main( void )
 {
 
     /// --- USO DO GERENCIADOR DE MEMÓRIA PELO CLIENTE --- ////

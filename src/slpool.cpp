@@ -142,6 +142,7 @@ void* SLPool::Allocate(size_t size)
     #endif
     throw std::bad_alloc();
 }
+/*
 void SLPool::Free( void * pointer ) 
 {
     auto pt = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
@@ -161,16 +162,16 @@ void SLPool::Free( void * pointer )
     ptPrev->m_next = pt;
     // Se não tiver área livre, o sentinela (ptprev) irá apontar para o bloco liberado
     // e o bloco liberado iá apontar para nullptr
-}/*
+}*/
 
 void SLPool::Free( void * pointer ){
 
     auto ptReserved = reinterpret_cast<Block*>(pointer);
 
     auto ptPrevReserved(m_sentinel);
-    auto ptPosReserved(m_sentinel);
+    auto ptPosReserved(m_sentinel->m_next);
 
-    while(ptPosReserved != nullptr ){ // || ptPosReserved > ptReserved){
+    while(ptPosReserved != nullptr || ptPosReserved != nullptr ){
         ptPrevReserved = ptPosReserved;
         ptPosReserved = ptPosReserved->m_next;
     }
@@ -203,5 +204,53 @@ void SLPool::Free( void * pointer ){
         ptReserved = nullptr;
     }
 
+}
 
-}*/
+void SLPool::storageView(){
+
+    auto current(m_sentinel->m_next);
+
+    std::cout << "Dados das áreas livres: " << std::endl;
+
+    while( current != nullptr ){
+        std::cout << "Tamanho: " << current->m_lenght << " | Endereço: "<< current << " | Next: " << (current->m_next) << std::endl;
+    }
+
+    std::cout << "Visualização gráfica:\n";
+
+    current = m_sentinel;
+
+    int i;
+
+    while(current != nullptr){
+        current += Block::BlockSize;
+        i++;
+    }
+
+    current = m_pool;
+
+    while(current != nullptr){
+        
+        if(verificaLivre(current)){
+            std::cout << std::setw(current->m_lenght) << std::setfill('-') << "";
+            current += current->m_lenght;
+        } else{
+            std::cout << "#";
+            current++;
+        }
+
+    }
+
+}
+
+bool SLPool::verificaLivre( Block * block_ ){
+
+    auto curr(m_sentinel);
+
+    while(curr != nullptr){
+        if(curr == block_)
+            return true;
+    }
+
+    return false;
+}
