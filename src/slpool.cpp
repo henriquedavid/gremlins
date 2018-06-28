@@ -54,10 +54,10 @@ void* SLPool::Allocate(size_t size)
 
         else if( curr->m_lenght > blocks_required ){
 
-            auto curr_2(curr+(curr->m_lenght) + 1U);    // 1U significa para não haver a perda de 1 byte.
+            auto curr_2(curr+(curr->m_lenght));    // 1U significa para não haver a perda de 1 byte.
             
             Block* new_block = curr_2;
-            new_block->m_lenght = curr->m_lenght - blocks_required - 1U;
+            new_block->m_lenght = curr->m_lenght - blocks_required;
 
             curr->m_lenght = blocks_required;
 
