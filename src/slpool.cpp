@@ -5,7 +5,7 @@
 SLPool::SLPool(size_t size)
 {
     // Determina a quantidade de blocos necessários a partir de size
-    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / Block::BlockSize);
+    unsigned int blocks_required = std::ceil((size + sizeof(Header)) / (float) Block::BlockSize);
     // Aloca espaco para armazenar a lista de blocos e o sentinela
     m_pool = new Block [blocks_required + 1];
     // Não tem próxima área livre
@@ -35,7 +35,7 @@ void* SLPool::Allocate(size_t size)
     #ifndef FIRSTFIT
 
     // Quantidade de blocos necessários.
-    unsigned int blocks_required = std::ceil((size+sizeof(Header)) / Block::BlockSize);
+    unsigned int blocks_required = std::ceil((size+sizeof(Header)) / (float) Block::BlockSize);
 
     // O próximo bloco.
     auto curr(m_sentinel->m_next);
@@ -236,24 +236,15 @@ void SLPool::storageView(){
 
     while( current != nullptr ){
         std::cout << "Tamanho: " << current->m_lenght << " | Endereço: "<< current << " | Next: " << (current->m_next) << std::endl;
-        curr = curr->next;
+        current = current->m_next;
     }
 
     std::cout << "Visualização gráfica:\n";
 
-    current = m_sentinel;
-
-    int i;
-
-    while(current != nullptr){
-        current += Block::BlockSize;
-        i++;
-    }
-
     current = m_pool;
 
-    while(current != nullptr){
-        
+    while(current != m_sentinel){
+
         if(verificaLivre(current)){
             std::cout << std::setw(current->m_lenght) << std::setfill('-') << "";
             current += current->m_lenght;
@@ -268,12 +259,12 @@ void SLPool::storageView(){
 
 bool SLPool::verificaLivre( Block * block_ ){
 
-    auto curr(m_sentinel);
+    auto curr(m_sentinel->m_next);
 
     while(curr != nullptr){
         if(curr == block_)
             return true;
-        curr = curr->next;
+        curr = curr->m_next;
     }
 
     return false;
