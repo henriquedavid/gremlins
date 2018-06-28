@@ -122,7 +122,7 @@ void ocupacao_memoria()
 //  delete a;
   std::cout << "- Depois -\n";          // A
   sl.storageView();
-/*
+
   // Esperado:
   // [-##-]
 
@@ -217,7 +217,7 @@ void ocupacao_memoria()
 
   // Esperado:
   // [----]
-*/
+
 
 }
 
@@ -245,7 +245,7 @@ int main( void )
 //    delete b;
 
     sl.storageView();
-//    ocupacao_memoria();
+    ocupacao_memoria();
 
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
     ///  ------------------------------------------------  ////

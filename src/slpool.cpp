@@ -43,9 +43,9 @@ void* SLPool::Allocate(size_t size)
     auto last(m_sentinel);
 
     // Enquanto haver espaço procure.
-    while( m_sentinel != nullptr ){
+    while( curr != nullptr ){
 
-        // Caso em que o bloco é exatamente igual ao necessário.
+        // Caso em que o tamanho do bloco é exatamente igual ao necessário.
         if( curr->m_lenght == blocks_required ){
 
             // Desconecta o bloco da região.
@@ -58,16 +58,23 @@ void* SLPool::Allocate(size_t size)
 
         else if( curr->m_lenght > blocks_required ){
 
-            auto curr_2(curr+(curr->m_lenght));
-            
+            // Obtem o resto do bloco que não foi utilizado.
+            auto curr_2(curr+blocks_required);
+            curr_2->m_next = curr->m_next;
+
+            // Cria o novo bloco
             Block* new_block = curr_2;
+            // O novo bloco será o tamanho total do bloco menos o quanto foi retirado dele.
             new_block->m_lenght = curr->m_lenght - blocks_required;
+            // O next do bloco será o mesmo next do current.
             new_block->m_next = curr->m_next;
 
             curr->m_lenght = blocks_required;
 
             // Desconecta o bloco anterior e conecta com o novo.
             last->m_next = new_block;
+
+            curr->m_next = nullptr;
 
             return curr;
 
@@ -91,7 +98,7 @@ void* SLPool::Allocate(size_t size)
     auto last(m_sentinel);
 
     // Enquanto haver espaço procure.
-    while( m_sentinel != nullptr ){
+    while( curr != nullptr ){
 
         // Caso em que o bloco é exatamente igual ao necessário.
         if( curr->m_lenght == blocks_required ){
@@ -120,8 +127,9 @@ void* SLPool::Allocate(size_t size)
 
             curr = proc_menor;
 
-            auto curr_2(curr+(curr->m_lenght));    // 1U significa para não haver a perda de 1 byte.
-            
+            auto curr_2(curr+blocks_required);    // 1U significa para não haver a perda de 1 byte.
+            curr_2->m_next = curr->m_next;
+
             Block* new_block = curr_2;
             new_block->m_lenght = curr->m_lenght - blocks_required;
 
@@ -129,6 +137,8 @@ void* SLPool::Allocate(size_t size)
 
             // Desconecta o bloco anterior e conecta com o novo.
             last->m_next = new_block;
+
+            curr->m_next = nullptr;
 
             return curr;
 
@@ -140,7 +150,7 @@ void* SLPool::Allocate(size_t size)
     throw std::bad_alloc();
 
     #endif
-    throw std::bad_alloc();
+    throw std::bad_alloc(); 
 }
 
 void SLPool::Free( void * pointer ) 
@@ -232,7 +242,7 @@ void SLPool::storageView(){
 
     auto current(m_sentinel->m_next);
 
-    std::cout << "Dados das áreas livres: " << std::endl;
+    std::cout << "\n\nDados das áreas livres: " << std::endl;
 
     while( current != nullptr ){
         std::cout << "Tamanho: " << current->m_lenght << " | Endereço: "<< current << " | Next: " << (current->m_next) << std::endl;
@@ -242,6 +252,8 @@ void SLPool::storageView(){
     std::cout << "Visualização gráfica:\n";
 
     current = m_pool;
+
+    std::cout << "[";
 
     while(current != m_sentinel){
 
@@ -253,7 +265,9 @@ void SLPool::storageView(){
             current++;
         }
 
+
     }
+    std::cout << "]\n" << std::endl;
 
 }
 
