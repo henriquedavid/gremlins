@@ -108,7 +108,7 @@ void* SLPool::Allocate(size_t size)
             last->m_next = next_curr;
 
             // Retorna o bloco liberado da lista.
-            return curr;
+            return curr->m_raw;
         }
 
         else if( curr->m_lenght > blocks_required ){
@@ -140,7 +140,7 @@ void* SLPool::Allocate(size_t size)
 
             curr->m_next = nullptr;
 
-            return curr;
+            return curr->m_raw;
 
         } else{
                 last = curr;
