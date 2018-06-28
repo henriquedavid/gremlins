@@ -53,7 +53,7 @@ void* SLPool::Allocate(size_t size)
             last->m_next = next_curr;
 
             // Retorna o bloco liberado da lista.
-            return curr->m_raw;
+            return curr;
         }
 
         else if( curr->m_lenght > blocks_required ){
@@ -76,7 +76,7 @@ void* SLPool::Allocate(size_t size)
 
             curr->m_next = nullptr;
 
-            return curr->m_raw;
+            return curr;
 
         } else{
                 last = curr;
@@ -108,7 +108,7 @@ void* SLPool::Allocate(size_t size)
             last->m_next = next_curr;
 
             // Retorna o bloco liberado da lista.
-            return curr->m_raw;
+            return curr;
         }
 
         else if( curr->m_lenght > blocks_required ){
@@ -140,7 +140,7 @@ void* SLPool::Allocate(size_t size)
 
             curr->m_next = nullptr;
 
-            return curr->m_raw;
+            return curr;
 
         } else{
                 last = curr;
@@ -267,7 +267,7 @@ void SLPool::storageView(){
 
 
     }
-    std::cout << "]\n\n" << std::endl;
+    std::cout << "]\n" << std::endl;
 
 }
 
