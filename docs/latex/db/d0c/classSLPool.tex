@@ -29,35 +29,24 @@ struct \hyperlink{structSLPool_1_1Header}{Header}
 void $\ast$ \hyperlink{classSLPool_aaf054ceb8fa1b8e659f656f04a07dc84}{Allocate} (size\+\_\+t)
 \begin{DoxyCompactList}\small\item\em Realiza a alocação de memória. \end{DoxyCompactList}\item 
 void \hyperlink{classSLPool_aed31c75c4a2d56acd2f845dda2c5b1ad}{Free} (void $\ast$)
-\begin{DoxyCompactList}\small\item\em Realiza a liberação da memória. \end{DoxyCompactList}\item 
+\item 
 void \hyperlink{classSLPool_a74c29c43b2e158ce4b50bd908e8b5fed}{print\+\_\+memory\+\_\+pool} () const
 \begin{DoxyCompactList}\small\item\em print\+\_\+memory\+\_\+pool Imprimi todas as aréas e blocos do memory pool \end{DoxyCompactList}\item 
-void \hyperlink{classSLPool_a568540fc5f7e849c94ae430106d9d285}{storage\+View} () const
-\begin{DoxyCompactList}\small\item\em Imprime visualização de memória de forma a mostrar os blocos ocupados. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Tipos Privados}
+void \hyperlink{classSLPool_a75d1c2e4e132a3f160842f95105de01d}{storage\+View} ()
+\end{DoxyCompactItemize}
+\subsection*{Membros privados}
 \begin{DoxyCompactItemize}
 \item 
-using \hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{set\+\_\+} = \hyperlink{classset}{set}$<$ \hyperlink{structSLPool_1_1Block}{Block} $\ast$ $>$
+bool \hyperlink{classSLPool_af70db30fc4a7e39aebbaee06a508ad05}{verifica\+Livre} (\hyperlink{structSLPool_1_1Block}{Block} $\ast$block\+\_\+)
 \end{DoxyCompactItemize}
 \subsection*{Atributos Privados}
 \begin{DoxyCompactItemize}
-\item 
-\hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{set\+\_\+} \hyperlink{classSLPool_a581aba69cb859a6a59a1d87cf14cbf85}{m\+\_\+free\+\_\+area}
 \item 
 \hyperlink{structSLPool_1_1Block}{Block} $\ast$ \hyperlink{classSLPool_a2c72962a10ee6bc7699602b5b79e775e}{m\+\_\+sentinel}
 \item 
 \hyperlink{structSLPool_1_1Block}{Block} $\ast$ \hyperlink{classSLPool_a7612411c05e5dd1fa06e612e7ffddca3}{m\+\_\+pool}
 \end{DoxyCompactItemize}
 \subsection*{Outros membros herdados}
-
-
-\subsection{Documentação das definições de tipo}
-\mbox{\Hypertarget{classSLPool_a56a9012819984d5c7dcdd768482a5d37}\label{classSLPool_a56a9012819984d5c7dcdd768482a5d37}} 
-\index{S\+L\+Pool@{S\+L\+Pool}!set\+\_\+@{set\+\_\+}}
-\index{set\+\_\+@{set\+\_\+}!S\+L\+Pool@{S\+L\+Pool}}
-\subsubsection{\texorpdfstring{set\+\_\+}{set\_}}
-{\footnotesize\ttfamily using \hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{S\+L\+Pool\+::set\+\_\+} =  \hyperlink{classset}{set}$<$\hyperlink{structSLPool_1_1Block}{Block}$\ast$$>$\hspace{0.3cm}{\ttfamily [private]}}
-
 
 
 \subsection{Documentação dos Construtores \& Destrutor}
@@ -106,10 +95,6 @@ Implementa \hyperlink{classStoragePool_a123a07b2fff40000102b401d7d1b5d5a}{Storag
 
 
 
-Realiza a liberação da memória. 
-
-
-
 Implementa \hyperlink{classStoragePool_a2120a75c4562735372d089685828b8df}{Storage\+Pool}.
 
 \mbox{\Hypertarget{classSLPool_a74c29c43b2e158ce4b50bd908e8b5fed}\label{classSLPool_a74c29c43b2e158ce4b50bd908e8b5fed}} 
@@ -122,25 +107,21 @@ Implementa \hyperlink{classStoragePool_a2120a75c4562735372d089685828b8df}{Storag
 
 print\+\_\+memory\+\_\+pool Imprimi todas as aréas e blocos do memory pool 
 
-Imprime uma visualização do mapa de memória. \mbox{\Hypertarget{classSLPool_a568540fc5f7e849c94ae430106d9d285}\label{classSLPool_a568540fc5f7e849c94ae430106d9d285}} 
+\mbox{\Hypertarget{classSLPool_a75d1c2e4e132a3f160842f95105de01d}\label{classSLPool_a75d1c2e4e132a3f160842f95105de01d}} 
 \index{S\+L\+Pool@{S\+L\+Pool}!storage\+View@{storage\+View}}
 \index{storage\+View@{storage\+View}!S\+L\+Pool@{S\+L\+Pool}}
 \subsubsection{\texorpdfstring{storage\+View()}{storageView()}}
-{\footnotesize\ttfamily void S\+L\+Pool\+::storage\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily void S\+L\+Pool\+::storage\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-
-
-Imprime visualização de memória de forma a mostrar os blocos ocupados. 
+\mbox{\Hypertarget{classSLPool_af70db30fc4a7e39aebbaee06a508ad05}\label{classSLPool_af70db30fc4a7e39aebbaee06a508ad05}} 
+\index{S\+L\+Pool@{S\+L\+Pool}!verifica\+Livre@{verifica\+Livre}}
+\index{verifica\+Livre@{verifica\+Livre}!S\+L\+Pool@{S\+L\+Pool}}
+\subsubsection{\texorpdfstring{verifica\+Livre()}{verificaLivre()}}
+{\footnotesize\ttfamily bool S\+L\+Pool\+::verifica\+Livre (\begin{DoxyParamCaption}\item[{\hyperlink{structSLPool_1_1Block}{Block} $\ast$}]{block\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 \subsection{Documentação dos dados membro}
-\mbox{\Hypertarget{classSLPool_a581aba69cb859a6a59a1d87cf14cbf85}\label{classSLPool_a581aba69cb859a6a59a1d87cf14cbf85}} 
-\index{S\+L\+Pool@{S\+L\+Pool}!m\+\_\+free\+\_\+area@{m\+\_\+free\+\_\+area}}
-\index{m\+\_\+free\+\_\+area@{m\+\_\+free\+\_\+area}!S\+L\+Pool@{S\+L\+Pool}}
-\subsubsection{\texorpdfstring{m\+\_\+free\+\_\+area}{m\_free\_area}}
-{\footnotesize\ttfamily \hyperlink{classSLPool_a56a9012819984d5c7dcdd768482a5d37}{set\+\_\+} S\+L\+Pool\+::m\+\_\+free\+\_\+area\hspace{0.3cm}{\ttfamily [private]}}
-
 \mbox{\Hypertarget{classSLPool_a7612411c05e5dd1fa06e612e7ffddca3}\label{classSLPool_a7612411c05e5dd1fa06e612e7ffddca3}} 
 \index{S\+L\+Pool@{S\+L\+Pool}!m\+\_\+pool@{m\+\_\+pool}}
 \index{m\+\_\+pool@{m\+\_\+pool}!S\+L\+Pool@{S\+L\+Pool}}

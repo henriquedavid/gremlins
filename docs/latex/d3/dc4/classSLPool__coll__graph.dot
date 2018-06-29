@@ -5,12 +5,9 @@ digraph "SLPool"
   Node2 [label="SLPool",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node3 [label="StoragePool",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/da7/classStoragePool.html"];
-  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" m_free_area" ];
-  Node4 [label="set\< Block * \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d59/classset.html"];
-  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" m_area" ];
-  Node5 [label="SLPool::Block",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/de1/structSLPool_1_1Block.html"];
-  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node6 [label="SLPool::Header",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d53/structSLPool_1_1Header.html"];
-  Node5 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" m_next" ];
-  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" m_sentinel\nm_pool" ];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" m_sentinel\nm_pool" ];
+  Node4 [label="SLPool::Block",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/de1/structSLPool_1_1Block.html"];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="SLPool::Header",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d53/structSLPool_1_1Header.html"];
+  Node4 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" m_next" ];
 }

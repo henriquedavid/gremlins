@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['empty',['empty',['../d0/d59/classset.html#ac86aef3344daceab852a6740656a41aa',1,'set']]],
-  ['end',['end',['../d0/d59/classset.html#a9925f338794495438768190b906e4022',1,'set']]],
-  ['erase',['erase',['../d0/d59/classset.html#ad7fd389661e732276df21ecec7300c60',1,'set']]],
-  ['event',['Event',['../d5/da5/classEvent.html#ae4b2efb597b48fb229222bd8fd5630ac',1,'Event']]]
+  ['free',['Free',['../db/d0c/classSLPool.html#aed31c75c4a2d56acd2f845dda2c5b1ad',1,'SLPool::Free()'],['../da/da7/classStoragePool.html#a2120a75c4562735372d089685828b8df',1,'StoragePool::Free()']]]
 ];

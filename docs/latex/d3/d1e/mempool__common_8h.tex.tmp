@@ -14,9 +14,9 @@ struct \hyperlink{structTag}{Tag}
 \subsection*{Funções}
 \begin{DoxyCompactItemize}
 \item 
-void $\ast$ \hyperlink{mempool__common_8h_a123745987bcf8adf0e5fa614a20c0137}{operator new} (size\+\_\+t \hyperlink{storagepooltest_8cpp_a9192c6634956b334d70312524e15a909}{bytes})
+void $\ast$ \hyperlink{mempool__common_8h_a123745987bcf8adf0e5fa614a20c0137}{operator new} (size\+\_\+t \hyperlink{storagepooltest__exec_8h_a9192c6634956b334d70312524e15a909}{bytes})
 \item 
-void $\ast$ \hyperlink{mempool__common_8h_ac5e850be5277fe21a0924d90adf671e6}{operator new} (size\+\_\+t \hyperlink{storagepooltest_8cpp_a9192c6634956b334d70312524e15a909}{bytes}, \hyperlink{classStoragePool}{Storage\+Pool} \&p)
+void $\ast$ \hyperlink{mempool__common_8h_ac5e850be5277fe21a0924d90adf671e6}{operator new} (size\+\_\+t \hyperlink{storagepooltest__exec_8h_a9192c6634956b334d70312524e15a909}{bytes}, \hyperlink{classStoragePool}{Storage\+Pool} \&p)
 \item 
 void \hyperlink{mempool__common_8h_afa145befcf5e7b83424408ca503c8637}{operator delete} (void $\ast$ptr) noexcept
 \end{DoxyCompactItemize}

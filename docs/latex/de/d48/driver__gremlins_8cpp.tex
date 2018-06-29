@@ -6,7 +6,7 @@
 {\ttfamily \#include $<$vector$>$}\newline
 {\ttfamily \#include \char`\"{}slpool.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}mempool\+\_\+common.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}storagepooltest.\+cpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}storagepooltest\+\_\+exec.\+h\char`\"{}}\newline
 Diagrama de dependências de inclusão para driver\+\_\+gremlins.\+cpp\+:
 % FIG 0
 \subsection*{Componentes}
@@ -17,7 +17,7 @@ class \hyperlink{classConta}{Conta}
 \subsection*{Funções}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{driver__gremlins_8cpp_a4c721b5895fcbfc2271a752ee2415d23}{ocupacao\+\_\+memoria} (\hyperlink{classSLPool}{S\+L\+Pool} \&sl)
+void \hyperlink{driver__gremlins_8cpp_a8c7047962badecdc74f4827bbdabc062}{ocupacao\+\_\+memoria} ()
 \begin{DoxyCompactList}\small\item\em Teste básico para realizar o teste de forma a verificar como está sendo a ocupação de memória. \end{DoxyCompactList}\item 
 void \hyperlink{driver__gremlins_8cpp_ab6ddae499a0e1b204fc07efab3c5208f}{desempenho\+\_\+sistemas} (void)
 \begin{DoxyCompactList}\small\item\em Testar o desempenh de forma a comparar o \hyperlink{classSLPool}{S\+L\+Pool} com o do Sistema Operacional criando contas de banco. \end{DoxyCompactList}\item 
@@ -44,11 +44,11 @@ Testar o desempenh de forma a comparar o \hyperlink{classSLPool}{S\+L\+Pool} com
 
 --- U\+SO DO G\+E\+R\+E\+N\+C\+I\+A\+D\+OR DE M\+E\+MÓ\+R\+IA P\+E\+LO C\+L\+I\+E\+N\+TE --- //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------ //// $\vert$ Aqui será colocado todo o código que usa o $\vert$ //// $\vert$ gerenciador de mémoria. $\vert$ //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------ //// --- U\+SO DO G\+E\+R\+E\+N\+C\+I\+A\+D\+OR DE M\+E\+MÓ\+R\+IA P\+E\+LO C\+L\+I\+E\+N\+TE --- ////
 
---- xx\+X\+Xxx\+X\+Xxx T\+E\+S\+TE DE D\+E\+S\+E\+M\+P\+E\+N\+HO xx\+X\+Xxx\+X\+Xxx --- //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- //// $\vert$ Aqui serão colocadore os teste de comparação $\vert$ //// $\vert$ do uso gerenciador de mémoria e da alocação $\vert$ //// $\vert$ padrão utilizado pelo sistema operacional. $\vert$ //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- //// --- xx\+X\+Xxx\+X\+Xxx T\+E\+S\+TE DE D\+E\+S\+E\+M\+P\+E\+N\+HO xx\+X\+Xxx\+X\+Xxx --- //// \mbox{\Hypertarget{driver__gremlins_8cpp_a4c721b5895fcbfc2271a752ee2415d23}\label{driver__gremlins_8cpp_a4c721b5895fcbfc2271a752ee2415d23}} 
+--- xx\+X\+Xxx\+X\+Xxx T\+E\+S\+TE DE D\+E\+S\+E\+M\+P\+E\+N\+HO xx\+X\+Xxx\+X\+Xxx --- //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- //// $\vert$ Aqui serão colocadore os teste de comparação $\vert$ //// $\vert$ do uso gerenciador de mémoria e da alocação $\vert$ //// $\vert$ padrão utilizado pelo sistema operacional. $\vert$ //// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- //// --- xx\+X\+Xxx\+X\+Xxx T\+E\+S\+TE DE D\+E\+S\+E\+M\+P\+E\+N\+HO xx\+X\+Xxx\+X\+Xxx --- //// \mbox{\Hypertarget{driver__gremlins_8cpp_a8c7047962badecdc74f4827bbdabc062}\label{driver__gremlins_8cpp_a8c7047962badecdc74f4827bbdabc062}} 
 \index{driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}!ocupacao\+\_\+memoria@{ocupacao\+\_\+memoria}}
 \index{ocupacao\+\_\+memoria@{ocupacao\+\_\+memoria}!driver\+\_\+gremlins.\+cpp@{driver\+\_\+gremlins.\+cpp}}
 \subsubsection{\texorpdfstring{ocupacao\+\_\+memoria()}{ocupacao\_memoria()}}
-{\footnotesize\ttfamily void ocupacao\+\_\+memoria (\begin{DoxyParamCaption}\item[{\hyperlink{classSLPool}{S\+L\+Pool} \&}]{sl }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void ocupacao\+\_\+memoria (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
