@@ -5,7 +5,6 @@
 
 #include "slpool.h"
 #include "mempool_common.h"
-#include "storagepooltest_exec.h"
 
 
 class Conta
@@ -195,7 +194,7 @@ void ocupacao_memoria()
   sl.storageView();                     // V
   a = new(sl) data_type;
   c = new(sl) data_type;
-//  delete a;
+  delete a;
   std::cout << "- Depois -\n";          // A
   sl.storageView();
 
@@ -208,9 +207,10 @@ void ocupacao_memoria()
   a = new(sl) data_type;
   try
   {
-      data_type* e = new(sl) data_type;
       std::cout << "- Depois -\n";
+      data_type* e = new(sl) data_type;
       std::cout << "Erro\n";
+      *e = 1;
   }
   catch(std::bad_alloc&)
   {
@@ -221,7 +221,7 @@ void ocupacao_memoria()
   delete a;
   delete b;
   delete c;
-//  delete d;
+  delete d;
 
 
 
@@ -241,38 +241,28 @@ void ocupacao_memoria()
 int main( void )
 {
 
-    /// --- USO DO GERENCIADOR DE MEMÓRIA PELO CLIENTE --- ////
-    ///  ------------------------------------------------  ////
-    /// | Aqui será colocado todo o código que usa o     | ////
-    /// | gerenciador de mémoria.                        | ////
-    ///  ------------------------------------------------  ////
-    /// --- USO DO GERENCIADOR DE MEMÓRIA PELO CLIENTE --- ////
 
-
-    std::cout << "------> Código cliente demonstrando que a classe SLPool funciona corretamente. (Critério 6)\n";
+    std::cout << "\n------> Código cliente demonstrando que a classe SLPool funciona corretamente. (Critério 6)\n";
 
     SLPool sl(200);     // Solicita 200 bytes de espaço ao GM.
 
-//    int* b = new(sl) int;
+    int* b = new(sl) int;
 
-//    *b = 5436553453432;
-//    int* c = new(sl) int;
+    *b = 553432;
 
-//    std::cout << "Saída: " << *b << std::endl;
+    std::cout << "Saída: " << *b << std::endl;
 
-//    delete b;
+    delete b;
 
-//    sl.storageView();
-//    desempenho_sistemas();
+    std::cout << "\n------> Visualização do mapa de memória do SLPool. (Critério 8)\n";
+    sl.storageView();
+    
+    std::cout << "\n------> Código para testar o desempenho de SLPool, de maneira a comparar com o SO. (Critério 7)\n";
+    desempenho_sistemas();
+    
+    std::cout << "\n------> Código cliente demonstrando que a classe SLPool funciona corretamente. (Critério 6/2ª versão)\n";
     ocupacao_memoria();
 
-    /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
-    ///  ------------------------------------------------  ////
-    /// | Aqui serão colocadore os teste de comparação   | ////
-    /// | do uso gerenciador de mémoria e da alocação    | ////
-    /// | padrão utilizado pelo sistema operacional.     | ////
-    ///  ------------------------------------------------  ////
-    /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
 
 
 	return 0;
