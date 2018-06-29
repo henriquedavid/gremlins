@@ -122,14 +122,13 @@ void ocupacao_memoria()
   data_type* a = new(sl) data_type;
   data_type* b = new(sl) data_type;
   data_type* c = new(sl) data_type;
-  delete c;
+  delete a;
   std::cout << "- Depois -\n";          // A
   sl.storageView();
-//  *b = 321312;
 
   // Esperado:
   // [-##-]
-/*
+
   std::cout << " --- Caso 2: Free com área livre anterior adjante e área livre posterior ---\n";
   std::cout << "- Antes -\n";
   sl.storageView();                     // V
@@ -149,20 +148,35 @@ void ocupacao_memoria()
   std::cout << "- Depois -\n";          // A
   sl.storageView();
 
-
   // Esperado:
   // [#-#-]
 
-  std::cout << " --- Caso 4: Free com área livre anterior adjante e área livre posterior adjacente ---\n";
+  // Template
+  std::cout << " --- Caso 3.5: Free com área livre posterior adjacente e sem anterior ---\n";
   std::cout << "- Antes -\n";
   sl.storageView();                     // V
+  b = new(sl) data_type;
   delete c;
   std::cout << "- Depois -\n";          // A
   sl.storageView();
 
   // Esperado:
-  // [#---]
+  // [##--]*/
 
+  std::cout << " --- Caso 4: Free com área livre anterior adjante e área livre posterior adjacente ---\n";
+  std::cout << "- Antes -\n";
+  sl.storageView();                     // V
+  delete b;
+  c = new(sl) data_type;
+  delete c;
+  std::cout << "- Depois -\n";          // A
+  sl.storageView();
+
+
+
+  // Esperado:
+  // [#---]
+/*
   std::cout << " --- Caso 5: Free com área livre posterior e anterior:  ---\n";
   std::cout << "- Antes -\n";
   sl.storageView();                     // V
