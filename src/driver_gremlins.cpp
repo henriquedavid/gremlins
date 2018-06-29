@@ -22,7 +22,7 @@ class Conta
 
 
 /// Teste básico para realizar o teste de forma a verificar como está sendo a ocupação de memória.
-void ocupacao_memoria(SLPool & sl);
+void ocupacao_memoria();
 
 
 /// Testar o desempenh de forma a comparar o SLPool com o do Sistema Operacional criando contas de banco.
@@ -107,25 +107,29 @@ void desempenho_sistemas(void){
 void ocupacao_memoria()
 {
 
-  SLPool sl(60); // ( 60 + 4 ) / 16 =  4 blocos (+ sentinela)
-  using data_type = int*;
+ using data_type = int;   // 2 blocos cada, 8 bytes do tipo + 8 bytes do tag
+ SLPool sl(128); // Isso retornaria 5 blocos
+ // Preciso de 8 blocos, pois vou usar 4 variaveis pro teste
+
 
   // Esperado:
   // [----]
 
   std::cout << " --- Caso 1: Free no inicio ---\n";
   std::cout << "- Antes -\n";
+  std::cout << sizeof(data_type) << "\n";
   sl.storageView();                     // V
   data_type* a = new(sl) data_type;
-//  data_type* b = new(sl) data_type;
-//  data_type* c = new(sl) data_type;
-//  delete a;
+  data_type* b = new(sl) data_type;
+  data_type* c = new(sl) data_type;
+  delete c;
   std::cout << "- Depois -\n";          // A
   sl.storageView();
-/*
+//  *b = 321312;
+
   // Esperado:
   // [-##-]
-
+/*
   std::cout << " --- Caso 2: Free com área livre anterior adjante e área livre posterior ---\n";
   std::cout << "- Antes -\n";
   sl.storageView();                     // V
@@ -216,9 +220,9 @@ void ocupacao_memoria()
   sl.storageView();
 
   // Esperado:
-  // [----]
+  // [----]*/
 
-*/
+
 }
 
 int main( void )
@@ -236,17 +240,18 @@ int main( void )
 
     SLPool sl(200);     // Solicita 200 bytes de espaço ao GM.
 
-    int* b = new(sl) int;
+//    int* b = new(sl) int;
 
-    *b = 54353453;
+//    *b = 5436553453432;
+//    int* c = new(sl) int;
 
-    std::cout << "Saída: " << *b << std::endl;
+//    std::cout << "Saída: " << *b << std::endl;
 
 //    delete b;
 
-    sl.storageView();
-    desempenho_sistemas();
-    //ocupacao_memoria();
+//    sl.storageView();
+//    desempenho_sistemas();
+    ocupacao_memoria();
 
     /// --- xxXXxxXXxx TESTE DE DESEMPENHO xxXXxxXXxx ---  ////
     ///  ------------------------------------------------  ////

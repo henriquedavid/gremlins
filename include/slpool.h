@@ -42,7 +42,7 @@ private:
         enum {BlockSize = 16};
         union{
             Block* m_next;
-            unsigned char m_raw[BlockSize - sizeof(Header) - sizeof(Block*)];
+            unsigned char m_raw[BlockSize - sizeof(Header)];
         };
 
         Block() : m_next( nullptr ) { /* Empty */}

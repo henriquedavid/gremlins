@@ -53,7 +53,7 @@ void* SLPool::Allocate(size_t size)
             last->m_next = next_curr;
 
             // Retorna o bloco liberado da lista.
-            return curr;
+            return curr->m_raw;
         }
 
         else if( curr->m_lenght > blocks_required ){
@@ -76,7 +76,7 @@ void* SLPool::Allocate(size_t size)
 
             curr->m_next = nullptr;
 
-            return curr;
+            return curr->m_raw;
 
         } else{
                 last = curr;
@@ -178,7 +178,6 @@ void SLPool::Free( void * pointer )
     // Encadeia com prev
     else
     {
-        pt->m_next = ptPost;
         ptPrev->m_next = pt;
     }
     // Caso 2: Área livre sucessora
@@ -186,58 +185,20 @@ void SLPool::Free( void * pointer )
     if(pt + pt->m_lenght == ptPost)
     {
         // next quer permance eh o do pt
+        pt->m_lenght += ptPost->m_lenght;
         pt->m_next = ptPost->m_next;
+        ptPrev->m_next = pt;
     }
     // Encadeado
     else
     {
+//        m_sentinel = pt;
+//        ptPrev->m_next = pt;
         pt->m_next = ptPost;
     }
 
 }
-/*
-void SLPool::Free( void * pointer ){
 
-    auto ptReserved = reinterpret_cast<Block*>(pointer);
-
-    auto ptPrevReserved(m_sentinel);
-    auto ptPosReserved(m_sentinel->m_next);
-
-    while(ptPosReserved != nullptr || ptPosReserved != nullptr ){
-        ptPrevReserved = ptPosReserved;
-        ptPosReserved = ptPosReserved->m_next;
-    }
-
-    std::cout << "TESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTETESTE\n";
-
-    ptPrevReserved->m_next = ptReserved;
-    ptReserved->m_next = ptPosReserved;
-
-    // Anterior e Posterior são livres.
-    if(ptReserved-(ptPrevReserved->m_lenght) == ptPrevReserved && ptReserved+(ptReserved->m_lenght) == ptPosReserved){
-
-        ptPrevReserved->m_lenght += ptReserved->m_lenght + ptPosReserved->m_lenght;
-        ptReserved = nullptr;
-        ptPosReserved = nullptr;
-
-    }
-    // Anterior e Posterior são reservadas.
-    else if(ptReserved-(ptPrevReserved->m_lenght) != ptPrevReserved && ptReserved+(ptReserved->m_lenght) != ptPosReserved){
-        // Não faz nada pois já está adicionada.
-    }
-    // Anterior é reservada e posterior é livre.
-    else if(ptReserved-(ptPrevReserved->m_lenght) != ptPrevReserved && ptReserved+(ptReserved->m_lenght) == ptPosReserved){
-        ptReserved->m_lenght += ptPosReserved->m_lenght;
-        ptPosReserved = nullptr;
-    }
-    // Anterior é livre e posterior é reservada.
-    else{
-        ptPrevReserved->m_lenght += ptReserved->m_lenght;
-        ptReserved = nullptr;
-    }
-
-}
-*/
 void SLPool::storageView(){
 
     auto current(m_sentinel->m_next);
