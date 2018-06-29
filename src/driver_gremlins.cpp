@@ -107,9 +107,9 @@ void desempenho_sistemas(void){
 void ocupacao_memoria()
 {
 
- using data_type = int;   // 2 blocos cada, 8 bytes do tipo + 8 bytes do tag
- SLPool sl(128); // Isso retornaria 5 blocos
- // Preciso de 8 blocos, pois vou usar 4 variaveis pro teste
+ using data_type = int;
+ SLPool sl((sizeof(data_type) + 8)*4);
+
 
 
   // Esperado:
@@ -172,12 +172,11 @@ void ocupacao_memoria()
   std::cout << "- Depois -\n";          // A
   sl.storageView();
 
-
-
   // Esperado:
   // [#---]
-/*
-  std::cout << " --- Caso 5: Free com área livre posterior e anterior:  ---\n";
+
+
+  std::cout << " --- Caso 5: Free sem área livre posterior e com anterior:  ---\n";
   std::cout << "- Antes -\n";
   sl.storageView();                     // V
   b = new(sl) data_type;
@@ -196,7 +195,7 @@ void ocupacao_memoria()
   sl.storageView();                     // V
   a = new(sl) data_type;
   c = new(sl) data_type;
-  delete a;
+//  delete a;
   std::cout << "- Depois -\n";          // A
   sl.storageView();
 
@@ -222,7 +221,7 @@ void ocupacao_memoria()
   delete a;
   delete b;
   delete c;
-  delete d;
+//  delete d;
 
 
 
@@ -234,7 +233,7 @@ void ocupacao_memoria()
   sl.storageView();
 
   // Esperado:
-  // [----]*/
+  // [----]
 
 
 }

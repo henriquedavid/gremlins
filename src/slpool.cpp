@@ -156,13 +156,20 @@ void* SLPool::Allocate(size_t size)
 void SLPool::Free( void * pointer ) 
 {
     auto pt = reinterpret_cast<Block*>(reinterpret_cast<byte*>(pointer) - sizeof(Block*));
+    // Caso 0: Sem áreas livres
+    if(m_sentinel->m_next == nullptr)
+    {
+        m_sentinel->m_next = pt;
+        pt->m_next = nullptr;
+        return;
+    }
     // Iteradores
     auto ptPrev = m_sentinel;
     auto ptPost = m_sentinel->m_next;
     // Objetivo procurar a área antes do bloco
 
     // Enquanto o atual for menor prossiga
-    while(ptPost < pt)
+    while(ptPost != nullptr and ptPost < pt)
     {
         ptPrev = ptPost;
         ptPost = ptPost->m_next;
