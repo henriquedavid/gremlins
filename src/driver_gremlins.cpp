@@ -1,269 +1,261 @@
-#include <iostream>
-#include <random>
-#include <chrono>
-#include <vector>
+/**
+ * @file test_mp_list.cpp
+ *
+ * @description
+ * Test the MP's integrity after basic allocate/free operations.
+ *
+ * 1) Test the bad_alloc excepction (MP is full)
+ * 2) Free an area between two free areas.
+ * 3) Free an area between two reserved areas.
+ * 4) Free an area between a reverved area (on the left) and a free area (on the right).
+ * 5) Free an area between a free area (on the left) and a reserved area (on the right).
+ * 6) Test if we get a single area after all memory has been freed.
+ *
+ * @autho	Selan R dos Santos, <selan.rds@gmail.com>
+ * @date	2018, July 1st.
+ */
 
-#include "slpool.h"
-#include "mempool_common.h"
+//#include "storage_pool.h"
+#include "../include/singly_linked_pool.h"
+#include "../include/mempool_common.h"
 
-
-class Conta
+int main( )
 {
-    int id;
-    int agencia;
-    unsigned int saldo;
-};
+    // Each chunk is a 3 integer array.
+    using chunk = char; // 16 bytes
+    const int n_chunks(31);
+    // We need MP large enough to hold 7 separate chunks of memory.
+    auto how_many(7); // 7 pieces of 31 bytes
 
+    {
+        // Set up 7 chunks of data.
+        MemoryPool::SLPool p( sizeof(chunk) * n_chunks * how_many );
+        std::cout << p << std::endl;
 
-        /***************************************
-         * --- Teste do gerenciador SLPool --- *
-         * *************************************/
+        bool passed(false);
+        chunk*  vet[ how_many ];  // Array of chunk pointer to be allocated.
 
+        // Define the chunk length so that it corresponds to two blocks of memory.
+        auto chunk_len(32-8-8) ; // 32 - 8 (tag) - 8 (header) bytes.
 
-/// Teste básico para realizar o teste de forma a verificar como está sendo a ocupação de memória.
-void ocupacao_memoria();
-
-
-/// Testar o desempenh de forma a comparar o SLPool com o do Sistema Operacional criando contas de banco.
-void desempenho_sistemas(void){
-
-    std::cout << "#################     COMPARAÇÃO DO SLPOOL COM O DO SO    #################\n\n";
-    
-    std::vector<double> sl_;
-    std::vector<double> sys;
-
-
-    SLPool sl(160000);
-
-    for( auto i(0) ; i < 10000 ; i++ ){
-
-
-        Conta** contas = new Conta*[1000];
-
-        std::chrono::steady_clock::time_point first_sl = std::chrono::steady_clock::now();
-
-        for(auto j(0) ; j < 100 ; j++ )
+        // Fill up the MP.
+        for( auto i(0) ; i < how_many ; ++i )
         {
-            contas[j] = new(sl) Conta;
+            vet[i] = new (p) chunk [chunk_len];
+            strcpy( vet[i], "123456789012345" );
+            std::cout << ">>> vet = " << vet[i] << std::endl;
+            std::cout << "length vet = " << strlen( vet[i] ) << std::endl;
+            // Print pool
+            std::cout << p << std::endl;
         }
 
-        for(auto j(0); j < 100; j++ )
-        {
-            delete contas[j];
+        // Request an extra chunk to invoke an exception (overflow).
+        chunk * temp(nullptr);
+        try {
+            temp = new (p) chunk[ chunk_len ];
         }
-        std::chrono::steady_clock::time_point end_sl = std::chrono::steady_clock::now();
+        catch( std::runtime_error & e )
+        {
+            passed = true;
+        }
+        catch( std::bad_alloc & e )
+        {
+            passed = true;
+        }
 
-
-        delete contas;
-
-        double durat_sl = std::chrono::duration_cast<std::chrono::nanoseconds>( end_sl - first_sl ).count();
-
-        sl_.push_back(durat_sl);
-
+        std::cout << ">>> Testing pool overflow... ";
+        std::cout << ((passed) ? "passed!" : "failed!") << std::endl;
     }
 
-    for( auto i(0) ; i < 10000 ; i++ ){
+    {
+        // Set up 7 chunks of data.
+        MemoryPool::SLPool p( sizeof(chunk) * n_chunks * how_many );
+        std::cout << p << std::endl;
 
+        chunk*  vet[ how_many ];  // Array of chunk pointer to be allocated.
 
-        Conta** contas = new Conta*[1000];
+        // Define the chunk length so that it corresponds to two blocks of memory.
+        auto chunk_len(32-8-8) ; // 32 - 8 (tag) - 8 (header) bytes.
 
-
-          std::chrono::steady_clock::time_point first_ = std::chrono::steady_clock::now();
-        for(auto j(0) ; j < 100 ; j++ )
+        // Fill up the MP.
+        for( auto i(0) ; i < how_many ; ++i )
         {
-            contas[j] = new Conta();
+            vet[i] = new (p) chunk [chunk_len];
+            strcpy( vet[i], "123456789012345" );
+            // Print pool
+            std::cout << p << std::endl;
         }
 
-        for(auto j(0) ; j < 100 ; j++ )
-        {
-            delete contas[j];
-        }
+        /*
+         * Freeing up target 'x'.
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         * | L | R | L | x | L | R | L |  ===>  | L | R |     L     | R | L |
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         *   0   1   2   3   4   5   6            0   1   2   3   4   5   6
+         */
 
-        std::chrono::steady_clock::time_point end_ = std::chrono::steady_clock::now();
-
-        double durat_ = std::chrono::duration_cast<std::chrono::nanoseconds>( end_ - first_ ).count();
-
-        sys.push_back(durat_);
+        delete [] vet[0];
+        delete [] vet[2];
+        delete [] vet[4];
+        delete [] vet[6];
+        std::cout << p << std::endl;
+        delete [] vet[3];
+        std::cout << p << std::endl;
     }
 
-    double slpool_time = 0;
-    double slpool_system = 0;
+    {
+        // Set up 7 chunks of data.
+        MemoryPool::SLPool p( sizeof(chunk) * n_chunks * how_many );
+        std::cout << p << std::endl;
 
-    for(auto & i : sl_ )
-        slpool_time += i;
-    
-    for(auto & i : sys )
-        slpool_system += i;
+        chunk*  vet[ how_many ];  // Array of chunk pointer to be allocated.
 
-    slpool_time /= sl_.size();
-    slpool_system /= sys.size();
+        // Define the chunk length so that it corresponds to two blocks of memory.
+        auto chunk_len(32-8-8) ; // 32 - 8 (tag) - 8 (header) bytes.
 
-    std::cout << "Média de Tempo de Criação Usando SLPool:   " << slpool_time << " nanosegundos." << std::endl;
-    std::cout << "Média de Tempo de Criação Usando SO:       " << slpool_system << " nanosegundos.\n\n" << std::endl;
+        // Fill up the MP.
+        for( auto i(0) ; i < how_many ; ++i )
+        {
+            vet[i] = new (p) chunk [chunk_len];
+            strcpy( vet[i], "123456789012345" );
+            // Print pool
+            std::cout << p << std::endl;
+        }
 
-}
+        /*
+         * Teste #2
+         *
+         * Freeing up target 'x'.
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         * | R | L | R | x | R | L | R |  ===>  | R | L | R | L | R | R | L |
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         *   0   1   2   3   4   5   6            0   1   2   3   4   5   6
+         */
 
-void ocupacao_memoria()
-{
+        delete [] vet[1];
+        delete [] vet[5];
+        std::cout << p << std::endl;
+        delete [] vet[3];
+        std::cout << p << std::endl;
+    }
 
- using data_type = int;
- SLPool sl((sizeof(data_type) + 8)*4);
+    {
+        // Set up 7 chunks of data.
+        MemoryPool::SLPool p( sizeof(chunk) * n_chunks * how_many );
+        std::cout << p << std::endl;
 
+        chunk*  vet[ how_many ];  // Array of chunk pointer to be allocated.
 
+        // Define the chunk length so that it corresponds to two blocks of memory.
+        auto chunk_len(32-8-8) ; // 32 - 8 (tag) - 8 (header) bytes.
 
-  // Esperado:
-  // [----]
+        // Fill up the MP.
+        for( auto i(0) ; i < how_many ; ++i )
+        {
+            vet[i] = new (p) chunk [chunk_len];
+            strcpy( vet[i], "123456789012345" );
+            // Print pool
+            std::cout << p << std::endl;
+        }
 
-  std::cout << " --- Caso 1: Free no inicio ---\n";
-  std::cout << "- Antes -\n";
-  std::cout << sizeof(data_type) << "\n";
-  sl.storageView();                     // V
-  data_type* a = new(sl) data_type;
-  data_type* b = new(sl) data_type;
-  data_type* c = new(sl) data_type;
-  delete a;
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
+        /*
+         * Teste #3
+         *
+         * Freeing up target 'x'.
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         * | R | L | R | x | L | R | L |  ===>  | R | L | R |   L   | R | L |
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         *   0   1   2   3   4   5   6            0   1   2   3   4   5   6
+         */
 
-  // Esperado:
-  // [-##-]
+        delete [] vet[1];
+        delete [] vet[4];
+        delete [] vet[6];
+        std::cout << p << std::endl;
+        delete [] vet[3];
+        std::cout << p << std::endl;
+    }
 
-  std::cout << " --- Caso 2: Free com área livre anterior adjante e área livre posterior ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();                     // V
-  delete b;
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
+    {
+        // Set up 7 chunks of data.
+        MemoryPool::SLPool p( sizeof(chunk) * n_chunks * how_many );
+        std::cout << p << std::endl;
 
-  // Esperado:
-  // [--#-]
+        chunk*  vet[ how_many ];  // Array of chunk pointer to be allocated.
 
-  std::cout << " --- Caso 3: Free sem área livre anterior e sem área livre posterior ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();                     // V
-  a = new(sl) data_type;
-  b = new(sl) data_type;
-  delete b;
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
+        // Define the chunk length so that it corresponds to two blocks of memory.
+        auto chunk_len(32-8-8) ; // 32 - 8 (tag) - 8 (header) bytes.
 
-  // Esperado:
-  // [#-#-]
+        // Fill up the MP.
+        for( auto i(0) ; i < how_many ; ++i )
+        {
+            vet[i] = new (p) chunk [chunk_len];
+            strcpy( vet[i], "123456789012345" );
+            // Print pool
+            std::cout << p << std::endl;
+        }
 
-  // Template
-  std::cout << " --- Caso 3.5: Free com área livre posterior adjacente e sem anterior ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();                     // V
-  b = new(sl) data_type;
-  delete c;
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
+        /*
+         * Teste #4
+         *
+         * Freeing up target 'x'.
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         * | L | R | L | x | R | L | R |  ===>  | L | R |   L   | R | L | R |
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         *   0   1   2   3   4   5   6            0   1   2   3   4   5   6
+         */
 
-  // Esperado:
-  // [##--]*/
+        delete [] vet[0];
+        delete [] vet[2];
+        delete [] vet[5];
+        std::cout << p << std::endl;
+        delete [] vet[3];
+        std::cout << p << std::endl;
+    }
 
-  std::cout << " --- Caso 4: Free com área livre anterior adjante e área livre posterior adjacente ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();                     // V
-  delete b;
-  c = new(sl) data_type;
-  delete c;
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
+    {
+        // Set up 7 chunks of data.
+        MemoryPool::SLPool p( sizeof(chunk) * n_chunks * how_many );
+        std::cout << p << std::endl;
 
-  // Esperado:
-  // [#---]
+        chunk*  vet[ how_many ];  // Array of chunk pointer to be allocated.
 
+        // Define the chunk length so that it corresponds to two blocks of memory.
+        auto chunk_len(32-8-8) ; // 32 - 8 (tag) - 8 (header) bytes.
 
-  std::cout << " --- Caso 5: Free sem área livre posterior e com anterior:  ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();                     // V
-  b = new(sl) data_type;
-  c = new(sl) data_type;
-  data_type* d = new(sl) data_type;
-  delete a;
-  delete c;
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
+        // Fill up the MP.
+        for( auto i(0) ; i < how_many ; ++i )
+        {
+            vet[i] = new (p) chunk [chunk_len];
+            strcpy( vet[i], "123456789012345" );
+            // Print pool
+            std::cout << p << std::endl;
+        }
 
-  // Esperado:
-  // [-#-#]
+        /*
+         * Teste #4
+         *
+         * Freeing up target 'x'.
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         * | R | R | R | R | R | R | R |  ===>  |             L             |
+         * +---+---+---+---+---+---+---+        +---+---+---+---+---+---+---+
+         *   0   1   2   3   4   5   6            0   1   2   3   4   5   6
+         */
 
-  std::cout << " --- Caso 6: Free n primeira posição com mémoria cheia ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();                     // V
-  a = new(sl) data_type;
-  c = new(sl) data_type;
-  delete a;
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
-
-  // Esperado:
-  // [-###]
-
-  std::cout << " --- Caso 7: Bad Alloc - lista cheia ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();
-  a = new(sl) data_type;
-  try
-  {
-      std::cout << "- Depois -\n";
-      data_type* e = new(sl) data_type;
-      std::cout << "Erro\n";
-      *e = 1;
-  }
-  catch(std::bad_alloc&)
-  {
-      std::cout << "- Depois -\n";
-      sl.storageView();
-  }
-
-  delete a;
-  delete b;
-  delete c;
-  delete d;
-
-
-
-  // Template
-  std::cout << " --- Caso :  ---\n";
-  std::cout << "- Antes -\n";
-  sl.storageView();                     // V
-  std::cout << "- Depois -\n";          // A
-  sl.storageView();
-
-  // Esperado:
-  // [----]
-
-
-}
-
-int main( void )
-{
+        for( auto i(0) ; i < how_many ; i+=2 )
+        {
+            delete [] vet[i];
+            // Print pool
+            std::cout << p << std::endl;
+        }
+        for( auto i(1) ; i < how_many ; i+=2 )
+        {
+            delete [] vet[i];
+            // Print pool
+            std::cout << p << std::endl;
+        }
+    }
 
 
-    std::cout << "\n------> Código cliente demonstrando que a classe SLPool funciona corretamente. (Critério 6)\n";
-
-    SLPool sl(200);     // Solicita 200 bytes de espaço ao GM.
-
-    int* b = new(sl) int;
-
-    *b = 553432;
-
-    std::cout << "Saída: " << *b << std::endl;
-
-    delete b;
-
-    std::cout << "\n------> Visualização do mapa de memória do SLPool. (Critério 8)\n";
-    sl.storageView();
-    
-    std::cout << "\n------> Código para testar o desempenho de SLPool, de maneira a comparar com o SO. (Critério 7)\n";
-    desempenho_sistemas();
-    
-    std::cout << "\n------> Código cliente demonstrando que a classe SLPool funciona corretamente. (Critério 6/2ª versão)\n";
-    ocupacao_memoria();
-
-
-
-	return 0;
+    return EXIT_SUCCESS;
 }
